@@ -47,14 +47,38 @@
 					<p style="font-size: 20px;"><strong>Dear Student,</strong></p>
 
 					<p class="text-muted">I understand that it is my responsibility to have a computer with a webcam, stable internet connection, sufficient technical ability to navigate through the system and accomplish my duties. I take full responsibility and agree this conditions as I proceed.</p>
+					<p>I guarntee that I have the following technical requirements:</p>
 					<ol class="checklist">
-						<li>Good knowledge on how to use digital devices and the internet.</li>
-						<li>Good internet connection at least once a week.</li>
-						<li>A laptop with Webcam.</li>
+						<li>A computer with Webcam, speaker and microphone.</li>
+						<li>Sufficient skill on how to use digital devices and the internet.</li>
+						<li>Stable internet connection.</li>
+						
 					</ol>
-					<h3 style="font-size: 1.25rem!important;font-weight: 500; letter-spacing: .0125em!important;">Please <%= link_to "Click here >>", digital_iteracy_quiz_path%>to take Digital Literacy Test.</h3>
+					<p>
+						<div class="mb-3 form-check">
+					    <input id="checkbox1" type="checkbox" class="form-check-input" id="exampleCheck1">
+					    <label class="form-check-label text-muted" for="exampleCheck1">By proceeding I confirm that I understand the conditions of YIC's online program and guarantee to fulfill my responsibilities</label>
+					  </div>
+					</p>
+					<h3 id="box1" style="display: none;">Please <%= link_to "Click here >>", digital_iteracy_quiz_path%> to take Digital Literacy Test.</h3>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+	function toggleFields(boxId, checkboxId) {
+	  var checkbox = document.getElementById(checkboxId);
+	  var box = document.getElementById(boxId);
+	  checkbox.onclick = function() {
+	    console.log(this);
+	    if (this.checked) {
+	      box.style['display'] = 'block';
+	    } else {
+	      box.style['display'] = 'none';
+	    }
+	  };
+	}
+	toggleFields('box1', 'checkbox1');
+</script>

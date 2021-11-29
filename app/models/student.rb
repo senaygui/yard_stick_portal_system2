@@ -26,6 +26,7 @@ class Student < ApplicationRecord
   has_many :grade_reports
   ##validations
   validates :first_name , :presence => true,:length => { :within => 2..100 }
+  validates :middle_name , :presence => true,:length => { :within => 2..100 }
   validates :last_name , :presence => true,:length => { :within => 2..100 }
   # validates :student_id , uniqueness: true
   validates	:gender, :presence => true

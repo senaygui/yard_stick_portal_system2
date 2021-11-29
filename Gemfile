@@ -53,6 +53,8 @@ gem 'simple_form', '~> 5.0', '>= 5.0.2'
 gem 'flatpickr', '~> 4.6', '>= 4.6.3.1'
 gem 'nested_form'
 gem 'whenever', require: false
+gem 'dependent-fields-rails'
+gem 'aws-sdk-s3', '~> 1.107'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
