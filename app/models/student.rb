@@ -95,7 +95,7 @@ class Student < ApplicationRecord
       registration.study_level = self.study_level
     end
    end 
-   if self.document_verification_status == "approved" && self.year == 1 && self.semester_registrations.last.nil?
+   if self.document_verification_status == "approved" && self.year == 1 
     self.program.curriculums.where(year: self.year, semester: self.semester).each do |co|
       CourseRegistration.create do |course|
         course.semester_registration_id = self.semester_registrations.last.id

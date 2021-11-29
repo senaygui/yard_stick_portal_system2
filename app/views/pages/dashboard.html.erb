@@ -34,7 +34,9 @@
 
 
             <div class= "text-center my-3">
-              <%= link_to "Edit Profile", edit_student_registration_path, class: "btn btn-outline-primary btn-flat"%>
+              <% if current_student.document_verification_status == "approved"%>
+                <%= link_to "Edit Profile", edit_student_registration_path, class: "btn btn-outline-primary btn-flat"%>
+              <%end%>
             </div>
             <ul class="list-group list-group-unbordered mb-3">
               <li class="list-group-item mx-3">

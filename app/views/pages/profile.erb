@@ -33,9 +33,9 @@
             <h1 class="profile-username text-center"><b><%= current_student.name.full.upcase%></b></h1>
 
 
-            <div class= "text-center my-3">
-              <%= link_to "Edit Profile", edit_student_registration_path, class: "btn btn-outline-primary btn-flat"%>
-            </div>
+            <% if current_student.document_verification_status == "approved"%>
+                <%= link_to "Edit Profile", edit_student_registration_path, class: "btn btn-outline-primary btn-flat"%>
+              <%end%>
             <ul class="list-group list-group-unbordered mb-3">
               <li class="list-group-item mx-3">
                 <b>Student Fullname</b> <a class="text-muted float-right"><%= current_student.name.full.upcase%></a>
