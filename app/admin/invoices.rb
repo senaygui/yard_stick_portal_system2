@@ -42,14 +42,16 @@ ActiveAdmin.register Invoice do
     f.semantic_errors
     f.inputs 'payment transaction', for: [:payment_transaction, f.object.payment_transaction || PaymentTransaction.new] do |a|
       ## TODO: find way to hide the payment_transaction form if student fill it them self
-      a.input :payment_method_id, as: :search_select, url: admin_payment_methods_path,
-          fields: [:bank_name, :id], display_name: 'bank_name', minimum_input_length: 2,
-          order_by: 'id_asc'
-      a.input :account_holder_fullname
-      a.input :phone_number
-      a.input :account_number
-      a.input :transaction_reference
-      a.input :receipt_image, as: :file
+      if f.object.new_record?
+        a.input :payment_method_id, as: :search_select, url: admin_payment_methods_path,
+            fields: [:bank_name, :id], display_name: 'bank_name', minimum_input_length: 2,
+            order_by: 'id_asc'
+        a.input :account_holder_fullname
+        a.input :phone_number
+        a.input :account_number
+        a.input :transaction_reference
+        a.input :receipt_image, as: :file
+      end
       a.input :finance_approval_status, as: :select, :collection => ["pending", "approved", "re-submit", "denied", "under submitted"], :include_blank => false
       if a.object.new_record?
         a.input :created_by, as: :hidden, :input_html => { :value => current_admin_user.name.full}

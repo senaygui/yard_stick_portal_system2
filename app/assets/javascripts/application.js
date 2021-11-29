@@ -59,5 +59,9 @@ document.addEventListener('turbolinks:load', function () {
 })
 
 document.addEventListener('turbolinks:load', function() {
-  flatpickr('.datepicker');
+  var a = new Date().getFullYear() - 18
+  var b = a + "-15"
+  flatpickr('.datepicker',{
+    maxDate: b
+  });
 })
