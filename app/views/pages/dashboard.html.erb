@@ -34,7 +34,7 @@
 
 
             <div class= "text-center my-3">
-              <% !if current_student.document_verification_status == "approved"%>
+              <% if !current_student.document_verification_status == "approved"%>
                 <%= link_to "Edit Profile", edit_student_registration_path, class: "btn btn-outline-primary btn-flat"%>
               <%end%>
             </div>
