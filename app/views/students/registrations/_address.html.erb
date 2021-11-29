@@ -6,11 +6,12 @@
     <div class="col-12 col-md-6 form-group">
       <%= a.input :city, input_html: { class: 'form-control', autofocus: true, autocomplete: "city" },placeholder: "City", required: true, error: 'city is mandatory, please specify one' %>
     </div>
-    <div class="col-12 col-md-6 form-group">
-      <%= a.input :sub_city, input_html: { class: 'form-control', autocomplete: "sub_city" },placeholder: "Sub city"%>
-    </div>
+    
     <div class="col-12 col-md-6 form-group">
       <%= a.input :region, input_html: { class: 'form-control' },placeholder: "Region"%>
+    </div>
+    <div class="col-12 col-md-6 form-group">
+      <%= a.input :sub_city, input_html: { class: 'form-control', autocomplete: "sub_city" },placeholder: "Sub city"%>
     </div>
     <div class="col-12 col-md-6 form-group">
       <%= a.input :zone, input_html: { class: 'form-control', autocomplete: "zone" },placeholder: "Zone"%>
