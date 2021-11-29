@@ -1,0 +1,278 @@
+<div>
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="card card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">
+                <i class="fas fa-edit"></i>
+                Update Account
+              </h3>
+            </div>
+            <div class="card-body p-0">
+              <div class="bs-stepper">
+                <div class="bs-stepper-header" role="tablist">
+                  <!-- your steps here -->
+                  <div class="step" data-target="#bi">
+                    <button type="button" class="step-trigger" role="tab" aria-controls="logins-part" id="bi-trigger">
+                      <span class="bs-stepper-circle">1</span>
+                      <span class="bs-stepper-label">Basic Information</span>
+                    </button>
+                  </div>
+                  <div class="line"></div>
+                  <div class="step" data-target="#admission">
+                    <button type="button" class="step-trigger" role="tab" aria-controls="admission" id="admission-trigger">
+                      <span class="bs-stepper-circle">2</span>
+                      <span class="bs-stepper-label">Field Study Information</span>
+                    </button>
+                  </div>
+                  <div class="line"></div>
+                  <div class="step" data-target="#address">
+                    <button type="button" class="step-trigger" role="tab" aria-controls="address" id="address-trigger">
+                      <span class="bs-stepper-circle">3</span>
+                      <span class="bs-stepper-label">Contact Address</span>
+                    </button>
+                  </div>
+                  <div class="line"></div>
+                  <div class="step" data-target="#emergency">
+                    <button type="button" class="step-trigger" role="tab" aria-controls="emergency" id="emergency-trigger">
+                      <span class="bs-stepper-circle">4</span>
+                      <span class="bs-stepper-label">Emergency Contact</span>
+                    </button>
+                  </div>
+                  <div class="line"></div>
+                  <div class="step" data-target="#scan">
+                    <button type="button" class="step-trigger" role="tab" aria-controls="scan" id="scan-trigger">
+                      <span class="bs-stepper-circle">5</span>
+                      <span class="bs-stepper-label">Scan Documents</span>
+                    </button>
+                  </div>
+                </div>
+                <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), multiple: true) do |f| %>
+                  <%= render "students/shared/error_messages", resource: resource %>
+              
+                  <div class="bs-stepper-content">
+                    <!-- your steps content here -->
+                    <div id="bi" class="content" role="tabpanel" aria-labelledby="bi-trigger">
+                      <div class="row">
+                        <div class="col-12 col-md-3">
+                          <div class="card card-outline card-primary">
+                            <div class="card-header">
+                              <h3 class="card-title">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                <strong>Instruction</strong>
+
+                              </h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                              <p  class="text-center"><strong>Fill in the space(s) or Select the appropriate box(es) or selctions. * fields are required.</strong></p>  
+                              <p class="text-muted text-center">
+                                You must provide your address information on the fields provided. Once you fill all the required feilds hit the Continue button.
+                              </p>
+                              <hr>
+                            </div>
+                            <!-- /.card-body -->
+                          </div>
+                        </div>
+                        <div class="col-12 col-md-9">
+                          <div class="card card-outline card-primary">
+                            <div class="card-header">
+                              <h3 class="card-title">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                <strong>Basic Information</strong>
+                              </h3>
+                            </div>
+                            <div class="card-body">
+                              <%= render 'basic', f: f %>
+                            </div>
+                            <div class="card-footer">
+                              <a class="btn btn-primary" onclick="stepper.next()">Continue</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="admission" class="content" role="tabpanel" aria-labelledby="admission-trigger">
+                      <div class="row">
+                        <div class="col-12 col-md-3">
+                          <div class="card card-outline card-primary">
+                            <div class="card-header">
+                              <h3 class="card-title">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                <strong>Instruction</strong>
+
+                              </h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                              <p  class="text-center"><strong>Fill in the space(s) or Select the appropriate box(es) or selctions. * fields are required.</strong></p>  
+                              <p class="text-muted text-center">
+                                You must provide your address information on the fields provided. Once you fill all the required feilds hit the Continue button.
+                              </p>
+                              <hr>
+                            </div>
+                            <!-- /.card-body -->
+                          </div>
+                        </div>
+                        <div class="col-12 col-md-9">
+                          <div class="card card-outline card-primary">
+                            <div class="card-header">
+                              <h3 class="card-title">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                <strong>Admission Information</strong>
+                              </h3>
+                            </div>
+                            <div class="card-body">
+                              <%= render 'admission', f: f%>
+                            </div>
+                            <div class="card-footer">
+                              <a class="btn btn-secondary" onclick="stepper.previous()">Previous</a>
+                              <a class="btn btn-primary" onclick="stepper.next()">Continue</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="address" class="content" role="tabpanel" aria-labelledby="address-trigger">
+                      <div class="row">
+                        <div class="col-12 col-md-3">
+                          <div class="card card-outline card-primary">
+                            <div class="card-header">
+                              <h3 class="card-title">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                <strong>Instruction</strong>
+
+                              </h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                              <p  class="text-center"><strong>Fill in the space(s) or Select the appropriate box(es) or selctions. * fields are required.</strong></p>  
+                              <p class="text-muted text-center">
+                                You must provide your address information on the fields provided. Once you fill all the required feilds hit the Continue button.
+                              </p>
+                              <hr>
+                            </div>
+                            <!-- /.card-body -->
+                          </div>
+                        </div>
+                        <div class="col-12 col-md-9">
+                          <div class="card card-outline card-primary">
+                            <div class="card-header">
+                              <h3 class="card-title">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                <strong>Contact Address</strong>
+                              </h3>
+                            </div>
+                            <div class="card-body">
+                              <%= render 'address', f: f%>
+                            </div>
+                            <div class="card-footer">
+                              <a class="btn btn-secondary" onclick="stepper.previous()">Previous</a>
+                              <a class="btn btn-primary" onclick="stepper.next()">Continue</a>
+                              
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="emergency" class="content" role="tabpanel" aria-labelledby="emergency-trigger">
+                      <div class="row">
+                        <div class="col-12 col-md-3">
+                          <div class="card card-outline card-primary">
+                            <div class="card-header">
+                              <h3 class="card-title">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                <strong>Instruction</strong>
+
+                              </h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                              <p  class="text-center"><strong>Fill in the space(s) or Select the appropriate box(es) or selctions. * fields are required.</strong></p>  
+                              <p class="text-muted text-center">
+                                You must provide your address information on the fields provided. Once you fill all the required feilds hit the Continue button.
+                              </p>
+                              <hr>
+                            </div>
+                            <!-- /.card-body -->
+                          </div>
+                        </div>
+                        <div class="col-12 col-md-9">
+                          <div class="card card-outline card-primary">
+                            <div class="card-header">
+                              <h3 class="card-title">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                <strong>Emergency Address</strong>
+                              </h3>
+                            </div>
+                            <div class="card-body">
+                              <%= render 'emergency', f: f%>
+                            </div>
+                            <div class="card-footer">
+                              <a class="btn btn-secondary" onclick="stepper.previous()">Previous</a>
+                              <a class="btn btn-primary" onclick="stepper.next()">Continue</a>
+                              
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="scan" class="content" role="tabpanel" aria-labelledby="scan-trigger">
+                      <div class="row">
+                        <div class="col-12 col-md-3">
+                          <div class="card card-outline card-primary">
+                            <div class="card-header">
+                              <h3 class="card-title">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                <strong>Instruction</strong>
+
+                              </h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                              <p  class="text-center"><strong>Fill in the space(s) or Select the appropriate box(es) or selctions. * fields are required.</strong></p>  
+                              <p class="text-muted text-center">
+                                You must provide your address information on the fields provided. Once you fill all the required feilds hit the Continue button.
+                              </p>
+                              <hr>
+                            </div>
+                            <!-- /.card-body -->
+                          </div>
+                        </div>
+                        <div class="col-12 col-md-9">
+                          <div class="card card-outline card-primary">
+                            <div class="card-header">
+                              <h3 class="card-title">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                <strong>Scan Document Uploading</strong>
+                              </h3>
+                            </div>
+                            <div class="card-body">
+                              <%= render 'document', f: f%>
+                            </div>
+                            <div class="card-footer">
+                              <a class="btn btn-secondary" onclick="stepper.previous()">Previous</a>
+                              <%= f.submit "Finish", class: "btn btn-primary btn-user" %>                              
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <%= f.input :created_by, as: :hidden, :input_html => { :value => "self"}%>
+                  <%=f.input :year, as: :hidden, :input_html => { :value => 1}%>
+                  <%=f.input :semester, as: :hidden, :input_html => { :value => 1}%>
+                <%end%>
+              </div>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

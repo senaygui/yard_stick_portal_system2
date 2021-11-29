@@ -1,0 +1,35 @@
+<%= f.fields_for :student_address do |a|%>
+  <div class="row">
+    <div class="col-12 col-md-6 form-group">
+      <%= a.input :country, as: :country, selected: 'ET', priority_countries: ["ET", "US"], input_html: {class: "form-control custom-select"},include_blank: "select country"%>
+    </div>
+    <div class="col-12 col-md-6 form-group">
+      <%= a.input :city, input_html: { class: 'form-control', autofocus: true, autocomplete: "city" },placeholder: "City", required: true, error: 'city is mandatory, please specify one' %>
+    </div>
+    <div class="col-12 col-md-6 form-group">
+      <%= a.input :sub_city, input_html: { class: 'form-control', autocomplete: "sub_city" },placeholder: "Sub city"%>
+    </div>
+    <div class="col-12 col-md-6 form-group">
+      <%= a.input :region, input_html: { class: 'form-control' },placeholder: "Region"%>
+    </div>
+    <div class="col-12 col-md-6 form-group">
+      <%= a.input :zone, input_html: { class: 'form-control', autocomplete: "zone" },placeholder: "Zone"%>
+    </div>
+    <div class="col-12 col-md-6 form-group">
+      <%= a.input :woreda, input_html: { class: 'form-control', autocomplete: "woreda" },placeholder: "Woreda", required: true %>
+    </div>
+    <div class="col-12 col-md-6 form-group">
+      <%= a.input :house_number, input_html: { class: 'form-control', autocomplete: "house_number" },placeholder: "House Number" %>
+    </div>
+    <div class="col-12 col-md-6 form-group">
+      <%= a.input :cell_phone, input_html: { class: 'form-control', 'data-inputmask'=>'"mask": "(+251) 999-999999"' },placeholder: "Cell Phone", required: true %>
+    </div>
+    <div class="col-12 col-md-6 form-group">
+      <%= a.input :house_phone, input_html: { class: 'form-control', autocomplete: "house_phone", 'data-inputmask'=>'"mask": "(+251) 999-999999"' },placeholder: "Second Phone Number", label: "Second Phone Number"%>
+    </div>
+    <div class="col-12 col-md-6 form-group">
+      <%= f.input :current_location, input_html: { class: 'form-control', autocomplete: "current_location"},placeholder: "Current Location"%>
+      <%= f.hint "when you pick your birth date select GC"%>
+    </div>
+  </div>
+<%end%>

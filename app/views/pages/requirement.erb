@@ -1,0 +1,60 @@
+<%provide(:title, "Digital device requirements")%>
+<style type="text/css">
+	.title-header{
+		font-size: 3em;
+		font-weight: bold;
+		/*text-transform: uppercase;*/
+		margin-bottom: 20px;
+		padding-bottom: 20px;
+		position: relative;
+		text-align: center;
+	}
+	.header-text{
+		font-size: 20px;
+		font-weight: 400;
+		/*font-size: 1rem!important;*/
+		letter-spacing: .03125em!important;
+		line-height: 1.5rem;
+	}
+	li{
+		font-size: 20px;
+		/*letter-spacing: .03125em!important;*/
+		line-height: 2rem;
+		font-weight: bold;
+	}
+
+</style>
+<div class="container">
+	
+	
+	<div class="row">
+		<div class="col-12">
+			<h1 class="title-header mt-5 mb-2">Digital Device Requirement</h1>
+			<p class="text-center header-text mb-3 text-muted">
+				There are certain requirements you have to fulfill in order to be addmitted to YIC-Online and start Learning. Make sure that you meet the minimum requirements before starting your application process.
+			</p>
+		</div>
+
+		<div class="col-12 col-md-8 offset-sm-2">
+			<div class="card card-primary">
+				<div class="card-header">
+					<h3 class="card-title">
+						<i class="fas fa-info-circle mr-2"></i>
+						<strong>Digital Device Requirement</strong>
+					</h3>
+				</div>
+				<div class="card-body mt-2">
+					<p style="font-size: 20px;"><strong>Dear Student,</strong></p>
+
+					<p class="text-muted">I understand that it is my responsibility to have a computer with a webcam, stable internet connection, sufficient technical ability to navigate through the system and accomplish my duties. I take full responsibility and agree this conditions as I proceed.</p>
+					<ol>
+						<li>Good knowledge on how to use digital devices and the internet.</li>
+						<li>Good internet connection at least once a week.</li>
+						<li>A laptop with Webcam.</li>
+					</ol>
+					<h3 style="font-size: 1.25rem!important;font-weight: 500; letter-spacing: .0125em!important;">Please <%= link_to "Click here >>", digital_iteracy_quiz_path%>to take Digital Literacy Test.</h3>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

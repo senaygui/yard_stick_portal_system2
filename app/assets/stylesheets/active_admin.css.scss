@@ -1,0 +1,214 @@
+/*
+ *= require active_storage_drag_and_drop
+ */
+
+@import 'activeadmin_addons/all';
+// SASS variable overrides must be declared before loading up Active Admin's styles.
+//
+// To view the variables that Active Admin provides, take a look at
+// `app/assets/stylesheets/active_admin/mixins/_variables.scss` in the
+// Active Admin source.
+//
+// For example, to change the sidebar width:
+// $sidebar-width: 242px;
+
+// Active Admin's got SASS!
+@import "active_admin/mixins";
+@import "active_admin/base";
+
+// Overriding any non-variable SASS must be done after the fact.
+// For example, to change the default status-tag color:
+//
+//   .status_tag { background: #6090DB; }
+$skinMainFirstColor: #024d71!default;
+$skinMainSecondColor: #ffc107!default;
+$menu-arrow-dark-icon-url: 'active_admin/nested_menu_arrow_dark.gif' !default;
+@import "wigu/active_admin_theme";
+.table_tools_button{color: #036899 !important;
+font-size: 1.2em !important;}
+.table_tools_button span{color: #036899 !important;
+  font-size: 1.2em !important;}
+.video-responsive iframe{
+  width: 500px;
+  height: 300px !important;
+}
+// file-upload
+
+.file-upload{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+  width: 90%;
+}
+label.asdndzone{
+	max-width: 10000px !important;
+	padding-top: 80px;
+}
+.asdndz__icon-container {
+    text-align: center !important;
+}
+
+
+.profile-user-img{
+  width: 150px;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
+}
+
+.avatar-upload {
+    position: relative;
+    max-width: 150px;
+    margin: auto;
+    margin-bottom: 60px;
+  
+    .avatar-edit {
+        position: absolute;
+        right: 2px;
+        z-index: 1;
+        top: 160px;
+        input {
+          display: none;
+        }
+        
+    }
+}
+#student_photo_input label {
+  display: block;
+  width: 100px !important;
+  // height: 200px !important;
+  text-align: center;
+  margin-bottom: 0 !important;
+  background-image: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  border-radius: 4px !important;
+  background-color: #ffc107 !important;
+  border: none !important;
+  padding: 10px 20px !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  
+}
+#student_photo_input label:hover {
+    background: #f1f1f1;
+    border-color: #d6d6d6;
+}
+
+#payment_method_bank_logo_input label {
+  display: block;
+  width: 100px !important;
+  // height: 200px !important;
+  text-align: center;
+  margin-bottom: 0 !important;
+  background-image: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  border-radius: 4px !important;
+  background-color: #ffc107 !important;
+  border: none !important;
+  padding: 10px 20px !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  
+}
+#payment_method_bank_logo_input label:hover {
+    background: #f1f1f1;
+    border-color: #d6d6d6;
+}
+.img-circle {
+    border-radius: 50%;
+}
+.img-corner {
+    border-radius: 10%;
+}
+.img-responsive, .thumbnail > img, .thumbnail a > img, .carousel-inner > .item > img, .carousel-inner > .item > a > img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+.document-preview {
+  display: grid;
+  padding-left: 70px;
+  max-width: 200px;
+  // max-height: 250px;
+  grid-gap: 1px 9px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr 1fr
+}
+
+.image-responsive1 img{
+  width: 300px;
+}
+
+// status tag color labels
+
+.approved{
+  background: #8daa92;
+}
+
+.incomplete{
+  background: #e29b20;
+}
+.not_paid{
+  background: #d45f53;
+}
+.paid{
+  background: #8daa92;
+}
+.denied{
+  background: #d45f53; 
+}
+.active{
+  background: #8daa92;
+}
+.suspended{
+  background: #e29b20;
+}
+
+// scope
+// .regular, .extention, .distance{
+//   margin-top: 10px !important;
+  
+// }
+// .undergraduate a{
+//   background-color: #242F40 !important;
+// }
+// .graduate a{
+//   background-color: #CCA43B !important;
+// }
+// .online a{
+//   background-color: #CCA43B !important;
+// }
+// .pending a{
+//   background-color: #cacaca !important;
+// }
+// .regular a{
+//   margin-left: 120px !important;
+// }
+// .approved  a{
+//   background: #8daa92 !important;
+// }
+
+// .incomplete a{
+//   background: #e29b20 !important;
+// }
+
+// .denied a{
+//   background: #d45f53 !important; 
+// }
+
+.tags .label {
+    
+    display: block;
+    width: 15%;
+    float: left;
+    font-size: 1.0em;
+    font-weight: bold;
+    color: #5E6469;
+}
+ul, ol{
+  list-style-type: none !important;
+}
