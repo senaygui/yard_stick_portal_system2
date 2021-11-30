@@ -83,6 +83,10 @@ class Ability
         can :manage, SemesterRegistration, admission_type: "distance"
         can :read, Invoice
     when "online_registrar"
+        can :read, StudentGrade
+        can :read, GradeReport
+        can :read, GradeRule
+        can :read, Grade
         can :manage, ActiveAdmin::Page, name: "Dashboard", namespace_name: "admin"
         can :manage, Student, admission_type: "online"
         can :read, Program, admission_type: "online"

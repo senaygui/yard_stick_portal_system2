@@ -242,9 +242,10 @@
                             <!-- /.card-header -->
                             <div class="card-body">
                               <p  class="text-center"><strong>Fill in the space(s) or Select the appropriate box(es) or selctions. * fields are required.</strong></p>  
-                              <p class="text-muted text-center">
-                                You must provide your address information on the fields provided. Once you fill all the required feilds hit the Continue button.
+                             <p class="text-muted text-center">
+                                    Upload a scanned copy of all your relevant academic documents. You must include your <strong>grade 8,10,and 12 certifaces</strong>;your <strong>grade 9,10,11,and 12 transcripts</strong>, TVET/Diploma certificate(if any). If you are applying for Postgraduate program,you must upload your <strong>Degree</strong> certificate.
                               </p>
+                              <p class="text-muted text-center">file type allowed are pdf and image files</p>
                               <hr>
                             </div>
                             <!-- /.card-body -->
@@ -263,7 +264,7 @@
                             </div>
                             <div class="card-footer">
                               <a class="btn btn-secondary" onclick="stepper.previous()">Previous</a>
-                              <%= f.submit "Finish", class: "btn btn-primary btn-user" %>                              
+                              <%= f.submit "Finish", class: "btn btn-primary btn-user", id: "box1" %>                              
                             </div>
                           </div>
                         </div>

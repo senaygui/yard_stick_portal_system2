@@ -48,7 +48,7 @@ class SemesterRegistration < ApplicationRecord
 	  				invoice.created_by = self.created_by
 	  				invoice.due_date = self.created_at.day + 2.days 
 	  				invoice.invoice_status = "pending"
-						invoice.registration_fee = CollegePayment.where(study_level: self.study_level,admission_type: self.admission_type).first.registration_fee
+						invoice.registration_fee = 550
 						invoice.invoice_number = SecureRandom.random_number(1000..10000)
 						if mode_of_payment == "Monthly Payment"
 							tution_price = self.student.program.monthly_price

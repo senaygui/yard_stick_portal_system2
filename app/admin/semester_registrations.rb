@@ -121,10 +121,10 @@ ActiveAdmin.register SemesterRegistration do
   scope :recently_added
   scope :undergraduate
   scope :graduate
-  scope :online
-  scope :regular
-  scope :extention
-  scope :distance
+  scope :online, :if => proc { current_admin_user.role == "admin" }
+  scope :regular, :if => proc { current_admin_user.role == "admin" }
+  scope :extention, :if => proc { current_admin_user.role == "admin" }
+  scope :distance, :if => proc { current_admin_user.role == "admin" }
   
   form do |f|
     f.semantic_errors
