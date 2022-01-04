@@ -34,6 +34,11 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
+    active_admin_import (5.0.0)
+      activeadmin (>= 1.0.0)
+      activerecord-import (>= 0.27)
+      rchardet (>= 1.6)
+      rubyzip (>= 1.2)
     active_admin_theme (1.1.4)
     active_material (1.5.2)
     active_storage_drag_and_drop (1.1.0)
@@ -66,6 +71,8 @@ GEM
       activemodel (= 5.2.6)
       activesupport (= 5.2.6)
       arel (>= 9.0)
+    activerecord-import (1.2.0)
+      activerecord (>= 3.2)
     activestorage (5.2.6)
       actionpack (= 5.2.6)
       activerecord (= 5.2.6)
@@ -283,6 +290,7 @@ GEM
     rb-fsevent (0.11.0)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
+    rchardet (1.8.0)
     regexp_parser (2.1.1)
     require_all (1.5.0)
     responders (3.0.1)
@@ -369,6 +377,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  active_admin_import
   active_admin_theme (~> 1.1, >= 1.1.4)
   active_storage_drag_and_drop (~> 1.1)
   active_storage_validations (~> 0.9.5)

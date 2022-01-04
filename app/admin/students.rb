@@ -1,4 +1,5 @@
 ActiveAdmin.register Student do
+  active_admin_import
   menu priority: 7
   permit_params :current_location,:current_occupation,:tempo_status,:created_by,:last_updated_by,:photo,:email,:password,:first_name,:last_name,:middle_name,:gender,:student_id,:date_of_birth,:program_id,:department,:admission_type,:study_level,:marital_status,:year,:semester,:account_verification_status,:document_verification_status,:account_status,:graduation_status,student_address_attributes: [:id,:country,:city,:region,:zone,:sub_city,:house_number,:cell_phone,:house_phone,:pobox,:woreda,:created_by,:last_updated_by],emergency_contact_attributes: [:id,:full_name,:relationship,:cell_phone,:email,:current_occupation,:name_of_current_employer,:pobox,:email_of_employer,:office_phone_number,:created_by,:last_updated_by], documents: []
   controller do
@@ -6,6 +7,78 @@ ActiveAdmin.register Student do
       update_method = attributes.first[:password].present? ? :update_attributes : :update_without_password
       object.send(update_method, *attributes)
     end
+  end
+  csv do
+    column :student_id
+    column :student_password
+    column :first_name
+    column :last_name
+    column :middle_name
+    column :gender
+    column :date_of_birth
+    column :marital_status
+    column :email
+    column :year
+    column :semester
+    column :study_level
+    column :admission_type
+    column :program_id
+    column :created_at
+    column "country" do |pass|
+      pass.student_address.country
+    end
+    column "city" do |pass|
+      pass.student_address.city
+    end
+    column "sub_city" do |pass|
+      pass.student_address.sub_city
+    end
+    column "region" do |pass|
+      pass.student_address.region
+    end
+    column "zone" do |pass|
+      pass.student_address.zone
+    end
+    column "woreda" do |pass|
+      pass.student_address.woreda
+    end
+    column "house number" do |pass|
+      pass.student_address.house_number
+    end
+    column "cell phone" do |pass|
+      pass.student_address.cell_phone
+    end
+    column "house phone" do |pass|
+      pass.student_address.house_phone
+    end
+    column "pobox" do |pass|
+      pass.student_address.pobox
+    end
+    column "full_name" do |pass|
+      pass.emergency_contact.full_name
+    end
+    column "relationship" do |pass|
+      pass.emergency_contact.relationship
+    end
+    column "cell_phone" do |pass|
+      pass.emergency_contact.cell_phone
+    end
+    column "current_occupation" do |pass|
+      pass.emergency_contact.current_occupation
+    end
+    column "name_of_current_employer" do |pass|
+      pass.emergency_contact.name_of_current_employer
+    end
+    column "email_of_employer" do |pass|
+      pass.emergency_contact.email_of_employer
+    end
+    column "office_phone_number" do |pass|
+      pass.emergency_contact.office_phone_number
+    end
+    column "pobox" do |pass|
+      pass.emergency_contact.pobox
+    end
+
   end
   index do
     selectable_column

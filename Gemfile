@@ -55,6 +55,8 @@ gem 'nested_form'
 gem 'whenever', require: false
 gem 'dependent-fields-rails'
 gem 'aws-sdk-s3', '~> 1.107'
+gem "active_admin_import"
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
