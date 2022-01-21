@@ -10,6 +10,8 @@ class Ability
 
     case user.role
     when "admin"
+        can :manage, EmergencyContact
+        can :manage, StudentAddress
         can :manage, StudentGrade
         can :manage, GradeReport
         can :manage, GradeRule

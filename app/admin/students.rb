@@ -1,5 +1,13 @@
 ActiveAdmin.register Student do
-  active_admin_import
+    active_admin_import :validate => false,
+                            :before_batch_import => proc { |import|
+                              import.csv_lines[0][3] = Student.new(:password => import.csv_lines[0][3]).encrypted_password
+                            },
+                            :template_object => ActiveAdminImport::Model.new(
+                                :hint => "file will be imported with such header format: 'email', 'first_name','last_name','encrypted_password','middle_name','gender','student_id','date_of_birth','program_id','department','admission_type','study_level','marital_status','year','semester','account_verification_status','document_verification_status','account_status','graduation_status','student_password'"
+                            ),
+                            :timestamps=> true,
+                            :batch_size => 1000
   menu priority: 7
   permit_params :current_location,:current_occupation,:tempo_status,:created_by,:last_updated_by,:photo,:email,:password,:first_name,:last_name,:middle_name,:gender,:student_id,:date_of_birth,:program_id,:department,:admission_type,:study_level,:marital_status,:year,:semester,:account_verification_status,:document_verification_status,:account_status,:graduation_status,student_address_attributes: [:id,:country,:city,:region,:zone,:sub_city,:house_number,:cell_phone,:house_phone,:pobox,:woreda,:created_by,:last_updated_by],emergency_contact_attributes: [:id,:full_name,:relationship,:cell_phone,:email,:current_occupation,:name_of_current_employer,:pobox,:email_of_employer,:office_phone_number,:created_by,:last_updated_by], documents: []
   controller do
@@ -272,7 +280,11 @@ ActiveAdmin.register Student do
         panel "Student Main information" do
           attributes_table_for student do
             row "photo" do |pt|
-              span image_tag(pt.photo, size: '150x150', class: "img-corner")
+              if pt.photo.attached? 
+                span image_tag(pt.photo, size: '150x150', class: "img-corner")
+              else
+                span image_tag("blank-profile-picture-973460_640.png", size: '150x150', class: "img-corner")
+              end
             end
             row "full name", sortable: true do |n|
               n.name.full.upcase

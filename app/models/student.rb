@@ -27,15 +27,15 @@ class Student < ApplicationRecord
   ##validations
   validates :first_name , :presence => true,:length => { :within => 2..100 }
   validates :middle_name , :presence => true,:length => { :within => 2..100 }
-  # validates :current_location , :presence => true,:length => { :within => 2..100 }
+  validates :current_location , :presence => true,:length => { :within => 2..100 }
   validates :last_name , :presence => true,:length => { :within => 2..100 }
-  # validates :student_id , uniqueness: true
+  validates :student_id , uniqueness: true
   validates	:gender, :presence => true
 	validates	:date_of_birth , :presence => true
 	validates	:study_level, :presence => true
   validates :admission_type, :presence => true,:length => { :within => 2..10 }
-  validates :photo, attached: true, content_type: ['image/gif', 'image/png', 'image/jpg', 'image/jpeg']
-  validates :documents, attached: true
+  # validates :photo, attached: true, content_type: ['image/gif', 'image/png', 'image/jpg', 'image/jpeg']
+  # validates :documents, attached: true
   
   validate :password_complexity
   def password_complexity
