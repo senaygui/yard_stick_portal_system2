@@ -3,7 +3,7 @@
 //= require activeadmin_addons/all
 //= require activestorage
 //= require active_storage_drag_and_drop
-//= require active_admin_scoped_collection_actions
+
 $(document).ready(function(){
 
   $("#student_photo").change(function(data){
