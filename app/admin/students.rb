@@ -1,11 +1,13 @@
 ActiveAdmin.register Student do
     active_admin_import :validate => false,
                             :before_batch_import => proc { |import|
-                              import.csv_lines[0][3] = Student.new(:password => import.csv_lines[0][3]).encrypted_password
+                              import.csv_lines.length.times do |i|
+                                import.csv_lines[i][3] = Student.new(:password => import.csv_lines[i][3]).encrypted_password
+                              end
                             },
-                            :template_object => ActiveAdminImport::Model.new(
-                                :hint => "file will be imported with such header format: 'email', 'first_name','last_name','encrypted_password','middle_name','gender','student_id','date_of_birth','program_id','department','admission_type','study_level','marital_status','year','semester','account_verification_status','document_verification_status','account_status','graduation_status','student_password'"
-                            ),
+                            # :template_object => ActiveAdminImport::Model.new(
+                            #     :hint => "file will be imported with such header format: 'email', 'first_name','last_name','encrypted_password','middle_name','gender','student_id','date_of_birth','program_id','department','admission_type','study_level','marital_status','year','semester','account_verification_status','document_verification_status','account_status','graduation_status','student_password'"
+                            # ),
                             :timestamps=> true,
                             :batch_size => 1000
   menu priority: 7
@@ -154,7 +156,7 @@ ActiveAdmin.register Student do
   form do |f|
     f.semantic_errors
     f.semantic_errors *f.object.errors.keys
-    if f.object.new_record?
+    # if f.object.new_record?
       f.inputs "Student basic information" do
         div class: "avatar-upload" do
           div class: "avatar-edit" do
@@ -185,7 +187,8 @@ ActiveAdmin.register Student do
           f.input :current_password
           f.input :last_updated_by, as: :hidden, :input_html => { :value => current_admin_user.name.full} 
         end   
-        f.input :current_occupation   
+        f.input :current_occupation 
+        f.input :current_location   
       end
       f.inputs "Student admission information" do
         f.input :study_level, as: :select, :collection => ["undergraduate", "graduate", "TPVT"], :include_blank => false
@@ -246,7 +249,7 @@ ActiveAdmin.register Student do
       f.inputs "temporary document status" do
         f.input :tempo_status
       end
-    end
+    # end
     f.inputs "Student account and document verification" do
       f.input :account_verification_status, as: :select, :collection => ["pending","approved", "denied", "incomplete"], :include_blank => false
       f.input :document_verification_status, as: :select, :collection => ["pending","approved", "denied", "incomplete"], :include_blank => false         

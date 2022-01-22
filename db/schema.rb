@@ -484,7 +484,6 @@ ActiveRecord::Schema.define(version: 2021_11_27_144400) do
     t.string "last_updated_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "current_location"
     t.index ["email"], name: "index_students_on_email", unique: true
     t.index ["program_id"], name: "index_students_on_program_id"
     t.index ["reset_password_token"], name: "index_students_on_reset_password_token", unique: true
