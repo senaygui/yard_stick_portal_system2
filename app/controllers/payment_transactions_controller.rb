@@ -14,7 +14,7 @@ class PaymentTransactionsController < ApplicationController
   def new
     @payment_transaction = PaymentTransaction.new
     @payment_method = PaymentMethod.find(params[:payment_method_id].to_i)
-    @invoice = Invoice.find(params[:invoice_id].to_i)
+    @invoice = Invoice.find(params[:invoice_id])
   end
 
   # GET /payment_transactions/1/edit

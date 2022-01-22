@@ -1,7 +1,7 @@
 class CreateEmergencyContacts < ActiveRecord::Migration[5.2]
   def change
     create_table :emergency_contacts do |t|
-      t.belongs_to :student, index: true
+      t.belongs_to :student, foreign_key: true, index: true, type: :uuid
       t.string :full_name, null: false
       t.string :relationship
       t.string :cell_phone, null: false

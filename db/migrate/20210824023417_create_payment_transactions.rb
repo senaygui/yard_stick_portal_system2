@@ -1,7 +1,7 @@
 class CreatePaymentTransactions < ActiveRecord::Migration[5.2]
   def change
-    create_table :payment_transactions do |t|
-      t.belongs_to :invoice, index: true
+    create_table :payment_transactions, id: :uuid  do |t|
+      # t.belongs_to :invoice, foreign_key: true, index: true, type: :uuid
       t.belongs_to :payment_method, index: true
       t.string :account_holder_fullname, null: false
       t.string :phone_number

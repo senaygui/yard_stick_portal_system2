@@ -2,7 +2,7 @@
 
 class DeviseCreateStudents < ActiveRecord::Migration[5.2]
   def change
-    create_table :students do |t|
+    create_table :students, id: :uuid do |t|
       ## Database authenticatable
       t.string :email,              null: false, default: ""
       t.string :encrypted_password, null: false, default: ""
@@ -53,6 +53,7 @@ class DeviseCreateStudents < ActiveRecord::Migration[5.2]
       t.string :current_occupation
       t.string :student_password
       t.boolean :tempo_status, default: false
+      t.string :current_location
       ##created and updated by
       t.string :created_by, default: "self"
       t.string :last_updated_by

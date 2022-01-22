@@ -43,7 +43,7 @@
 								<td><%= invoice.total_price %> ETB</td>
 								<td class="actions">
 					        <%= link_to("View", invoice_path(invoice), :class => 'btn-sm btn-primary') %>
-					        <%= link_to("Edit", edit_payment_transaction_path(invoice.payment_transaction), :class => 'btn-sm btn-secondary') if invoice.payment_transaction.present?%>
+					        
 					      </td>
 							</tr>
 						<% end %>

@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_27_144400) do
+ActiveRecord::Schema.define(version: 2022_01_22_090856) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
   create_table "academic_calendars", force: :cascade do |t|
@@ -103,12 +104,12 @@ ActiveRecord::Schema.define(version: 2021_11_27_144400) do
     t.index ["role"], name: "index_admin_users_on_role"
   end
 
-  create_table "assessments", force: :cascade do |t|
-    t.bigint "student_grade_id"
+  create_table "assessments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "assessment"
     t.decimal "result"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "student_grade_id", null: false
     t.index ["student_grade_id"], name: "index_assessments_on_student_grade_id"
   end
 
@@ -192,12 +193,12 @@ ActiveRecord::Schema.define(version: 2021_11_27_144400) do
   end
 
   create_table "course_registrations", force: :cascade do |t|
-    t.bigint "semester_registration_id"
     t.bigint "curriculum_id"
     t.string "enrollment_status", default: "pending"
     t.string "course_title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "semester_registration_id", null: false
     t.index ["curriculum_id"], name: "index_course_registrations_on_curriculum_id"
     t.index ["semester_registration_id"], name: "index_course_registrations_on_semester_registration_id"
   end
@@ -257,7 +258,7 @@ ActiveRecord::Schema.define(version: 2021_11_27_144400) do
   end
 
   create_table "emergency_contacts", force: :cascade do |t|
-    t.bigint "student_id"
+    t.uuid "student_id"
     t.string "full_name", null: false
     t.string "relationship"
     t.string "cell_phone", null: false
@@ -274,9 +275,7 @@ ActiveRecord::Schema.define(version: 2021_11_27_144400) do
     t.index ["student_id"], name: "index_emergency_contacts_on_student_id"
   end
 
-  create_table "grade_reports", force: :cascade do |t|
-    t.bigint "semester_registration_id"
-    t.bigint "student_id"
+  create_table "grade_reports", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.bigint "academic_calendar_id"
     t.decimal "cgpa"
     t.decimal "sgpa"
@@ -285,6 +284,8 @@ ActiveRecord::Schema.define(version: 2021_11_27_144400) do
     t.string "academic_status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "semester_registration_id", null: false
+    t.uuid "student_id", null: false
     t.index ["academic_calendar_id"], name: "index_grade_reports_on_academic_calendar_id"
     t.index ["semester_registration_id"], name: "index_grade_reports_on_semester_registration_id"
     t.index ["student_id"], name: "index_grade_reports_on_student_id"
@@ -310,20 +311,18 @@ ActiveRecord::Schema.define(version: 2021_11_27_144400) do
   end
 
   create_table "invoice_items", force: :cascade do |t|
-    t.bigint "invoice_id"
     t.bigint "course_registration_id"
     t.decimal "price", default: "0.0"
     t.string "last_updated_by"
     t.string "created_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "invoice_id", null: false
     t.index ["course_registration_id"], name: "index_invoice_items_on_course_registration_id"
     t.index ["invoice_id"], name: "index_invoice_items_on_invoice_id"
   end
 
-  create_table "invoices", force: :cascade do |t|
-    t.bigint "semester_registration_id"
-    t.bigint "student_id"
+  create_table "invoices", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "invoice_number", null: false
     t.decimal "total_price"
     t.decimal "registration_fee", default: "0.0"
@@ -336,6 +335,8 @@ ActiveRecord::Schema.define(version: 2021_11_27_144400) do
     t.datetime "due_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "semester_registration_id", null: false
+    t.uuid "student_id", null: false
     t.index ["semester_registration_id"], name: "index_invoices_on_semester_registration_id"
     t.index ["student_id"], name: "index_invoices_on_student_id"
   end
@@ -353,8 +354,7 @@ ActiveRecord::Schema.define(version: 2021_11_27_144400) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "payment_transactions", force: :cascade do |t|
-    t.bigint "invoice_id"
+  create_table "payment_transactions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.bigint "payment_method_id"
     t.string "account_holder_fullname", null: false
     t.string "phone_number"
@@ -365,6 +365,7 @@ ActiveRecord::Schema.define(version: 2021_11_27_144400) do
     t.string "created_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "invoice_id", null: false
     t.index ["invoice_id"], name: "index_payment_transactions_on_invoice_id"
     t.index ["payment_method_id"], name: "index_payment_transactions_on_payment_method_id"
   end
@@ -392,8 +393,8 @@ ActiveRecord::Schema.define(version: 2021_11_27_144400) do
     t.index ["department_id"], name: "index_programs_on_department_id"
   end
 
-  create_table "semester_registrations", force: :cascade do |t|
-    t.bigint "student_id"
+  create_table "semester_registrations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "student_id"
     t.string "program_name"
     t.string "admission_type"
     t.string "study_level"
@@ -417,7 +418,7 @@ ActiveRecord::Schema.define(version: 2021_11_27_144400) do
   end
 
   create_table "student_addresses", force: :cascade do |t|
-    t.bigint "student_id"
+    t.uuid "student_id"
     t.string "country", null: false
     t.string "city", null: false
     t.string "region"
@@ -435,21 +436,21 @@ ActiveRecord::Schema.define(version: 2021_11_27_144400) do
     t.index ["student_id"], name: "index_student_addresses_on_student_id"
   end
 
-  create_table "student_grades", force: :cascade do |t|
+  create_table "student_grades", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.bigint "course_registration_id"
-    t.bigint "student_id"
     t.string "grade_in_letter"
     t.string "grade_in_number"
     t.decimal "grade_letter_value"
     t.bigint "course_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "student_id", null: false
     t.index ["course_id"], name: "index_student_grades_on_course_id"
     t.index ["course_registration_id"], name: "index_student_grades_on_course_registration_id"
     t.index ["student_id"], name: "index_student_grades_on_student_id"
   end
 
-  create_table "students", force: :cascade do |t|
+  create_table "students", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -480,6 +481,7 @@ ActiveRecord::Schema.define(version: 2021_11_27_144400) do
     t.string "current_occupation"
     t.string "student_password"
     t.boolean "tempo_status", default: false
+    t.string "current_location"
     t.string "created_by", default: "self"
     t.string "last_updated_by"
     t.datetime "created_at", null: false
@@ -490,5 +492,19 @@ ActiveRecord::Schema.define(version: 2021_11_27_144400) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "assessments", "student_grades"
+  add_foreign_key "course_registrations", "semester_registrations"
   add_foreign_key "departments", "colleges"
+  add_foreign_key "emergency_contacts", "students"
+  add_foreign_key "grade_reports", "semester_registrations"
+  add_foreign_key "grade_reports", "students"
+  add_foreign_key "invoice_items", "course_registrations"
+  add_foreign_key "invoice_items", "invoices"
+  add_foreign_key "invoices", "semester_registrations"
+  add_foreign_key "invoices", "students"
+  add_foreign_key "payment_transactions", "invoices"
+  add_foreign_key "semester_registrations", "students"
+  add_foreign_key "student_addresses", "students"
+  add_foreign_key "student_grades", "course_registrations"
+  add_foreign_key "student_grades", "students"
 end

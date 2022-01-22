@@ -56,6 +56,7 @@ gem 'whenever', require: false
 gem 'dependent-fields-rails'
 gem 'aws-sdk-s3', '~> 1.107'
 gem "active_admin_import"
+gem 'active_admin_scoped_collection_actions'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false

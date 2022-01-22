@@ -4,7 +4,7 @@ class Student < ApplicationRecord
   before_save :student_id_generator
   after_save :student_semester_registration
   before_create :set_pwd
-
+  after_save :student_semester_registration_for_second
   
   # after_save :course_registration
   # Include default devise modules. Others available are:
@@ -27,7 +27,7 @@ class Student < ApplicationRecord
   ##validations
   validates :first_name , :presence => true,:length => { :within => 2..100 }
   validates :middle_name , :presence => true,:length => { :within => 2..100 }
-  validates :current_location , :presence => true,:length => { :within => 2..100 }
+  # validates :current_location , :presence => true,:length => { :within => 2..100 }
   validates :last_name , :presence => true,:length => { :within => 2..100 }
   validates :student_id , uniqueness: true
   validates	:gender, :presence => true
@@ -98,6 +98,34 @@ class Student < ApplicationRecord
     end
    end 
    if self.document_verification_status == "approved" && self.year == 1 
+    self.program.curriculums.where(year: self.year, semester: self.semester).each do |co|
+      CourseRegistration.create do |course|
+        course.semester_registration_id = self.semester_registrations.last.id
+        course.curriculum_id = co.id
+        course.course_title = co.course.course_title
+        # course.course_title = co.course.course_title
+      end
+    end
+   end
+  end
+
+  def student_semester_registration_for_second
+   if self.document_verification_status == "approved" && self.semester_registrations.last.nil? && self.semester == 2 
+    SemesterRegistration.create do |registration|
+      registration.student_id = self.id
+      registration.created_by = self.created_by
+      ## TODO: find the calender of student admission type and study level
+      registration.academic_calendar_id = AcademicCalendar.last.id
+      registration.year = self.year
+      registration.semester = self.semester
+      registration.program_name = self.program.program_name
+      registration.admission_type = self.admission_type
+      registration.study_level = self.study_level
+      registration.registrar_approval_status ="approved"
+      registration.finance_approval_status ="approved"
+    end
+   end 
+   if self.document_verification_status == "approved" && self.semester == 2 
     self.program.curriculums.where(year: self.year, semester: self.semester).each do |co|
       CourseRegistration.create do |course|
         course.semester_registration_id = self.semester_registrations.last.id

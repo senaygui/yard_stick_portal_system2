@@ -1,7 +1,7 @@
 class CreateSemesterRegistrations < ActiveRecord::Migration[5.2]
   def change
-    create_table :semester_registrations do |t|
-      t.belongs_to :student, index: true
+    create_table :semester_registrations, id: :uuid do |t|
+      t.belongs_to :student, foreign_key: true, index: true, type: :uuid
       t.string :program_name
       t.string :admission_type
       t.string :study_level

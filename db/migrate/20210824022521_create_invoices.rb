@@ -1,8 +1,8 @@
 class CreateInvoices < ActiveRecord::Migration[5.2]
   def change
-    create_table :invoices do |t|
-      t.belongs_to :semester_registration, index: true
-      t.belongs_to :student, index: true
+    create_table :invoices, id: :uuid  do |t|
+      # t.belongs_to :semester_registration, foreign_key: true, index: true, type: :uuid
+      # t.belongs_to :student, foreign_key: true, index: true, type: :uuid
       t.string :invoice_number, null: false
       t.decimal :total_price
       t.decimal :registration_fee, default: 0
