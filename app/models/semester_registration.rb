@@ -1,5 +1,7 @@
 class SemesterRegistration < ApplicationRecord
 	after_save :generate_invoice
+
+	after_save :second_semester_course
 	##validations
 	  validates :semester, :presence => true
 		validates :year, :presence => true
@@ -67,5 +69,18 @@ class SemesterRegistration < ApplicationRecord
 						# self.total_price = (self.course_registrations.collect { |oi| oi.valid? ? (CollegePayment.where(study_level: self.study_level,admission_type: self.admission_type).first.tution_per_credit_hr * oi.curriculum.credit_hour) : 0 }.sum) + CollegePayment.where(study_level: self.study_level,admission_type: self.admission_type).first.registration_fee
 	  			end
 	  		end
+	  	end
+
+	  	def second_semester_course
+	  		if self.student.document_verification_status == "approved" && self.semester == 2 && self.course_registrations.nil?
+			    self.student.program.curriculums.where(year: self.student.year, semester: self.student.semester).each do |co|
+			      CourseRegistration.create do |course|
+			        course.semester_registration_id = self.id
+			        course.curriculum_id = co.id
+			        course.course_title = co.course.course_title
+			        # course.course_title = co.course.course_title
+			      end
+			    end
+			  end
 	  	end
 end
