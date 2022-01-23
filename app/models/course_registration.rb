@@ -28,10 +28,12 @@ class CourseRegistration < ApplicationRecord
 		end
 
 		def add_grade
-			StudentGrade.create do |student_grade|
-					student_grade.course_registration_id = self.id
-					student_grade.student_id = self.semester_registration.student.id 
-					student_grade.course_id = self.curriculum.course.id
+			if self.semester_registration.registrar_approval_status == "approved"
+				StudentGrade.create do |student_grade|
+						student_grade.course_registration_id = self.id
+						student_grade.student_id = self.semester_registration.student.id 
+						student_grade.course_id = self.curriculum.course.id
 				end
+			end
 		end
 end
