@@ -33,7 +33,7 @@
           <!-- Add icons to the links using the .nav-icon class
            with font-awesome or any other icon font library -->
           <li class="nav-item menu-open">
-            <a href="/" class="nav-link active">
+            <a href="/" class="nav-link <%= current_class?(root_path) %>">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -42,8 +42,8 @@
             </a>
           </li>
           <li class="nav-item">
-            <%= link_to semester_registrations_path, class: "nav-link" do %>
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+            <%= link_to semester_registrations_path, :class => "nav-link #{current_class?(semester_registrations_path)}" do %>
+              <i class="nav-icon fas fa-sign-in-alt"></i>
               <p>
                 Registrations
                 <!-- <i class="right fas fa-angle-left"></i> -->
@@ -51,8 +51,8 @@
             <%end%>
           </li>
           <li class="nav-item">
-            <%= link_to invoices_path, class: "nav-link" do %>
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+            <%= link_to invoices_path, class: "nav-link #{current_class?(invoices_path)}" do %>
+              <i class="nav-icon fas fa-file-invoice"></i>
               <p>
                 Payments
                 <!-- <i class="right fas fa-angle-left"></i> -->
@@ -60,8 +60,8 @@
             <%end%>
           </li>
           <li class="nav-item">
-            <%= link_to profile_path, class: "nav-link" do %>
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+            <%= link_to profile_path, class: "nav-link  #{current_class?(profile_path)}" do %>
+              <i class="nav-icon fas fa-users"></i>
               <p>
                 Profile
                 <!-- <i class="right fas fa-angle-left"></i> -->
@@ -69,8 +69,8 @@
             <%end%>
           </li>
           <li class="nav-item">
-            <%= link_to grade_reports_path, class: "nav-link" do %>
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+            <%= link_to grade_reports_path, class: "nav-link #{current_class?(grade_reports_path)}" do %>
+              <i class="nav-icon fas fa-columns"></i>
               <p>
                 Grade Report
                 <!-- <i class="right fas fa-angle-left"></i> -->
@@ -78,8 +78,8 @@
             <%end%>
           </li>
           <li class="nav-item">
-            <%= link_to documents_path, class: "nav-link" do %>
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+            <%= link_to documents_path, class: "nav-link #{current_class?(documents_path)}" do %>
+              <i class="nav-icon fas fa-file-word"></i>
               <p>
                 Documents
                 <!-- <i class="right fas fa-angle-left"></i> -->
