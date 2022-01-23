@@ -10,11 +10,11 @@ ActiveAdmin.register Student do
                             # ),
                             :timestamps=> true,
                             :batch_size => 1000
-  # scoped_collection_action :scoped_collection_update, form: -> do
-  #                                        { 
-  #                                         semester: 'text'
-  #                                         }
-  #                                       end
+  scoped_collection_action :scoped_collection_update, form: -> do
+                                         { 
+                                          semester: 'text'
+                                          }
+                                        end
 
   batch_action :flag, form: {
     semester: :text
