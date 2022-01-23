@@ -198,9 +198,7 @@ ActiveRecord::Schema.define(version: 2022_01_22_090856) do
     t.string "course_title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.uuid "semester_registration_id", null: false
     t.index ["curriculum_id"], name: "index_course_registrations_on_curriculum_id"
-    t.index ["semester_registration_id"], name: "index_course_registrations_on_semester_registration_id"
   end
 
   create_table "courses", force: :cascade do |t|
