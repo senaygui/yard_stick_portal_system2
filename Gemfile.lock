@@ -380,7 +380,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_admin_import
-  active_admin_scoped_collection_actions
+  active_admin_scoped_collection_actions (~> 0.4.0)
   active_admin_theme (~> 1.1, >= 1.1.4)
   active_storage_drag_and_drop (~> 1.1)
   active_storage_validations (~> 0.9.5)
