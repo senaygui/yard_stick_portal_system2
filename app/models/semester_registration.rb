@@ -20,7 +20,7 @@ class SemesterRegistration < ApplicationRecord
   	has_many :curriculums, through: :course_registrations, dependent: :destroy
   	# accepts_nested_attributes_for :course_registrations, reject_if: :all_blank, allow_destroy: true
   	has_many :invoices
-  	has_one :grade_reports, dependent: :destroy
+  	has_one :grade_reports
 
   	def generate_grade_report
   		GradeReport.create do |grade_report|
@@ -50,7 +50,7 @@ class SemesterRegistration < ApplicationRecord
 	  				invoice.created_by = self.created_by
 	  				invoice.due_date = self.created_at.day + 2.days 
 	  				invoice.invoice_status = "pending"
-						invoice.registration_fee = 550
+						invoice.registration_fee = 250
 						invoice.invoice_number = SecureRandom.random_number(1000..10000)
 						if mode_of_payment == "Monthly Payment"
 							tution_price = self.student.program.monthly_price

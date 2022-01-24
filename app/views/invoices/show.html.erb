@@ -105,13 +105,13 @@
 									</tr>
 								</thead>
 								<tbody>
-									<% @invoice.invoice_items.each do |item| %>
+									<% @invoice.semester_registration.course_registrations.each do |item| %>
 							      <tr>
 							        
-							        <td><%= item.course_registration.curriculum.course.course_title %></td>
-							        <td><%= item.course_registration.curriculum.course.course_module.module_code %></td>
-							        <td><%= item.course_registration.curriculum.course.course_code %></td>
-							        <td><%= item.course_registration.curriculum.credit_hour %></td>
+							        <td><%= item.curriculum.course.course_title %></td>
+							        <td><%= item.curriculum.course.course_module.module_code %></td>
+							        <td><%= item.curriculum.course.course_code %></td>
+							        <td><%= item.curriculum.credit_hour %></td>
 							  
 							      </tr>
 						    	<% end %>
@@ -172,9 +172,9 @@
 							<% if !@invoice.payment_transaction.present?%>
 								<%= link_to '<i class="far fa-credit-card"></i> Submit Payment'.html_safe, {controller: "payment_methods", action: "index", invoice_id: @invoice.id}, class: "btn btn-success float-right"%>
 										
-								<button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
+								<!-- <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
 									<i class="fas fa-download"></i> Generate PDF
-								</button>
+								</button> -->
 							<%end%>
 						</div>
 					</div>

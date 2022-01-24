@@ -1,5 +1,6 @@
 class Invoice < ApplicationRecord
 	after_create :add_invoice_item
+	after_save :approve_semester_registration
 	# after_update :update_total_price
 	##validations
     validates :invoice_number , :presence => true
@@ -48,6 +49,15 @@ class Invoice < ApplicationRecord
 				end
 			end
 		end
+
+		def approve_semester_registration
+			if self.payment_transaction.present? && self.payment_transaction.finance_approval_status == "approved"
+				self.semester_registration.update_column(registrar_approval_status = "approved")
+      	self.semester_registration.update_column(finance_approval_status = "approved")
+
+    	end
+		end
+
 	  # def update_semester_registration
 	  #   self[:total_price] = total_price
 	  # end

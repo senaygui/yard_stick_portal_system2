@@ -134,7 +134,7 @@
           <!-- /.card-header -->
           <div class="card-body">  
             <p class="text-center">
-              <strong class="text-blue">Your payment has not been approved yet. Wait until finance approves your payment. Until then update your informations and documents.</strong>
+              <strong class="text-blue">Your payment has not been approved yet. Wait until finance approves your payment. </strong>
             </p>
           </div>
           <!-- /.card-body -->
@@ -199,5 +199,36 @@
         </div>
       </div>
     <%end%>
+  <%end%>
+  <% if !current_student.invoices.last.payment_transaction.present?%>
+      <div class="col-12">
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">
+              <i class="fas fa-info-circle mr-2"></i>
+              <strong>Instruction</strong>
+
+            </h3>
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+              <button type="button" class="btn btn-tool" data-card-widget="remove">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">  
+            <p class="text-center">
+              <strong class="text-blue">There is Unpaid invoice please finish submiting payment transaction form so you can be enroll class.</strong>
+            </p>
+          </div>
+          <div class="card-footer">
+            <%= link_to "Pay now", invoice_path(current_student.invoices.last.id), class: "btn btn-primary"%>
+          </div>
+          <!-- /.card-body -->
+        </div>
+      </div>
   <%end%>
 <%end%>
