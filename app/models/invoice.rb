@@ -52,8 +52,8 @@ class Invoice < ApplicationRecord
 
 		def approve_semester_registration
 			if self.payment_transaction.present? && self.payment_transaction.finance_approval_status == "approved"
-				self.semester_registration.update_column(registrar_approval_status = "approved")
-      	self.semester_registration.update_column(finance_approval_status = "approved")
+				self.semester_registration.update_columns(registrar_approval_status: "approved")
+      	self.semester_registration.update_columns(finance_approval_status: "approved")
 
     	end
 		end
