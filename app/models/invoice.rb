@@ -31,21 +31,23 @@ class Invoice < ApplicationRecord
 
   	def add_invoice_item
 			self.semester_registration.course_registrations.each do |course|
-				InvoiceItem.create do |invoice_item|
-					invoice_item.invoice_id = self.id
-					invoice_item.course_registration_id = course.id
-					invoice_item.created_by = self.created_by
-					if self.semester_registration.mode_of_payment == "monthly"
-						course_price =  CollegePayment.where(study_level: self.semester_registration.study_level,admission_type: self.semester_registration.admission_type).first.tution_per_credit_hr * course.curriculum.credit_hour / 4
-						invoice_item.price = course_price
-					elsif self.semester_registration.mode_of_payment == "full"
-						course_price =  CollegePayment.where(study_level: self.semester_registration.study_level,admission_type: self.semester_registration.admission_type).first.tution_per_credit_hr * course.curriculum.credit_hour
-						invoice_item.price = course_price
-					elsif self.semester_registration.mode_of_payment == "half"
-						course_price =  CollegePayment.where(study_level: self.semester_registration.study_level,admission_type: self.semester_registration.admission_type).first.tution_per_credit_hr * course.curriculum.credit_hour / 2
-						invoice_item.price = course_price
+				if (self.invoice_items.where(course_registration_id: course.id).nil?)
+					InvoiceItem.create do |invoice_item|
+						invoice_item.invoice_id = self.id
+						invoice_item.course_registration_id = course.id
+						invoice_item.created_by = self.created_by
+						if self.semester_registration.mode_of_payment == "monthly"
+							course_price =  CollegePayment.where(study_level: self.semester_registration.study_level,admission_type: self.semester_registration.admission_type).first.tution_per_credit_hr * course.curriculum.credit_hour / 4
+							invoice_item.price = course_price
+						elsif self.semester_registration.mode_of_payment == "full"
+							course_price =  CollegePayment.where(study_level: self.semester_registration.study_level,admission_type: self.semester_registration.admission_type).first.tution_per_credit_hr * course.curriculum.credit_hour
+							invoice_item.price = course_price
+						elsif self.semester_registration.mode_of_payment == "half"
+							course_price =  CollegePayment.where(study_level: self.semester_registration.study_level,admission_type: self.semester_registration.admission_type).first.tution_per_credit_hr * course.curriculum.credit_hour / 2
+							invoice_item.price = course_price
+						end
+						
 					end
-					
 				end
 			end
 		end

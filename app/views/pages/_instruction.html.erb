@@ -26,7 +26,7 @@
         <!-- /.card-body -->
       </div>
     </div>
-  <%elsif current_student.document_verification_status == "approved"%>
+  <%elsif (current_student.document_verification_status == "approved") && (current_student.semester_registrations.last.present?)%>
     <div class="col-12">
       <div class="card card-success">
         <div class="card-header">

@@ -72,7 +72,7 @@ class SemesterRegistration < ApplicationRecord
 	  	end
 
 	  	def second_semester_course
-	  		if self.student.document_verification_status == "approved" && self.semester == 2 && self.course_registrations.nil?
+	  		if (self.course_registrations.nil?) && (self.student.document_verification_status == "approved") && (self.semester == 2)
 			    self.student.program.curriculums.where(year: self.student.year, semester: self.student.semester).each do |co|
 			      CourseRegistration.create do |course|
 			        course.semester_registration_id = self.id
