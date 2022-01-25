@@ -1,7 +1,7 @@
 class SemesterRegistration < ApplicationRecord
 	after_update :generate_invoice
 
-	after_save :second_semester_course
+	after_create :second_semester_course
 	##validations
 	  validates :semester, :presence => true
 		validates :year, :presence => true

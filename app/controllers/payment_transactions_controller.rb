@@ -13,7 +13,7 @@ class PaymentTransactionsController < ApplicationController
   # GET /payment_transactions/new
   def new
     @payment_transaction = PaymentTransaction.new
-    @payment_method = PaymentMethod.find(params[:payment_method_id].to_i)
+    @payment_method = PaymentMethod.find(params[:payment_method_id])
     @invoice = Invoice.find(params[:invoice_id])
   end
 
@@ -26,7 +26,8 @@ class PaymentTransactionsController < ApplicationController
   # POST /payment_transactions or /payment_transactions.json
   def create
     @payment_transaction = PaymentTransaction.new(payment_transaction_params)
-
+    # @invoice.payment_transaction << @payment_transaction
+    # @payment_transaction.payment_method << @payment_transaction
     respond_to do |format|
       if @payment_transaction.save
         format.html { redirect_to invoice_path(@payment_transaction.invoice_id), notice: "Payment transaction was successfully created." }

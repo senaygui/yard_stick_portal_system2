@@ -31,8 +31,7 @@
 							<%= simple_form_for(@payment_transaction) do |f| %>
 							  <%= f.error_notification %>
 							  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-							  <%=f.input :invoice_id, as: :hidden, :input_html => { :value => @invoice.id}%>
-                  <%=f.input :payment_method_id, as: :hidden, :input_html => { :value => @payment_method.id}%>
+							  
 								<div class="bs-stepper-content">
 									<!-- your steps content here -->
 									<div id="bi" class="content" role="tabpanel" aria-labelledby="bi-trigger">
@@ -134,6 +133,8 @@
 												    <div class="col-12 col-md-6 form-group">
 												      <%= f.input :receipt_image, as: :file, required: true %>
 												    </div>
+												    <%=f.input :invoice_id, as: :hidden, :input_html => { :value => @invoice.id}%>
+                  					<%=f.input :payment_method_id, as: :hidden, :input_html => { :value => @payment_method.id}%>
 													</div>
 													<div class="card-footer">
 														<a class="btn btn-secondary" onclick="stepper.previous()">Previous</a>
