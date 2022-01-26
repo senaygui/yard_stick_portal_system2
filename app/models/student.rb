@@ -1,6 +1,7 @@
 class Student < ApplicationRecord
+  default_scope { order(:created_at) }
   ##callbacks
-  before_save :department_assignment
+  before_create :department_assignment
   before_save :student_id_generator
   after_create :student_semester_registration
   before_create :set_pwd
@@ -13,29 +14,29 @@ class Student < ApplicationRecord
          :recoverable, :rememberable, :validatable, :trackable
   has_person_name    
   ##associations
-  belongs_to :program
-  has_one :student_address, dependent: :destroy
-  accepts_nested_attributes_for :student_address
-  has_one :emergency_contact, dependent: :destroy
-  accepts_nested_attributes_for :emergency_contact
-  has_many :semester_registrations, dependent: :destroy
-  has_many :invoices, dependent: :destroy
-  has_many_attached :documents, dependent: :destroy
-  has_one_attached :photo, dependent: :destroy
-  has_many :student_grades, dependent: :destroy
-  has_many :grade_reports
+    belongs_to :program
+    has_one :student_address, dependent: :destroy
+    accepts_nested_attributes_for :student_address
+    has_one :emergency_contact, dependent: :destroy
+    accepts_nested_attributes_for :emergency_contact
+    has_many :semester_registrations, dependent: :destroy
+    has_many :invoices, dependent: :destroy
+    has_many_attached :documents, dependent: :destroy
+    has_one_attached :photo, dependent: :destroy
+    has_many :student_grades, dependent: :destroy
+    has_many :grade_reports
   ##validations
-  validates :first_name , :presence => true,:length => { :within => 2..100 }
-  validates :middle_name , :presence => true,:length => { :within => 2..100 }
-  # validates :current_location , :presence => true,:length => { :within => 2..100 }
-  validates :last_name , :presence => true,:length => { :within => 2..100 }
-  validates :student_id , uniqueness: true
-  validates	:gender, :presence => true
-	validates	:date_of_birth , :presence => true
-	validates	:study_level, :presence => true
-  validates :admission_type, :presence => true,:length => { :within => 2..10 }
-  # validates :photo, attached: true, content_type: ['image/gif', 'image/png', 'image/jpg', 'image/jpeg']
-  # validates :documents, attached: true
+    validates :first_name , :presence => true,:length => { :within => 2..100 }
+    validates :middle_name , :presence => true,:length => { :within => 2..100 }
+    # validates :current_location , :presence => true,:length => { :within => 2..100 }
+    validates :last_name , :presence => true,:length => { :within => 2..100 }
+    validates :student_id , uniqueness: true
+    validates	:gender, :presence => true
+  	validates	:date_of_birth , :presence => true
+  	validates	:study_level, :presence => true
+    validates :admission_type, :presence => true,:length => { :within => 2..10 }
+    # validates :photo, attached: true, content_type: ['image/gif', 'image/png', 'image/jpg', 'image/jpeg']
+    # validates :documents, attached: true
   
   validate :password_complexity
   def password_complexity
@@ -82,7 +83,7 @@ class Student < ApplicationRecord
   end
 
   def student_semester_registration
-   if self.document_verification_status == "approved" && self.semester_registrations.last.nil? && self.year == 1
+   if ((self.document_verification_status == "approved") && (self.semester_registrations.empty?) && (self.year == 1) && (self.semester == 1))
     SemesterRegistration.create do |registration|
       registration.student_id = self.id
       registration.created_by = self.created_by
@@ -97,7 +98,7 @@ class Student < ApplicationRecord
       # registration.finance_approval_status ="approved"
     end
    end 
-   if (self.document_verification_status == "approved") && (self.year == 1) &&  (self.semester == 1)  
+   if (self.document_verification_status == "approved") && (self.year == 1) && (self.semester == 1)  
     self.program.curriculums.where(year: self.year, semester: self.semester).each do |co|
       CourseRegistration.create do |course|
         course.semester_registration_id = self.semester_registrations.last.id
@@ -110,7 +111,7 @@ class Student < ApplicationRecord
   end
 
   def student_semester_registration_for_second
-   if self.document_verification_status == "approved" && self.semester_registrations.last.nil? && self.semester == 2 
+   if ((self.semester_registrations.where(semester: 2).empty?) && (self.semester == 2) && (self.year == 1)) 
     SemesterRegistration.create do |registration|
       registration.student_id = self.id
       registration.created_by = self.created_by
@@ -122,29 +123,8 @@ class Student < ApplicationRecord
       registration.admission_type = self.admission_type
       registration.study_level = self.study_level
       # registration.registrar_approval_status ="approved"
-      registration.finance_approval_status ="approved"
+      # registration.finance_approval_status ="approved"
     end
    end 
-   # if self.document_verification_status == "approved" && self.semester == 2 
-   #  self.program.curriculums.where(year: self.year, semester: self.semester).each do |co|
-   #    CourseRegistration.create do |course|
-   #      course.semester_registration_id = self.semester_registrations.last.id
-   #      course.curriculum_id = co.id
-   #      course.course_title = co.course.course_title
-   #      # course.course_title = co.course.course_title
-   #    end
-   #  end
-   # end
   end
-  # def course_registration
-  #  if self.student_registrations.last.present? && self.year == 1
-  #   self.program.curriculums.where(year: self.year, semester: self.semester).each do |co|
-  #     CourseRegistration.create do |course|
-  #       course.student_registration_id = self.student_registrations.last.id
-  #       course.curriculum_id = co.id
-  #     end
-  #   end
-  #  end 
-  # end
-
 end

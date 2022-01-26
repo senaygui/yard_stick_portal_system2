@@ -1,6 +1,5 @@
 class SemesterRegistration < ApplicationRecord
-	after_update :generate_invoice
-
+	after_create :generate_invoice
 	after_create :second_semester_course
 	##validations
 	  validates :semester, :presence => true
@@ -22,7 +21,7 @@ class SemesterRegistration < ApplicationRecord
   	has_many :invoices
   	has_one :grade_reports
 
-  	def generate_grade_report
+  def generate_grade_report
   		GradeReport.create do |grade_report|
 					grade_report.semester_registration_id = self.id
 					grade_report.student_id = self.student.id
@@ -40,8 +39,8 @@ class SemesterRegistration < ApplicationRecord
 					end
 					
 			end
-  	end
-  	private	
+  end
+  private	
 	  	def generate_invoice
 	  		if (self.semester == self.semester) && (self.year == self.year) && self.mode_of_payment.present? && self.invoices.last.nil?
 	  			Invoice.create do |invoice|
@@ -49,9 +48,9 @@ class SemesterRegistration < ApplicationRecord
 	  				invoice.student_id = self.student.id
 	  				invoice.created_by = self.created_by
 	  				invoice.due_date = self.created_at.day + 2.days 
-	  				invoice.invoice_status = "pending"
+	  				invoice.invoice_status = "not submitted"
 						invoice.registration_fee = 250
-						invoice.invoice_number = SecureRandom.random_number(1000..10000)
+						invoice.invoice_number = SecureRandom.random_number(10000000)
 						if mode_of_payment == "Monthly Payment"
 							tution_price = self.student.program.monthly_price
 							invoice.total_price = tution_price + invoice.registration_fee
@@ -72,7 +71,7 @@ class SemesterRegistration < ApplicationRecord
 	  	end
 
 	  	def second_semester_course
-	  		if (self.course_registrations.nil?) && (self.student.document_verification_status == "approved") && (self.semester == 2)
+	  		if (self.course_registrations.empty?) && (self.semester == 2)
 			    self.student.program.curriculums.where(year: self.student.year, semester: self.student.semester).each do |co|
 			      CourseRegistration.create do |course|
 			        course.semester_registration_id = self.id
