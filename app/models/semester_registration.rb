@@ -1,5 +1,5 @@
 class SemesterRegistration < ApplicationRecord
-	after_create :generate_invoice
+	after_save :generate_invoice
 	after_create :second_semester_course
 	##validations
 	  validates :semester, :presence => true
@@ -42,7 +42,7 @@ class SemesterRegistration < ApplicationRecord
   end
   private	
 	  	def generate_invoice
-	  		if (self.semester == self.semester) && (self.year == self.year) && self.mode_of_payment.present? && self.invoices.last.nil?
+	  		if self.mode_of_payment.present? && self.invoices.empty?
 	  			Invoice.create do |invoice|
 	  				invoice.semester_registration_id = self.id
 	  				invoice.student_id = self.student.id
