@@ -32,7 +32,7 @@ gem 'jbuilder', '~> 2.5'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
-gem 'jquery-rails'
+gem 'jquery-rails', '~> 4.3'
 gem 'jquery-datatables', '~> 1.10', '>= 1.10.20'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
@@ -58,6 +58,10 @@ gem 'aws-sdk-s3', '~> 1.107'
 gem "active_admin_import"
 # gem 'active_admin_scoped_collection_actions'
 gem 'active_admin_scoped_collection_actions', '~> 0.4.0'
+gem 'client_side_validations', 
+    github: 'DavyJonesLocker/client_side_validations'
+gem 'client_side_validations-simple_form', 
+    github: 'DavyJonesLocker/client_side_validations-simple_form'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 

@@ -18,12 +18,13 @@
 //= require rails-ujs
 //= require activestorage
 //= require turbolinks
+//= require rails.validations
+//= require rails.validations.simple_form.bootstrap4
 //= require datatables
 //= require bs-stepper.min.js
 //= require flatpickr
 //= require jquery.inputmask.min.js
 //= require active_storage_drag_and_drop
-
 
 
 $(document).on('turbolinks:load', function(){

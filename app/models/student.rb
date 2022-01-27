@@ -3,7 +3,7 @@ class Student < ApplicationRecord
   ##callbacks
   before_create :department_assignment
   before_save :student_id_generator
-  after_create :student_semester_registration
+  after_save :student_semester_registration
   before_create :set_pwd
   after_save :student_semester_registration_for_second
   
@@ -83,7 +83,7 @@ class Student < ApplicationRecord
   end
 
   def student_semester_registration
-   if ((self.document_verification_status == "approved") && (self.semester_registrations.empty?) && (self.year == 1) && (self.semester == 1))
+   if ((self.semester_registrations.where(semester: 1).empty?) && (self.semester == 1) && (self.year == 1)) 
     SemesterRegistration.create do |registration|
       registration.student_id = self.id
       registration.created_by = self.created_by
@@ -98,16 +98,6 @@ class Student < ApplicationRecord
       # registration.finance_approval_status ="approved"
     end
    end 
-   if (self.document_verification_status == "approved") && (self.year == 1) && (self.semester == 1)  
-    self.program.curriculums.where(year: self.year, semester: self.semester).each do |co|
-      CourseRegistration.create do |course|
-        course.semester_registration_id = self.semester_registrations.last.id
-        course.curriculum_id = co.id
-        course.course_title = co.course.course_title
-        # course.course_title = co.course.course_title
-      end
-    end
-   end
   end
 
   def student_semester_registration_for_second
