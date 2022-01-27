@@ -62,6 +62,11 @@ ActiveAdmin.register Invoice do
     f.inputs "invoice status" do
       f.input :invoice_status, as: :select, :collection => ["pending", "approved", "re-submit", "denied", "under submitted"], :include_blank => false
     end
+    if f.object.new_record?
+        f.input :created_by, as: :hidden, :input_html => { :value => current_admin_user.name.full}
+    else
+        f.input :last_updated_by, as: :hidden, :input_html => { :value => current_admin_user.name.full}
+    end 
     f.actions
   end
 
