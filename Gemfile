@@ -58,10 +58,6 @@ gem 'aws-sdk-s3', '~> 1.107'
 gem "active_admin_import"
 # gem 'active_admin_scoped_collection_actions'
 gem 'active_admin_scoped_collection_actions', '~> 0.4.0'
-gem 'client_side_validations', 
-    github: 'DavyJonesLocker/client_side_validations'
-gem 'client_side_validations-simple_form', 
-    github: 'DavyJonesLocker/client_side_validations-simple_form'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
