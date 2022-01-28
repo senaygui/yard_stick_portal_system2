@@ -26,7 +26,6 @@
 //= require jquery.inputmask.min.js
 //= require active_storage_drag_and_drop
 
-
 $(document).on('turbolinks:load', function(){
   $("#student_photo").change(function(data){
 

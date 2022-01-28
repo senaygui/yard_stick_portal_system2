@@ -1,5 +1,5 @@
 <%provide(:title, "Payment Transfer")%>
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bs-stepper/dist/css/bs-stepper.min.css" />
 <section class="content-header">
   <div class="container-fluid">
     <div class="row mb-2">
@@ -39,8 +39,8 @@
                   </button>
                 </div>
                 <div class="line"></div>
-                <div class="step" data-target="#admission">
-                  <button type="button" class="step-trigger" role="tab" aria-controls="admission" id="admission-trigger">
+                <div class="step" data-target="#payment_transaction">
+                  <button type="button" class="step-trigger" role="tab" aria-controls="payment_transaction" id="payment_transaction-trigger">
                     <span class="bs-stepper-circle">2</span>
                     <span class="bs-stepper-label">Payment Form</span>
                   </button>
@@ -106,7 +106,7 @@
                       
                     </div>
                   </div>
-                  <div id="admission" class="content" role="tabpanel" aria-labelledby="admission-trigger">
+                  <div id="payment_transaction" class="content" role="tabpanel" aria-labelledby="payment_transaction-trigger">
                     <div class="row">
                       <div class="col-12 col-md-3">
                         <div class="card card-outline card-primary">
@@ -157,7 +157,7 @@
                           </div>
                           <div class="card-footer">
                             <a class="btn btn-secondary" onclick="stepper.previous()">Previous</a>
-                            <%= f.submit "Finish", class: "btn btn-primary btn-user" %>
+                            <%= f.submit "Finish", class: "btn btn-primary" %>
                           </div>
                         </div>
                       </div>
@@ -167,10 +167,16 @@
               <% end %>
             </div>
           </div>
-          <!-- /.card-body -->
         </div>
-        <!-- /.card -->
       </div>
     </div>
   </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bs-stepper/dist/js/bs-stepper.min.js"></script>
+<script type="text/javascript">
+  $(document).on('turbolinks:load', function() {
+    var stepper = new Stepper($('.bs-stepper')[0])
+  })
+</script>
+
+

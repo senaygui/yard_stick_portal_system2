@@ -1,5 +1,5 @@
 <%provide(:title, "Sign Up")%>
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bs-stepper/dist/css/bs-stepper.min.css" />
 <div class="content-wrapper mt-3" style="min-height: 1477.62px;">
   <div class="content">
     <div class="container-fluid">
@@ -285,3 +285,10 @@
     </div>
   </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bs-stepper/dist/js/bs-stepper.min.js"></script>
+<script type="text/javascript">
+  // BS-Stepper Init
+  document.addEventListener('turbolinks:load', function () {
+    window.stepper = new Stepper(document.querySelector('.bs-stepper'))
+  })
+</script>
