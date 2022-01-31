@@ -1,5 +1,5 @@
 class Student < ApplicationRecord
-  default_scope { order(:created_at) }
+  # default_scope { order(:created_at) }
   ##callbacks
   before_create :department_assignment
   before_save :student_id_generator
@@ -30,7 +30,7 @@ class Student < ApplicationRecord
     validates :middle_name , :presence => true,:length => { :within => 2..100 }
     # validates :current_location , :presence => true,:length => { :within => 2..100 }
     validates :last_name , :presence => true,:length => { :within => 2..100 }
-    validates :student_id , uniqueness: true
+    # validates :student_id , uniqueness: true
     validates	:gender, :presence => true
   	validates	:date_of_birth , :presence => true
   	validates	:study_level, :presence => true
