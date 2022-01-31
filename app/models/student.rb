@@ -35,8 +35,8 @@ class Student < ApplicationRecord
   	validates	:date_of_birth , :presence => true
   	validates	:study_level, :presence => true
     validates :admission_type, :presence => true,:length => { :within => 2..10 }
-    # validates :photo, attached: true, content_type: ['image/gif', 'image/png', 'image/jpg', 'image/jpeg']
-    # validates :documents, attached: true
+    validates :photo, attached: true, content_type: ['image/gif', 'image/png', 'image/jpg', 'image/jpeg']
+    validates :documents, attached: true
   
   validate :password_complexity
   def password_complexity
