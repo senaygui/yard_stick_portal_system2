@@ -50,7 +50,11 @@ class SemesterRegistration < ApplicationRecord
 	  				invoice.created_by = self.created_by
 	  				invoice.due_date = self.created_at.day + 2.days 
 	  				invoice.invoice_status = "not submitted"
-						invoice.registration_fee = 250
+	  				if (self.semester == 1) && (self.year == 1)
+							invoice.registration_fee = 550
+						else
+							invoice.registration_fee = 250
+						end
 						invoice.invoice_number = SecureRandom.random_number(10000000)
 						if mode_of_payment == "Monthly Payment"
 							tution_price = self.student.program.monthly_price
