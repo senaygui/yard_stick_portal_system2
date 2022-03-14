@@ -1,7 +1,24 @@
 ActiveAdmin.register Invoice do
   permit_params :semester_registration_id,:invoice_number,:total_price,:registration_fee,:late_registration_fee,:penalty,:daily_penalty,:invoice_status,:last_updated_by,:created_by,:due_date,payment_transaction_attributes: [:id,:invoice_id,:payment_method_id,:account_holder_fullname,:phone_number,:account_number,:transaction_reference,:finance_approval_status,:last_updated_by,:created_by, :receipt_image], inovice_item_ids: []
 
-
+  csv do
+    column "student id" do |item|
+      item.student.student_id
+    end
+    column "student full name" do |item|
+      item.student.name.full.upcase
+    end
+    column :invoice_number
+    column :registration_fee
+    column :total_price
+    column :invoice_status
+    column :finance_approval_status do |e|
+      e.payment_transaction.finance_approval_status if e.payment_transaction.finance_approval_status.present?
+    end
+    column :finance_approval_status do |e|
+      e.payment_transaction.finance_approval_status if e.payment_transaction.finance_approval_status.present?
+    end
+  end
   index do
     selectable_column
     column "invoice no",:invoice_number
@@ -37,7 +54,19 @@ ActiveAdmin.register Invoice do
   # scope :regular
   # scope :extention
   # scope :distance
-
+  filter :student_id, as: :search_select_filter, url: proc { admin_students_path },
+         fields: [:student_id, :id], display_name: 'student_id', minimum_input_length: 2,
+         order_by: 'id_asc'
+  filter :invoice_number
+  filter :total_price
+  filter :registration_fee
+  filter :invoice_status
+  filter :due_date
+  filter :last_updated_by
+  filter :created_by
+  filter :created_at
+  filter :updated_at
+  
   form do |f|
     f.semantic_errors
     f.inputs 'payment transaction', for: [:payment_transaction, f.object.payment_transaction || PaymentTransaction.new] do |a|

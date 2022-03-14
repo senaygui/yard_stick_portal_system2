@@ -98,6 +98,7 @@ class Ability
         can :read, Course
         can :manage, SemesterRegistration, admission_type: "online"
         can :read, Invoice
+        cannot :destroy, Student
     when "regular_registrar"
         can :manage, ActiveAdmin::Page, name: "Dashboard", namespace_name: "admin"
         can :read, AcademicCalendar, admission_type: "regular"

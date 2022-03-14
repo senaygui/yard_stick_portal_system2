@@ -144,7 +144,8 @@ ActiveAdmin.register Student do
   filter :account_verification_status, as: :select, :collection => ["pending","approved", "denied", "incomplete"]
   filter :document_verification_status, as: :select, :collection => ["pending","approved", "denied", "incomplete"]
   filter :account_status, as: :select, :collection => ["active","suspended"]
-  filter :graduation_status      
+  filter :graduation_status  
+  filter :tempo_status    
   filter :created_by
   filter :last_updated_by
   filter :created_at
@@ -186,6 +187,11 @@ ActiveAdmin.register Student do
         f.input :first_name
         f.input :last_name
         f.input :middle_name
+        if !f.object.new_record?
+          if current_admin_user.role == "admin"
+            f.input :student_id
+          end
+        end
         f.input :gender, as: :select, :collection => ["Male", "Female"], :include_blank => false
         f.input :date_of_birth, as: :date_time_picker
         f.input :marital_status, as: :select, :collection => ["Single", "Married", "Widowed","Separated","Divorced"], :include_blank => false
@@ -241,23 +247,25 @@ ActiveAdmin.register Student do
           end
           
         end
-        # if f.object.documents.attached?
-        #   div class: "document-preview container" do
-        #     f.object.documents.each do |document|
-        #       if document.variable?
-        #           div class: "preview-card" do
-        #             span image_tag(document, size: '200x200')
-        #             span link_to 'delete', delete_document_admin_student_path(document.id), method: :delete, data: { confirm: 'Are you sure?' }
-        #           end
-        #       elsif document.previewable?
-        #           div class: "preview-card" do
-        #             span image_tag(document.preview(resize: '200x200'))
-        #             span link_to 'delete', delete_document_admin_student_path(document.id), method: :delete, data: { confirm: 'Are you sure?' }
-        #           end
-        #       end
-        #     end
-        #   end
-        # end
+        if !f.object.new_record?
+          if f.object.documents.attached?
+            div class: "document-preview container" do
+              f.object.documents.each do |document|
+                if document.variable?
+                    div class: "preview-card" do
+                      span image_tag(document, size: '200x200')
+                      span link_to 'delete', delete_document_admin_student_path(document.id), method: :delete, data: { confirm: 'Are you sure?' }
+                    end
+                elsif document.previewable?
+                    div class: "preview-card" do
+                      span image_tag(document.preview(resize: '200x200'))
+                      span link_to 'delete', delete_document_admin_student_path(document.id), method: :delete, data: { confirm: 'Are you sure?' }
+                    end
+                end
+              end
+            end
+          end
+        end
       end
       f.inputs "temporary document status" do
         f.input :tempo_status
@@ -274,11 +282,11 @@ ActiveAdmin.register Student do
     end
     f.actions
   end
-  # member_action :delete_document, method: :delete do
-  #   @pic = ActiveStorage::Attachment.find(params[:id])
-  #   @pic.purge_later
-  #   redirect_back(fallback_location: edit_admin_student_path)
-  # end
+  member_action :delete_document, method: :delete do
+    @pic = ActiveStorage::Attachment.find(params[:id])
+    @pic.purge_later
+    redirect_back(fallback_location: edit_admin_student_path)
+  end
   #TODO: make delete btn in show not primery color
   #TODO: add account approval status action modal
 
