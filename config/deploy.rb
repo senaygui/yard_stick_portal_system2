@@ -3,7 +3,7 @@
 lock "~> 3.16.0"
 
 set :application, "portal_system"
-set :repo_url, "https://github.com/senaygui/yic_portal.git"
+set :repo_url, "https://github.com/senaygui/yard_stick_portal_system2.git"
 # set :ssh_options, { :forward_agent => true, :port => 4321 }
 set :user, "deploy"
 set :passenger_restart_with_touch, true
