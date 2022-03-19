@@ -1,5 +1,5 @@
 ActiveAdmin.register StudentGrade do
-
+  config.sort_order = "created_at_desc"
   permit_params :course_registration_id,:student_id,:grade_in_letter,:grade_in_number,:course_id,assessments_attributes: [:id,:assessment,:result, :_destroy]
 
 
@@ -14,7 +14,7 @@ ActiveAdmin.register StudentGrade do
   index do
     selectable_column
     column "full name", sortable: true do |n|
-      n.student.name.full 
+      "#{n.first_name.upcase} #{n.middle_name.upcase} #{n.last_name.upcase}" 
     end
     column "Student ID" do |si|
       si.student.student_id

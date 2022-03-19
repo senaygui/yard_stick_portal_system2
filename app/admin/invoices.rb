@@ -1,4 +1,5 @@
 ActiveAdmin.register Invoice do
+  config.sort_order = "updated_at_desc"
   permit_params :semester_registration_id,:invoice_number,:total_price,:registration_fee,:late_registration_fee,:penalty,:daily_penalty,:invoice_status,:last_updated_by,:created_by,:due_date,payment_transaction_attributes: [:id,:invoice_id,:payment_method_id,:account_holder_fullname,:phone_number,:account_number,:transaction_reference,:finance_approval_status,:last_updated_by,:created_by, :receipt_image], inovice_item_ids: []
 
   csv do
@@ -6,7 +7,7 @@ ActiveAdmin.register Invoice do
       item.student.student_id
     end
     column "student full name" do |item|
-      item.student.name.full.upcase
+      "#{n.first_name.upcase} #{n.middle_name.upcase} #{n.last_name.upcase}"
     end
     column :invoice_number
     column :registration_fee
@@ -163,7 +164,7 @@ ActiveAdmin.register Invoice do
         panel "Student Information" do
           attributes_table_for invoice.semester_registration do
             row "Student name", sortable: true do |n|
-              n.student.name.full 
+              "#{n.first_name.upcase} #{n.middle_name.upcase} #{n.last_name.upcase}"
             end
             row "student ID" do |s|
               s.student.student_id

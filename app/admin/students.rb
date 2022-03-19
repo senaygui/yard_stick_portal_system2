@@ -1,4 +1,5 @@
 ActiveAdmin.register Student do
+    config.sort_order = "created_at_desc"
     active_admin_import :validate => false,
                             :before_batch_import => proc { |import|
                               import.csv_lines.length.times do |i|
@@ -107,7 +108,7 @@ ActiveAdmin.register Student do
     selectable_column
     column :student_id
     column "full name", sortable: true do |n|
-      n.name.full.upcase
+      "#{n.first_name.upcase} #{n.middle_name.upcase} #{n.last_name.upcase}"
     end
     column "Department", sortable: true do |d|
       link_to d.program.department.department_name, [:admin, d.program.department]
@@ -184,9 +185,10 @@ ActiveAdmin.register Student do
             end
           end
         end
-        f.input :first_name
-        f.input :last_name
-        f.input :middle_name
+        f.input :first_name, label: "First Name"
+        f.input :middle_name, label: "Father Name"
+        f.input :last_name, label: "Grand Father Name"
+        
         if !f.object.new_record?
           if current_admin_user.role == "admin"
             f.input :student_id
@@ -298,7 +300,7 @@ ActiveAdmin.register Student do
   action_item :edit, only: :show do
     link_to 'Approve Student', edit_admin_student_path(student.id)
   end
-  show :title => proc{|student| truncate(student.name.full, length: 50) } do
+  show :title => proc{|student| truncate("#{student.first_name.upcase} #{student.middle_name.upcase} #{student.last_name.upcase}", length: 50) } do
     tabs do
       tab "student General information" do
         panel "Student Main information" do
@@ -311,7 +313,7 @@ ActiveAdmin.register Student do
               end
             end
             row "full name", sortable: true do |n|
-              n.name.full.upcase
+              "#{n.first_name.upcase} #{n.middle_name.upcase} #{n.last_name.upcase}"
             end
             row "Student ID" do |si|
               si.student_id

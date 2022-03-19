@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-12 col-md-6 form-group">
-    <%= f.input :study_level, as: :select, :collection => ["Graduate"], input_html: {class: "form-control custom-select"}, :include_blank => false%>
+    <%= f.input :study_level, as: :select, :collection => ["Masters","Graduate"], input_html: {class: "form-control custom-select"}, :include_blank => false%>
   </div>
   <div class="col-12 col-md-6 form-group">
-    <%= f.input :admission_type, as: :select, :collection => [["Online","online"], ["Regular","regular"], ["Extention","extention"], ["Distance","distance"]], input_html: {class: "form-control custom-select"}, :include_blank => false%>
+    <%= f.input :admission_type, as: :select, :collection => [["Online","online"]], input_html: {class: "form-control custom-select"}, :include_blank => false%>
   </div>
   <div class="col-12 col-md-6 form-group">
     <%= f.input :program_id, as: :select, :collection => Program.all.pluck(:program_name, :id), input_html: {class: "form-control custom-select"}%>

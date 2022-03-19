@@ -39,7 +39,7 @@
               <%end%>
             <ul class="list-group list-group-unbordered mb-3">
               <li class="list-group-item mx-3">
-                <b>Student Fullname</b> <a class="text-muted float-right"><%= current_student.name.full.upcase%></a>
+                <b>Student Fullname</b> <a class="text-muted float-right"><%= "#{current_student.first_name.upcase} #{current_student.middle_name.upcase} #{current_student.last_name.upcase}"%></a>
               </li>
               <li class="list-group-item mx-3">
                 <b>Student ID</b> <a class="text-muted float-right"><%= current_student.student_id.present? ? current_student.student_id : "Not Assigned Yet"%></a>
