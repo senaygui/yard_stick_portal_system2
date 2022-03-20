@@ -7,7 +7,7 @@ ActiveAdmin.register Invoice do
       item.student.student_id
     end
     column "student full name" do |item|
-      "#{n.first_name.upcase} #{n.middle_name.upcase} #{n.last_name.upcase}"
+      "#{item.student.first_name.upcase} #{item.student.middle_name.upcase} #{item.student.last_name.upcase}"
     end
     column :invoice_number
     column :registration_fee
@@ -23,8 +23,9 @@ ActiveAdmin.register Invoice do
   index do
     selectable_column
     column "invoice no",:invoice_number
-    column "student", sortable: true do |n|
-      n.semester_registration.student.name.full 
+    column "student", sortable: true do |item|
+      "#{item.student.first_name.upcase} #{item.student.middle_name.upcase} #{item.student.last_name.upcase}"
+      
     end
     column "admission type", sortable: true do |n|
       n.semester_registration.admission_type 
@@ -164,7 +165,7 @@ ActiveAdmin.register Invoice do
         panel "Student Information" do
           attributes_table_for invoice.semester_registration do
             row "Student name", sortable: true do |n|
-              "#{n.first_name.upcase} #{n.middle_name.upcase} #{n.last_name.upcase}"
+              "#{n.student.first_name.upcase} #{n.student.middle_name.upcase} #{n.student.last_name.upcase}"
             end
             row "student ID" do |s|
               s.student.student_id

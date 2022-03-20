@@ -59,20 +59,6 @@ gem "active_admin_import"
 # gem 'active_admin_scoped_collection_actions'
 gem 'active_admin_scoped_collection_actions', '~> 0.4.0'
 # Reduces boot times through caching; required in config/boot.rb
-
-gem 'cloudinary'
-
-gem 'kaminari', '~> 1.2', '>= 1.2.1'
-gem 'friendly_id', '~> 5.4', '>= 5.4.2'
-
-gem "rqrcode", "~> 2.1"
-
-gem "chunky_png", "~> 1.4"
-
-gem "barby", "~> 0.6.8"
-
-gem 'ckeditor', '~> 4.3.0' 
-
 gem 'bootsnap', '>= 1.1.0', require: false
 
 group :development, :test do

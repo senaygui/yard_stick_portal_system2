@@ -81,7 +81,7 @@ ActiveAdmin.register SemesterRegistration do
   index do
     selectable_column
     column "student name", sortable: true do |n|
-      "#{n.first_name.upcase} #{n.middle_name.upcase} #{n.last_name.upcase}"
+      "#{n.student.first_name.upcase} #{n.student.middle_name.upcase} #{n.student.last_name.upcase}"
     end
     column :admission_type
     column :study_level
@@ -136,7 +136,7 @@ ActiveAdmin.register SemesterRegistration do
             #   span image_tag(pt.student.photo, size: '150x150', class: "img-corner")
             # end
             row "full name", sortable: true do |n|
-              "#{n.first_name.upcase} #{n.middle_name.upcase} #{n.last_name.upcase}"
+              "#{n.student.first_name.upcase} #{n.student.middle_name.upcase} #{n.student.last_name.upcase}"
             end
             row "Student ID" do |si|
               si.student.student_id
@@ -198,7 +198,7 @@ ActiveAdmin.register SemesterRegistration do
     panel "Student registration information" do
       attributes_table_for semester_registration do
         row "full name", sortable: true do |n|
-          link_to "#{n.first_name.upcase} #{n.middle_name.upcase} #{n.last_name.upcase}" , admin_student_path(n.student.id) 
+          link_to "#{n.student.first_name.upcase} #{n.student.middle_name.upcase} #{n.student.last_name.upcase}" , admin_student_path(n.student.id) 
         end
         row "Student ID" do |si|
           si.student.student_id
