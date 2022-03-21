@@ -1,6 +1,7 @@
 class Invoice < ApplicationRecord
 	after_create :add_invoice_item
 	after_save :approve_semester_registration
+	after_update :set_dept
 	# after_update :update_total_price
 	##validations
     validates :invoice_number , :presence => true
@@ -28,6 +29,15 @@ class Invoice < ApplicationRecord
  #  end
   
   private
+
+  	def set_dept
+  		if !self.student_name.present? && !self.department.present? && !self.program.present?
+				self.update_columns(student_name: "#{self.student.first_name} #{self.student.middle_name} #{self.student.last_name}")
+				self.update_columns(department: self.student.department)
+				self.update_columns(program: self.student.program.program_name)
+
+    	end
+  	end
 
   	def add_invoice_item
 			self.semester_registration.course_registrations.each do |course|

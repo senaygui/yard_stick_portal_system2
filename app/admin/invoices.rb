@@ -1,6 +1,12 @@
 ActiveAdmin.register Invoice do
   config.sort_order = "updated_at_desc"
-  permit_params :semester_registration_id,:invoice_number,:total_price,:registration_fee,:late_registration_fee,:penalty,:daily_penalty,:invoice_status,:last_updated_by,:created_by,:due_date,payment_transaction_attributes: [:id,:invoice_id,:payment_method_id,:account_holder_fullname,:phone_number,:account_number,:transaction_reference,:finance_approval_status,:last_updated_by,:created_by, :receipt_image], inovice_item_ids: []
+  permit_params :semester_registration_id,:student_name,:department,:program,:invoice_number,:total_price,:registration_fee,:late_registration_fee,:penalty,:daily_penalty,:invoice_status,:last_updated_by,:created_by,:due_date,payment_transaction_attributes: [:id,:invoice_id,:payment_method_id,:account_holder_fullname,:phone_number,:account_number,:transaction_reference,:finance_approval_status,:last_updated_by,:created_by, :receipt_image], inovice_item_ids: []
+
+    scoped_collection_action :scoped_collection_update, form: -> do
+                                         { 
+                                          late_registration_fee: 'text'
+                                          }
+                                        end
 
   csv do
     column "student id" do |item|
@@ -14,10 +20,14 @@ ActiveAdmin.register Invoice do
     column :total_price
     column :invoice_status
     column :finance_approval_status do |e|
-      e.payment_transaction.finance_approval_status if e.payment_transaction.finance_approval_status.present?
+      if e.payment_transaction.present?
+        e.payment_transaction.finance_approval_status 
+      end
     end
     column :finance_approval_status do |e|
-      e.payment_transaction.finance_approval_status if e.payment_transaction.finance_approval_status.present?
+      if e.payment_transaction.present?
+        e.payment_transaction.finance_approval_status 
+      end
     end
   end
   index do
@@ -59,6 +69,9 @@ ActiveAdmin.register Invoice do
   filter :student_id, as: :search_select_filter, url: proc { admin_students_path },
          fields: [:student_id, :id], display_name: 'student_id', minimum_input_length: 2,
          order_by: 'id_asc'
+  filter :student_name
+  filter :department
+  filter :program
   filter :invoice_number
   filter :total_price
   filter :registration_fee
@@ -118,6 +131,7 @@ ActiveAdmin.register Invoice do
             row "payment mode", sortable: true do |n|
               n.semester_registration.mode_of_payment
             end
+            row :department
             row :due_date if invoice.due_date.present?
             number_row :registration_fee, as: :currency, unit: "ETB",  format: "%n %u" ,delimiter: ",", precision: 2 if invoice.registration_fee > 0
             number_row :late_registration_fee, as: :currency, unit: "ETB",  format: "%n %u" ,delimiter: ",", precision: 2 if invoice.late_registration_fee > 0 
@@ -173,6 +187,7 @@ ActiveAdmin.register Invoice do
             row "Prorgam", sortable: true do |d|
               link_to d.student.program.program_name, [:admin, d.student.program]
             end
+
             row "admission type", sortable: true do |n|
               n.admission_type 
             end

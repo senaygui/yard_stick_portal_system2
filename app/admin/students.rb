@@ -212,8 +212,8 @@ ActiveAdmin.register Student do
         f.input :current_location   
       end
       f.inputs "Student admission information" do
-        f.input :study_level, as: :select, :collection => ["undergraduate", "graduate", "TPVT"], :include_blank => false
-        f.input :admission_type, as: :select, :collection => ["online", "regular", "extention", "distance"], :include_blank => false
+        f.input :study_level, as: :select, :collection => ["graduate"], :include_blank => false
+        f.input :admission_type, as: :select, :collection => ["online"], :include_blank => false
         f.input :program_id, as: :search_select, url: admin_programs_path,
             fields: [:program_name, :id], display_name: 'program_name', minimum_input_length: 2,
             order_by: 'id_asc'

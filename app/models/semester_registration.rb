@@ -49,6 +49,9 @@ class SemesterRegistration < ApplicationRecord
 	  				invoice.student_id = self.student.id
 	  				invoice.created_by = self.created_by
 	  				invoice.due_date = self.created_at.day + 2.days 
+	  				invoice.student_name = "#{self.student.first_name} #{self.student.middle_name} #{self.student.last_name}"
+	  				invoice.department = self.student.department
+	  				invoice.program = self.student.program.program_name
 	  				invoice.invoice_status = "not submitted"
 	  				if (self.semester == 1) && (self.year == 1)
 							invoice.registration_fee = 550
