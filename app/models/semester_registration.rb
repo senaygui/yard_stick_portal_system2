@@ -1,5 +1,6 @@
 class SemesterRegistration < ApplicationRecord
 	after_save :generate_invoice
+	after_save :generate_grade_report
 	after_create :second_semester_course
 	after_create :first_semester_course
 	##validations
@@ -20,26 +21,30 @@ class SemesterRegistration < ApplicationRecord
   	has_many :curriculums, through: :course_registrations, dependent: :destroy
   	# accepts_nested_attributes_for :course_registrations, reject_if: :all_blank, allow_destroy: true
   	has_many :invoices
-  	has_one :grade_reports
+  	has_one :grade_report
 
   def generate_grade_report
+  	if self.grade_report.nil?
   		GradeReport.create do |grade_report|
 					grade_report.semester_registration_id = self.id
 					grade_report.student_id = self.student.id
 					grade_report.academic_calendar_id = self.academic_calendar.id
 					grade_report.semester= self.student.semester
 					grade_report.year= self.student.year
-					sgp = course_registrations.collect { |oi| oi.valid? ? (oi.curriculum.credit_hour * oi.student_grade.grade_letter_value) : 0 }.sum
+					sgp = course_registrations.collect { |oi| oi.valid? ? (oi.curriculum.credit_hour * oi.semester_registration.student.student_grades.where(course_id: oi.curriculum.course_id).last.grade_letter_value) : 0 }.sum
 					total_credit_hour = course_registrations.collect { |oi| oi.valid? ? (oi.curriculum.credit_hour) : 0 }.sum
 					grade_report.cgpa = sgp / total_credit_hour
 					grade_report.sgpa = sgp / total_credit_hour
 					if GradeRule.all.last.min_cgpa_value_to_pass <= grade_report.cgpa
 						grade_report.academic_status = "Promoted"
+					elsif 2.5 > grade_report.cgpa
+						grade_report.academic_status = "Probation"
 					elsif GradeRule.all.last.min_cgpa_value_to_pass > grade_report.cgpa
-						grade_report.academic_status = "failed"
+						grade_report.academic_status = "Failed"
 					end
 					
 			end
+		end
   end
   private	
 	  	def generate_invoice

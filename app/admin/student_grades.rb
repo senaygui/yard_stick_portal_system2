@@ -2,7 +2,16 @@ ActiveAdmin.register StudentGrade do
   config.sort_order = "created_at_desc"
   permit_params :course_registration_id,:student_id,:grade_in_letter,:grade_in_number,:course_id,assessments_attributes: [:id,:assessment,:result, :_destroy]
 
-
+   active_admin_import validate: true,
+                      headers_rewrites: { 'ID': :student_id },
+                      before_batch_import: ->(importer) {
+                        student_ids = importer.values_at(:student_id)
+                        # replacing author name with author id
+                        students   = Student.where(student_id: student_ids).pluck(:student_id, :id)
+                        options = Hash[*students.flatten] # #{"Jane" => 2, "John" => 1}
+                        importer.batch_replace(:student_id, options)
+                      }
+                    
   member_action :generate_grade, method: :put do
     @student_grade= StudentGrade.find(params[:id])
     @student_grade.generate_grade
@@ -14,7 +23,7 @@ ActiveAdmin.register StudentGrade do
   index do
     selectable_column
     column "full name", sortable: true do |n|
-      "#{n.first_name.upcase} #{n.middle_name.upcase} #{n.last_name.upcase}" 
+      "#{n.student.first_name.upcase} #{n.student.middle_name.upcase} #{n.student.last_name.upcase}" 
     end
     column "Student ID" do |si|
       si.student.student_id
@@ -23,6 +32,7 @@ ActiveAdmin.register StudentGrade do
       si.course.course_title
     end
     column :grade_in_letter
+    column :grade_letter_value
     column :grade_in_number
     column "Created At", sortable: true do |c|
       c.created_at.strftime("%b %d, %Y")
@@ -72,6 +82,7 @@ ActiveAdmin.register StudentGrade do
           link_to pr.student.program.program_name, admin_program_path(pr.student.program.id)
         end
         row :grade_in_letter
+        row :grade_letter_value
         row :grade_in_number
         row :created_at
         row :updated_at

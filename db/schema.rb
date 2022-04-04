@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_20_090824) do
+ActiveRecord::Schema.define(version: 2022_04_04_075430) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -286,6 +286,11 @@ ActiveRecord::Schema.define(version: 2022_03_20_090824) do
     t.string "academic_status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "previous_credit_hr_total"
+    t.decimal "semester_credit_hr_total"
+    t.decimal "previous_grade_point_total"
+    t.decimal "previous_ang_total"
+    t.decimal "previous_alg_total"
     t.index ["academic_calendar_id"], name: "index_grade_reports_on_academic_calendar_id"
     t.index ["semester_registration_id"], name: "index_grade_reports_on_semester_registration_id"
     t.index ["student_id"], name: "index_grade_reports_on_student_id"
@@ -440,7 +445,6 @@ ActiveRecord::Schema.define(version: 2022_03_20_090824) do
   end
 
   create_table "student_grades", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.bigint "course_registration_id"
     t.uuid "student_id"
     t.string "grade_in_letter"
     t.string "grade_in_number"
@@ -449,7 +453,6 @@ ActiveRecord::Schema.define(version: 2022_03_20_090824) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["course_id"], name: "index_student_grades_on_course_id"
-    t.index ["course_registration_id"], name: "index_student_grades_on_course_registration_id"
     t.index ["student_id"], name: "index_student_grades_on_student_id"
   end
 

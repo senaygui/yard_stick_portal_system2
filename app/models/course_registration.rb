@@ -5,7 +5,7 @@ class CourseRegistration < ApplicationRecord
 	  belongs_to :semester_registration
 	  belongs_to :curriculum
 	  has_many :invoice_items
-	  has_one :student_grade, dependent: :destroy
+	  # has_one :student_grade, dependent: :destroy
 
 
 	private
