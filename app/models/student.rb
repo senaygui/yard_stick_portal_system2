@@ -83,7 +83,7 @@ class Student < ApplicationRecord
   end
 
   def student_semester_registration
-   if ((self.semester_registrations.where(semester: 1).empty?) && (self.semester == 1) && (self.year == 1)) 
+   if ((self.semester_registrations.where(year: 1).where(semester: 1).empty?) && (self.semester == 1) && (self.year == 1)) 
     SemesterRegistration.create do |registration|
       registration.student_id = self.id
       registration.created_by = self.created_by
