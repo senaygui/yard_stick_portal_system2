@@ -7,6 +7,15 @@ ActiveAdmin.register SemesterRegistration do
                                           remaining_amount: 'text'
                                           }
                                         end
+    active_admin_import validate: true,
+                      headers_rewrites: { 'ID': :student_id },
+                      before_batch_import: ->(importer) {
+                        student_ids = importer.values_at(:student_id)
+                        # replacing author name with author id
+                        students   = Student.where(student_id: student_ids).pluck(:student_id, :id)
+                        options = Hash[*students.flatten] # #{"Jane" => 2, "John" => 1}
+                        importer.batch_replace(:student_id, options)
+                      }
   csv do
     column "username" do |username|
       username.student.student_id

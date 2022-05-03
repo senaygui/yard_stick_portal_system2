@@ -24,13 +24,13 @@ class SemesterRegistration < ApplicationRecord
   	has_one :grade_report
 
   def generate_grade_report
-  	if (self.remaining_amount > 1) && (self.grade_report.nil?)
+  	if (self.remaining_amount == 1) && (self.grade_report.nil?) && (self.semester == 2)
   		GradeReport.create do |grade_report|
 					grade_report.semester_registration_id = self.id
 					grade_report.student_id = self.student.id
-					grade_report.academic_calendar_id = self.academic_calendar.id
-					grade_report.semester= self.student.semester
-					grade_report.year= self.student.year
+					grade_report.academic_calendar_id = 3
+					grade_report.semester= 1
+					grade_report.year= 1
 					sgp = course_registrations.collect { |oi| oi.valid? ? (oi.curriculum.credit_hour * oi.semester_registration.student.student_grades.where(course_id: oi.curriculum.course_id).last.grade_letter_value) : 0 }.sum
 					total_credit_hour = course_registrations.collect { |oi| oi.valid? ? (oi.curriculum.credit_hour) : 0 }.sum
 					grade_report.cgpa = sgp / total_credit_hour
@@ -45,6 +45,19 @@ class SemesterRegistration < ApplicationRecord
 					
 			end
 		end
+  end
+
+  def add_course_for_reg
+  	if (self.remaining_amount == 2) && (self.course_registrations.empty?) && (self.semester == 2)
+  		self.student.program.curriculums.where(year: 1, semester: 1).each do |co|
+  			CourseRegistration.create do |course|
+  				course.semester_registration_id = self.id
+  				course.curriculum_id = co.id
+  				course.course_title = co.course.course_title
+			    # course.course_title = co.course.course_title
+			  end
+			end
+  	end
   end
   private	
 	  	def generate_invoice

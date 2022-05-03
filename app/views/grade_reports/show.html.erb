@@ -98,7 +98,7 @@
 						        <td><%= course.curriculum.course.course_module.module_code %></td>
 						        <td><%= course.curriculum.course.course_code %></td>
 						        <td><%= course.curriculum.credit_hour %></td>
-						        <td><%= course.student_grade.grade_in_letter %></td>
+						        <td><%= semester_registration.student.student_grades.where(course_id: course.course.id).last.grade_in_letter %></td>
 						      </tr>
 						    <% end %>
 						  </tbody>
