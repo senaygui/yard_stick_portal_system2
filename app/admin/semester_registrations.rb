@@ -128,6 +128,7 @@ ActiveAdmin.register SemesterRegistration do
   filter :program_name
   filter :registrar_approval_status
   filter :finance_approval_status
+  filter :remaining_amount
   filter :last_updated_by
   filter :created_by
   filter :created_at
