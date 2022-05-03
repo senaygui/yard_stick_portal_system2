@@ -1,6 +1,6 @@
 class CourseRegistration < ApplicationRecord
 	after_create :add_invoice_item
-	after_create :add_grade
+	# after_create :add_grade
 	##associations
 	  belongs_to :semester_registration
 	  belongs_to :curriculum
