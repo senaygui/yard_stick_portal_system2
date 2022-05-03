@@ -49,7 +49,7 @@ class SemesterRegistration < ApplicationRecord
   end
 
   def add_course_for_reg
-  	if (self.remaining_amount == 2) && (self.course_registrations.empty?) && (self.semester == 2)
+  	if (self.remaining_amount == 3) && (self.course_registrations.empty?) && (self.semester == 1)
   		self.student.program.curriculums.where(year: 1, semester: 1).each do |co|
   			CourseRegistration.create do |course|
   				course.semester_registration_id = self.id
