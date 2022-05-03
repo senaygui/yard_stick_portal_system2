@@ -1,6 +1,6 @@
 class SemesterRegistration < ApplicationRecord
 	after_save :generate_invoice
-	# after_save :generate_grade_report
+	after_save :generate_grade_report
 	after_save :add_course_for_reg
 	after_create :second_semester_course
 	after_create :first_semester_course
@@ -25,7 +25,7 @@ class SemesterRegistration < ApplicationRecord
   	has_one :grade_report
 
   def generate_grade_report
-  	if (self.remaining_amount == 1) && (self.grade_report.nil?) && (self.semester == 2)
+  	if (self.remaining_amount == 5) && (self.grade_report.nil?) && (self.semester == 2)
   		GradeReport.create do |grade_report|
 					grade_report.semester_registration_id = self.id
 					grade_report.student_id = self.student.id
@@ -48,18 +48,18 @@ class SemesterRegistration < ApplicationRecord
 		end
   end
 
-  def add_course_for_reg
-  	if (self.remaining_amount == 3) && (self.course_registrations.empty?) && (self.semester == 1)
-  		self.student.program.curriculums.where(year: 1, semester: 1).each do |co|
-  			CourseRegistration.create do |course|
-  				course.semester_registration_id = self.id
-  				course.curriculum_id = co.id
-  				course.course_title = co.course.course_title
-			    # course.course_title = co.course.course_title
-			  end
-			end
-  	end
-  end
+  # def add_course_for_reg
+  # 	if (self.remaining_amount == 3) && (self.course_registrations.empty?) && (self.semester == 1)
+  # 		self.student.program.curriculums.where(year: 1, semester: 1).each do |co|
+  # 			CourseRegistration.create do |course|
+  # 				course.semester_registration_id = self.id
+  # 				course.curriculum_id = co.id
+  # 				course.course_title = co.course.course_title
+		# 	    # course.course_title = co.course.course_title
+		# 	  end
+		# 	end
+  # 	end
+  # end
   private	
 	  	def generate_invoice
 	  		if self.mode_of_payment.present? && self.invoices.empty?
