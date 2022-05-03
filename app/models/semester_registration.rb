@@ -1,6 +1,7 @@
 class SemesterRegistration < ApplicationRecord
 	after_save :generate_invoice
 	after_save :generate_grade_report
+	after_save :add_course_for_reg
 	after_create :second_semester_course
 	after_create :first_semester_course
 	##validations
