@@ -25,7 +25,7 @@ class SemesterRegistration < ApplicationRecord
   	has_one :grade_report
 
   def generate_grade_report
-  	if (self.remaining_amount == 5) && (self.grade_report.nil?)
+  	if (self.remaining_amount == 5)
   		GradeReport.create do |grade_report|
 					grade_report.semester_registration_id = self.id
 					grade_report.student_id = self.student.id
