@@ -1,7 +1,7 @@
 class SemesterRegistration < ApplicationRecord
 	after_save :generate_invoice
 	after_save :generate_grade_report
-	after_save :add_course_for_reg
+	# after_save :add_course_for_reg
 	after_create :second_semester_course
 	after_create :first_semester_course
 	##validations
@@ -25,7 +25,7 @@ class SemesterRegistration < ApplicationRecord
   	has_one :grade_report
 
   def generate_grade_report
-  	if (self.remaining_amount == 5) && (self.grade_report.nil?) && (self.semester == 2)
+  	if (self.remaining_amount == 5) && (self.grade_report.nil?)
   		GradeReport.create do |grade_report|
 					grade_report.semester_registration_id = self.id
 					grade_report.student_id = self.student.id
