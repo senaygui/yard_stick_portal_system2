@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_04_075430) do
+ActiveRecord::Schema.define(version: 2022_05_05_102733) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -110,7 +110,11 @@ ActiveRecord::Schema.define(version: 2022_04_04_075430) do
     t.decimal "result"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "student_id"
+    t.bigint "course_id"
+    t.index ["course_id"], name: "index_assessments_on_course_id"
     t.index ["student_grade_id"], name: "index_assessments_on_student_grade_id"
+    t.index ["student_id"], name: "index_assessments_on_student_id"
   end
 
   create_table "college_payments", force: :cascade do |t|

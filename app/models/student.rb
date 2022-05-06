@@ -25,6 +25,7 @@ class Student < ApplicationRecord
     has_one_attached :photo, dependent: :destroy
     has_many :student_grades, dependent: :destroy
     has_many :grade_reports
+    has_many :assessments
   ##validations
     validates :first_name , :presence => true,:length => { :within => 2..100 }
     validates :middle_name , :presence => true,:length => { :within => 2..100 }
