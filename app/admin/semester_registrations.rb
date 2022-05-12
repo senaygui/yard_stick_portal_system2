@@ -1,7 +1,7 @@
 ActiveAdmin.register SemesterRegistration do
   config.sort_order = "created_at_desc"
   menu priority: 9
-  permit_params :student_id,:total_price,:registration_fee,:late_registration_fee,:remaining_amount,:mode_of_payment,:semester,:year,:total_enrolled_course,:academic_calendar_id,:registrar_approval_status,:finance_approval_status,:created_by,:last_updated_by, curriculum_ids: []
+  permit_params :created_at,:student_id,:total_price,:registration_fee,:late_registration_fee,:remaining_amount,:mode_of_payment,:semester,:year,:total_enrolled_course,:academic_calendar_id,:registrar_approval_status,:finance_approval_status,:created_by,:last_updated_by, curriculum_ids: []
     scoped_collection_action :scoped_collection_update, form: -> do
                                          { 
                                           remaining_amount: 'text',
