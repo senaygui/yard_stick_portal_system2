@@ -2,6 +2,12 @@ ActiveAdmin.register CourseRegistration do
   config.batch_actions = true
   permit_params :semester_registration,:curriculum,:enrollment_status,:course_title
 
+  scoped_collection_action :scoped_collection_update, form: -> do
+                                         { 
+                                          created_by: 'text',
+                                          }
+                                        end
+
   # controller do
   #   def scoped_collection
   #     super.where("enrollment_status = ?", "enrolled")
