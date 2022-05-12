@@ -18,6 +18,7 @@ class Ability
         can :manage, GradeRule
         can :manage, Grade
         can :manage, AdminUser
+        can :manage, CourseRegistration
         can :manage, ActiveAdmin::Page, name: "Dashboard", namespace_name: "admin"
         can :manage, Program
         can :manage, College
