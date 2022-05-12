@@ -1,11 +1,11 @@
 class CourseRegistration < ApplicationRecord
 	after_create :add_invoice_item
-	# after_create :add_grade
+	after_save :add_grade
 	##associations
 	  belongs_to :semester_registration
 	  belongs_to :curriculum
 	  has_many :invoice_items
-	  # has_one :student_grade, dependent: :destroy
+	  has_one :student_grade, dependent: :destroy
 
 
 	private
@@ -28,7 +28,7 @@ class CourseRegistration < ApplicationRecord
 		end
 
 		def add_grade
-			if self.semester_registration.registrar_approval_status == "approved"
+			if (self.semester_registration.registrar_approval_status == "approved") && (self.student_grade.empty?)
 				StudentGrade.create do |student_grade|
 						student_grade.course_registration_id = self.id
 						student_grade.student_id = self.semester_registration.student.id 

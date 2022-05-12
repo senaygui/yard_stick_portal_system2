@@ -4,7 +4,8 @@ ActiveAdmin.register SemesterRegistration do
   permit_params :student_id,:total_price,:registration_fee,:late_registration_fee,:remaining_amount,:mode_of_payment,:semester,:year,:total_enrolled_course,:academic_calendar_id,:registrar_approval_status,:finance_approval_status,:created_by,:last_updated_by, curriculum_ids: []
     scoped_collection_action :scoped_collection_update, form: -> do
                                          { 
-                                          remaining_amount: 'text'
+                                          remaining_amount: 'text',
+                                          created_by: 'text'
                                           }
                                         end
     active_admin_import validate: true,
@@ -96,6 +97,9 @@ ActiveAdmin.register SemesterRegistration do
     selectable_column
     column "student name", sortable: true do |n|
       "#{n.student.first_name.upcase} #{n.student.middle_name.upcase} #{n.student.last_name.upcase}"
+    end
+    column "Student ID" do |si|
+      si.student.student_id
     end
     column :admission_type
     column :study_level

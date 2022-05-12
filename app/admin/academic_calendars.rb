@@ -50,6 +50,7 @@ permit_params :calender_year,:starting_date,:ending_date,:admission_type,:study_
       f.input :from_year
       f.input :to_year
       f.input :remark
+      f.input :created_at, as: :date_time_picker 
       if f.object.activities.empty?
         f.object.activities << Activity.new
       end

@@ -449,6 +449,7 @@ ActiveRecord::Schema.define(version: 2022_05_05_102733) do
   end
 
   create_table "student_grades", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.bigint "course_registration_id"
     t.uuid "student_id"
     t.string "grade_in_letter"
     t.string "grade_in_number"
@@ -457,6 +458,7 @@ ActiveRecord::Schema.define(version: 2022_05_05_102733) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["course_id"], name: "index_student_grades_on_course_id"
+    t.index ["course_registration_id"], name: "index_student_grades_on_course_registration_id"
     t.index ["student_id"], name: "index_student_grades_on_student_id"
   end
 
