@@ -1,7 +1,7 @@
 class CourseRegistration < ApplicationRecord
 	after_create :add_invoice_item
-	# after_save :add_grade
-	after_save :add_student
+	after_save :add_grade
+	# after_save :add_student
 	##associations
 	  belongs_to :semester_registration
 	  belongs_to :curriculum
@@ -29,19 +29,20 @@ class CourseRegistration < ApplicationRecord
 			end
 		end
 
-		# def add_grade
-		# 	if (self.semester_registration.registrar_approval_status == "approved") && (self.student_grade.empty?)
-		# 		StudentGrade.create do |student_grade|
-		# 				student_grade.course_registration_id = self.id
-		# 				student_grade.student_id = self.semester_registration.student.id 
-		# 				student_grade.course_id = self.curriculum.course.id
-		# 		end
-		# 	end
-		# end
-
-		def add_student
-			students = Student.find_by(id: self.semester_registration.student.id)
-			self.update_column(:student_id, students.id)
-			self.update_column(:student_id_number, students.student_id)
+		def add_grade
+			if !(self.student_grade.present?)
+				StudentGrade.create do |student_grade|
+						student_grade.course_registration_id = self.id
+						student_grade.student_id = self.semester_registration.student.id 
+						student_grade.course_id = self.curriculum.course.id
+				end
+			end
 		end
+
+		# (self.semester_registration.registrar_approval_status == "approved") &&
+		# def add_student
+		# 	students = Student.find_by(id: self.semester_registration.student.id)
+		# 	self.update_column(:student_id, students.id)
+		# 	self.update_column(:student_id_number, students.student_id)
+		# end
 end
