@@ -1,5 +1,5 @@
 class StudentGrade < ApplicationRecord
-  # belongs_to :course_registration
+  belongs_to :course_registration
   belongs_to :student
   belongs_to :course
   has_many :assessments, dependent: :destroy
