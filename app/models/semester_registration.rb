@@ -2,7 +2,7 @@ class SemesterRegistration < ApplicationRecord
 	after_save :generate_invoice
 	# after_save :generate_grade_report
 	# after_save :add_course_for_reg
-	after_create :second_semester_course
+	# after_create :second_semester_course
 	after_create :first_semester_course
 	##validations
 	  validates :semester, :presence => true
@@ -109,16 +109,16 @@ class SemesterRegistration < ApplicationRecord
 			    end
 			  end
 	  	end
-	  	def second_semester_course
-	  		if (self.course_registrations.empty?) && (self.semester == 2)
-			    self.student.program.curriculums.where(year: self.student.year, semester: self.student.semester).each do |co|
-			      CourseRegistration.create do |course|
-			        course.semester_registration_id = self.id
-			        course.curriculum_id = co.id
-			        course.course_title = co.course.course_title
-			        # course.course_title = co.course.course_title
-			      end
-			    end
-			  end
-	  	end
+	  	# def second_semester_course
+	  	# 	if (self.course_registrations.empty?) && (self.semester == 2)
+			 #    self.student.program.curriculums.where(year: self.student.year, semester: self.student.semester).each do |co|
+			 #      CourseRegistration.create do |course|
+			 #        course.semester_registration_id = self.id
+			 #        course.curriculum_id = co.id
+			 #        course.course_title = co.course.course_title
+			 #        # course.course_title = co.course.course_title
+			 #      end
+			 #    end
+			 #  end
+	  	# end
 end

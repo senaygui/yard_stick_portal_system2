@@ -5,7 +5,8 @@ ActiveAdmin.register SemesterRegistration do
     scoped_collection_action :scoped_collection_update, form: -> do
                                          { 
                                           remaining_amount: 'text',
-                                          created_by: 'text'
+                                          created_by: 'text',
+                                          academic_calendar_id: AcademicCalendar.all.map { |ac| [ac.calender_year, ac.id] }
                                           }
                                         end
     active_admin_import validate: true,
