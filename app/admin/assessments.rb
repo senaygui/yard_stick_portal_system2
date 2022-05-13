@@ -26,5 +26,21 @@ ActiveAdmin.register Assessment do
   filter :result
   filter :created_at
   filter :updated_at
+
+  form do |f|
+    f.semantic_errors
+    f.inputs "Assessment information" do
+      f.input :student_id, as: :search_select, url: admin_students_path,
+          fields: [:student_id, :id], display_name: 'student_id', minimum_input_length: 2,
+          order_by: 'id_asc'
+      f.input :course_id, as: :search_select, url: admin_courses_path,
+          fields: [:course_title, :id], display_name: 'course_title', minimum_input_length: 2,
+          order_by: 'id_asc'
+      f.input :assessment
+      f.input :result
+            
+    end
+    f.actions
+  end
   
 end
