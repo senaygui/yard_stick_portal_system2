@@ -1,4 +1,5 @@
 ActiveAdmin.register Assessment do
+  config.sort_order = "created_at_asc"
   permit_params :student_grade_id, :assessment, :result, :student_id, :course_id
   scoped_collection_action :scoped_collection_update, form: -> do
                                          { 
