@@ -15,19 +15,16 @@ ActiveAdmin.register Assessment do
                         options = Hash[*students.flatten] # #{"Jane" => 2, "John" => 1}
                         importer.batch_replace(:student_id, options)
                       }
-  # See permitted parameters documentation:
-  # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-  #
-  # Uncomment all parameters which should be permitted for assignment
-  #
+  filter :student_id, as: :search_select_filter, url: proc { admin_students_path },
+         fields: [:student_id, :id], display_name: 'student_id', minimum_input_length: 2,
+         order_by: 'id_asc'
+  filter :course_id, as: :search_select_filter, url: proc { admin_courses_path },
+         fields: [:course_title, :id], display_name: 'course_title', minimum_input_length: 2,
+         order_by: 'id_asc'
 
-  #
-  # or
-  #
-  # permit_params do
-  #   permitted = [:student_grade_id, :assessment, :result]
-  #   permitted << :other if params[:action] == 'create' && current_user.admin?
-  #   permitted
-  # end
+  filter :assessment
+  filter :result
+  filter :created_at
+  filter :updated_at
   
 end
