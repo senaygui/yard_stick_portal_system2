@@ -7,9 +7,9 @@ class Assessment < ApplicationRecord
 
 	def generate_student_grade
 		if self.student.present?
-			grade = StudentGrade.where(student_id: self.student_id).where(course_id: self.course_id).first.id
+			grade = StudentGrade.where(student_id: self.student_id).where(course_id: self.course_id).first
 			if grade.present?
-				self.update_column(:student_grade_id, grade)
+				self.update_column(:student_grade_id, grade.id)
 			end
 		end
 	end
