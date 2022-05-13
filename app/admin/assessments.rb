@@ -22,6 +22,31 @@ ActiveAdmin.register Assessment do
          fields: [:course_title, :id], display_name: 'course_title', minimum_input_length: 2,
          order_by: 'id_asc'
 
+
+
+  index do
+    selectable_column
+    column :student_grade_id
+    column "student name", sortable: true do |n|
+      "#{n.student.first_name.upcase} #{n.student.middle_name.upcase} #{n.student.last_name.upcase}"
+    end
+    column "Student ID" do |si|
+      si.student.student_id
+    end
+    column "Course" do |si|
+      si.course.course_title
+    end
+    column :assessment
+    column :result
+    column "Updated At", sortable: true do |c|
+      c.updated_at.strftime("%b %d, %Y")
+    end
+    column "Created At", sortable: true do |c|
+      c.created_at.strftime("%b %d, %Y")
+    end
+    actions
+  end
+
   filter :assessment
   filter :result
   filter :created_at

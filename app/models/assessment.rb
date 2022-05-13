@@ -6,8 +6,10 @@ class Assessment < ApplicationRecord
 	belongs_to :course
 
 	def generate_student_grade
-		grade = StudentGrade.where(student_id: self.student_id).where(course_id: self.course_id).first.id
-		self.update_column(:student_grade_id, grade)
+		self.student.present?
+			grade = StudentGrade.where(student_id: self.student_id).where(course_id: self.course_id).first.id
+			self.update_column(:student_grade_id, grade)
+		end
 	end
 
 
