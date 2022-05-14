@@ -422,15 +422,70 @@ ActiveAdmin.register Student do
           end
         end
       end
+      tab "Semester Registration" do
+        panel "Registration" do
+          table_for student.semester_registrations do
+            column "Student name" do |pr|
+              "#{student.first_name.upcase} #{student.middle_name.upcase} #{student.last_name.upcase}"
+            end
+            column "Program" do |pr|
+              link_to pr.student.program.program_name, admin_program_path(pr.student.program.id)
+            end
+            column "Academic Calendar" do |pr|
+              pr.academic_calendar.calender_year
+            end
+            column "Year" do |si|
+              si.year
+            end
+            column "Semester" do |si|
+              si.semester
+            end
+            column :created_at
+          end
+        end
+      end
+      tab "Course Registration" do
+        panel "Registration" do
+          table(class: 'form-table') do
+            tr do
+              th 'Course Title', class: 'form-table__col'
+              th 'Course Code', class: 'form-table__col'
+              th 'Module', class: 'form-table__col'
+              th 'credit hour', class: 'form-table__col'
+              th 'Semester', class: 'form-table__col'
+              th 'Year', class: 'form-table__col'
+            end
+            
+            student.semester_registrations.map do |item|
+              (item.course_registrations).map do |ps|
+                tr class: "form-table__row" do
+                  th class: 'form-table__col' do 
+                    ps.curriculum.course.course_title
+                  end
+                  th class: 'form-table__col' do 
+                    ps.curriculum.course.course_code
+                  end
+                  th class: 'form-table__col' do 
+                    ps.curriculum.course.course_module.module_code
+                  end
+                  th class: 'form-table__col' do 
+                    ps.curriculum.credit_hour
+                  end
+                  th class: 'form-table__col' do 
+                    ps.curriculum.semester
+                  end
+                  th class: 'form-table__col' do 
+                    ps.curriculum.year
+                  end
+                end
+              end
+            end
+          end
+        end
+      end
       tab "Grade Report" do
       end
       
     end
-  end
-  sidebar "Account Status", :only => :index do
-    panel "scope" do
-      
-    end
-
   end
 end
