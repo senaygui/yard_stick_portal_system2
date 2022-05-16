@@ -46,16 +46,16 @@
 	          	<div class="col-12 col-md-6">
 	          		<ul class="list-group list-group-unbordered mb-3">
 		              <li class="list-group-item mx-3">
-		                <b>Academic Year</b> <a class="text-muted float-right"><%= AcademicCalendar.last.calender_year%></a>
+		                <b>Academic Year</b> <a class="text-muted float-right"><%= @semester_registration.academic_calendar.calender_year%></a>
 		              </li>
 		              <li class="list-group-item mx-3">
 		                <b>Study Level</b> <a class="text-muted float-right"><%= current_student.study_level%></a>
 		              </li>
 		              <li class="list-group-item mx-3">
-		                <b>Year</b> <a class="text-muted float-right"><%= current_student.year%></a>
+		                <b>Year</b> <a class="text-muted float-right"><%= @semester_registration.year%></a>
 		              </li>
 		              <li class="list-group-item mx-3">
-		                <b>Semester</b> <a class="text-muted float-right"><%= current_student.semester%></a>
+		                <b>Semester</b> <a class="text-muted float-right"><%= @semester_registration.semester%></a>
 		              </li>
 		            </ul>
 	          	</div>
@@ -80,13 +80,13 @@
 						  </thead>
 
 						  <tbody>
-						    <% @curriculums.each do |curriculum| %>
+						    <% @semester_registration.course_registrations.each do |co| %>
 						      <tr>
 						        
-						        <td><%= curriculum.course.course_title %></td>
-						        <td><%= curriculum.course.course_module.module_code %></td>
-						        <td><%= curriculum.course.course_code %></td>
-						        <td><%= curriculum.credit_hour %></td>
+						        <td><%= co.curriculum.course.course_title %></td>
+						        <td><%= co.curriculum.course.course_module.module_code %></td>
+						        <td><%= co.curriculum.course.course_code %></td>
+						        <td><%= co.curriculum.credit_hour %></td>
 						      </tr>
 						    <% end %>
 						  </tbody>
