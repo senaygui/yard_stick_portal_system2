@@ -18,12 +18,7 @@ class SemesterRegistrationsController < ApplicationController
   # GET /registrations/1/edit
   def edit
     @curriculums = current_student.program.curriculums.where(year: current_student.year, semester: current_student.semester)
-
-    if @semester_registration.year == 1 && @semester_registration.semester == 1
-      @fee = 550
-    elsif @semester_registration.semester == 1
-      @fee = 250
-    end
+    @fee = (@semester_registration.year == 1) && (@semester_registration.semester == 1) ? 550 : 250
       
   end
 
