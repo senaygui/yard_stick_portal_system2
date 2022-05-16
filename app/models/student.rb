@@ -90,7 +90,7 @@ class Student < ApplicationRecord
       registration.student_id = self.id
       registration.created_by = self.created_by
       ## TODO: find the calender of student admission type and study level
-      registration.academic_calendar_id = AcademicCalendar.last.id
+      registration.academic_calendar_id = AcademicCalendar.order("created_at DESC").first.id
       registration.year = self.year
       registration.semester = self.semester
       registration.program_name = self.program.program_name
