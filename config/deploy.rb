@@ -22,7 +22,7 @@ namespace :rails do
 
     puts "Opening a console on: #{server.hostname}...."
 
-    cmd = "ssh #{server.user}@#{server.hostname} -t 'cd #{fetch(:deploy_to)}/current && RAILS_ENV=#{fetch(:rails_env)} bundle exec rails console'"
+    cmd = "ssh #{server.user}@#{server.hostname} -t 'cd #{fetch(:deploy_to)}/current && RAILS_ENV=#{fetch(:rails_env)} rails console'"
 
     puts cmd
 
