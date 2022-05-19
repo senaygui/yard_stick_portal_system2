@@ -21,8 +21,8 @@ class SemesterRegistration < ApplicationRecord
 	  has_many :course_registrations, dependent: :destroy
   	has_many :curriculums, through: :course_registrations, dependent: :destroy
   	# accepts_nested_attributes_for :course_registrations, reject_if: :all_blank, allow_destroy: true
-  	has_many :invoices
-  	has_one :grade_report
+  	has_many :invoices, dependent: :destroy
+  	has_one :grade_report, dependent: :destroy
 
   def generate_grade_report
   	if (self.remaining_amount == 5)
