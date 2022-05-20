@@ -1,9 +1,10 @@
 class SemesterRegistration < ApplicationRecord
-	after_save :generate_invoice
+	# after_save :generate_invoice
 	# after_save :generate_grade_report
 	# after_save :add_course_for_reg
-	after_save :second_semester_course
+	# after_save :second_semester_course
 	after_create :first_semester_course
+	after_save :set_student_id_number
 	##validations
 	  validates :semester, :presence => true
 		validates :year, :presence => true
@@ -24,29 +25,29 @@ class SemesterRegistration < ApplicationRecord
   	has_many :invoices, dependent: :destroy
   	has_one :grade_report, dependent: :destroy
 
-  def generate_grade_report
-  	if (self.remaining_amount == 5)
-  		GradeReport.create do |grade_report|
-					grade_report.semester_registration_id = self.id
-					grade_report.student_id = self.student.id
-					grade_report.academic_calendar_id = 3
-					grade_report.semester= 1
-					grade_report.year= 1
-					sgp = course_registrations.collect { |oi| oi.valid? ? (oi.curriculum.credit_hour * oi.semester_registration.student.student_grades.where(course_id: oi.curriculum.course_id).last.grade_letter_value) : 0 }.sum
-					total_credit_hour = course_registrations.collect { |oi| oi.valid? ? (oi.curriculum.credit_hour) : 0 }.sum
-					grade_report.cgpa = sgp / total_credit_hour
-					grade_report.sgpa = sgp / total_credit_hour
-					if GradeRule.all.last.min_cgpa_value_to_pass <= grade_report.cgpa
-						grade_report.academic_status = "Promoted"
-					elsif 2.5 > grade_report.cgpa
-						grade_report.academic_status = "Probation"
-					elsif GradeRule.all.last.min_cgpa_value_to_pass > grade_report.cgpa
-						grade_report.academic_status = "Failed"
-					end
+  # def generate_grade_report
+  # 	if (self.remaining_amount == 5)
+  # 		GradeReport.create do |grade_report|
+		# 			grade_report.semester_registration_id = self.id
+		# 			grade_report.student_id = self.student.id
+		# 			grade_report.academic_calendar_id = 3
+		# 			grade_report.semester= 1
+		# 			grade_report.year= 1
+		# 			sgp = course_registrations.collect { |oi| oi.valid? ? (oi.curriculum.credit_hour * oi.semester_registration.student.student_grades.where(course_id: oi.curriculum.course_id).last.grade_letter_value) : 0 }.sum
+		# 			total_credit_hour = course_registrations.collect { |oi| oi.valid? ? (oi.curriculum.credit_hour) : 0 }.sum
+		# 			grade_report.cgpa = sgp / total_credit_hour
+		# 			grade_report.sgpa = sgp / total_credit_hour
+		# 			if GradeRule.all.last.min_cgpa_value_to_pass <= grade_report.cgpa
+		# 				grade_report.academic_status = "Promoted"
+		# 			elsif 2.5 > grade_report.cgpa
+		# 				grade_report.academic_status = "Probation"
+		# 			elsif GradeRule.all.last.min_cgpa_value_to_pass > grade_report.cgpa
+		# 				grade_report.academic_status = "Failed"
+		# 			end
 					
-			end
-		end
-  end
+		# 	end
+		# end
+  # end
 
   # def add_course_for_reg
   # 	if (self.remaining_amount == 3) && (self.course_registrations.empty?) && (self.semester == 1)
@@ -120,5 +121,11 @@ class SemesterRegistration < ApplicationRecord
 			      end
 			    end
 			  end
+	  	end
+
+	  	def set_student_id_number
+	  		if !self.student_id_number.present?
+	  			self.update_columns(student_id_number: self.student.student_id)
+	  		end
 	  	end
 end

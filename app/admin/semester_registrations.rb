@@ -1,9 +1,11 @@
 ActiveAdmin.register SemesterRegistration do
   config.sort_order = "created_at_desc"
   menu priority: 9
-  permit_params :created_at, :student_id,:total_price,:registration_fee,:late_registration_fee,:remaining_amount,:mode_of_payment,:semester,:year,:total_enrolled_course,:academic_calendar_id,:registrar_approval_status,:finance_approval_status,:created_by,:last_updated_by, curriculum_ids: []
+  permit_params :student_id_number,:created_at, :student_id,:total_price,:registration_fee,:late_registration_fee,:remaining_amount,:mode_of_payment,:semester,:year,:total_enrolled_course,:academic_calendar_id,:registrar_approval_status,:finance_approval_status,:created_by,:last_updated_by, curriculum_ids: []
     scoped_collection_action :scoped_collection_update, form: -> do
                                          { 
+                                          created_at: 'datepicker',
+                                          late_registration_fee: 'text',
                                           remaining_amount: 'text',
                                           created_by: 'text',
                                           academic_calendar_id: AcademicCalendar.all.map { |ac| [ac.calender_year, ac.id] }
@@ -99,6 +101,7 @@ ActiveAdmin.register SemesterRegistration do
     column "student name", sortable: true do |n|
       "#{n.student.first_name.upcase} #{n.student.middle_name.upcase} #{n.student.last_name.upcase}"
     end
+    column :student_id_number
     column "Student ID" do |si|
       si.student.student_id
     end
@@ -119,9 +122,10 @@ ActiveAdmin.register SemesterRegistration do
     actions
   end
 
-  filter :student_id, as: :search_select_filter, url: proc { admin_students_path },
+  filter :student_id, as: :select, url: proc { admin_students_path },
          fields: [:student_id, :id], display_name: 'student_id', minimum_input_length: 2,
          order_by: 'id_asc'
+  filter :student_id_number
   filter :academic_calendar_id, as: :search_select_filter, url: proc { admin_academic_calendars_path },
          fields: [:calender_year, :id], display_name: 'calender_year', minimum_input_length: 2,
          order_by: 'id_asc'
@@ -184,6 +188,9 @@ ActiveAdmin.register SemesterRegistration do
       end
       panel "course registrations information" do
         f.input :curriculum_ids, as: :tags, :collection => Curriculum.where(program_id: semester_registration.student.program, year: semester_registration.student.year, semester: semester_registration.student.semester).all, display_name: :course_title, label: "Course Registration"
+      end
+      f.inputs "created At" do
+        f.input :created_at, as: :date_time_picker 
       end
     end
     f.inputs "Student registration information" do
