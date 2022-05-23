@@ -12,7 +12,9 @@ ActiveAdmin.register Student do
                             :timestamps=> true,
                             :batch_size => 1000
   scoped_collection_action :scoped_collection_update, form: -> do
-                                         { 
+                                         {
+                                          program_id: Program.all.map { |program| [program.program_name, program.id] },
+
                                           account_status: 'text',
                                           semester: 'text'
                                           }
