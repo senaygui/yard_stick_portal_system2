@@ -30,6 +30,9 @@ ActiveAdmin.register SemesterRegistration do
     column "firstname" do |fn|
       fn.student.first_name
     end
+    column "middlename" do |ln|
+      ln.student.last_name
+    end
     column "lastname" do |ln|
       ln.student.last_name
     end
