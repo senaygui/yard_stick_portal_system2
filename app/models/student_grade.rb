@@ -1,4 +1,7 @@
 class StudentGrade < ApplicationRecord
+
+  after_save :generate_grade
+
   belongs_to :course_registration, optional: true
   belongs_to :student
   belongs_to :course
