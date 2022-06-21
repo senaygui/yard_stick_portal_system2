@@ -28,13 +28,19 @@ ActiveAdmin.register Assessment do
     selectable_column
     column :student_grade_id
     column "student name", sortable: true do |n|
-      "#{n.student.first_name.upcase} #{n.student.middle_name.upcase} #{n.student.last_name.upcase}"
+      if n.student.present?
+        "#{n.student.first_name.upcase} #{n.student.middle_name.upcase} #{n.student.last_name.upcase}"
+      end
     end
     column "Student ID" do |si|
-      si.student.student_id
+      if n.student.present?
+        si.student.student_id
+      end
     end
     column "Course" do |si|
-      si.course.course_title
+      if si.course.present?
+        si.course.course_title
+      end
     end
     column :assessment
     column :result
