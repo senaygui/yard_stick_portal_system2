@@ -49,7 +49,7 @@ ActiveAdmin.register StudentGrade do
          fields: [:student_id, :id], display_name: 'student_id', minimum_input_length: 2,
          order_by: 'id_asc'
   filter :grade_in_letter
-  filter :grade_in_number
+  filter :grade_in_number, as: :numeric_range_filter
   filter :created_at
   filter :updated_at
 
