@@ -11,6 +11,11 @@ ActiveAdmin.register StudentGrade do
                         options = Hash[*students.flatten] # #{"Jane" => 2, "John" => 1}
                         importer.batch_replace(:student_id, options)
                       }
+  scoped_collection_action :scoped_collection_update, form: -> do
+                                         { 
+                                          updated_at: 'datepicker'
+                                          }
+                                        end
                     
   member_action :generate_grade, method: :put do
     @student_grade= StudentGrade.find(params[:id])
