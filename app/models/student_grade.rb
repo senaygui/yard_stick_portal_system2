@@ -10,10 +10,22 @@ class StudentGrade < ApplicationRecord
   end
   def generate_grade
     if assessments.where(result: nil).empty?
-      grade_in_letter = Grade.where("min_value <= ?", self.grade_in_number).where("max_value >= ?", self.grade_in_number).last.grade
-      grade_letter_value = Grade.where("min_value <= ?", self.grade_in_number).where("max_value >= ?", self.grade_in_number).last.grade_value
+      if assessments.where("result > ?", 0)
+        grade_in_letter = Grade.where("min_value <= ?", self.grade_in_number).where("max_value >= ?", self.grade_in_number).last.grade
+        grade_letter_value = Grade.where("min_value <= ?", self.grade_in_number).where("max_value >= ?", self.grade_in_number).last.grade_value
       	self.update_columns(grade_in_letter: grade_in_letter)
         self.update_columns(grade_letter_value: grade_letter_value)
+      elsif assessments.where(assessment: "Final (50%)").where(result: 0)
+        grade_in_letter = "NG"
+        grade_letter_value = 0
+        self.update_columns(grade_in_letter: grade_in_letter)
+        self.update_columns(grade_letter_value: grade_letter_value)
+      elsif assessments.where(assessment: "Assignment 02 (20%)",result: 0).or(assessments.where(assessment: "Assignment 01 (30%)",result: 0))
+        grade_in_letter = "I"
+        grade_letter_value = 0
+        self.update_columns(grade_in_letter: grade_in_letter)
+        self.update_columns(grade_letter_value: grade_letter_value)
+      end
     elsif assessments.where(result: nil)
       self.update_columns(grade_in_letter: "I")
       # needs to be empty and after a week changes to f
