@@ -13,7 +13,7 @@ ActiveAdmin.register StudentGrade do
                       }
   scoped_collection_action :scoped_collection_update, form: -> do
                                          { 
-                                          updated_at: 'datepicker'
+                                          updated_by: 'text'
                                           }
                                         end
                     
