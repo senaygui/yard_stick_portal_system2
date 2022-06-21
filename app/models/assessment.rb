@@ -2,7 +2,7 @@ class Assessment < ApplicationRecord
 	after_save :generate_student_grade
 
 	belongs_to :student_grade, optional: true
-	belongs_to :student, optional: true
+	belongs_to :student
 	belongs_to :course
 
 	def generate_student_grade
