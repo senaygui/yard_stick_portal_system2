@@ -33,7 +33,7 @@ ActiveAdmin.register Assessment do
       end
     end
     column "Student ID" do |si|
-      if n.student.present?
+      if si.student.present?
         si.student.student_id
       end
     end
