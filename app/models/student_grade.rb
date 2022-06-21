@@ -14,8 +14,8 @@ class StudentGrade < ApplicationRecord
   def generate_grade
     if assessments.where(result: nil).empty?
       if assessments.where("result > ?", 0)
-        grade_in_letter = Grade.where("min_value <= ?", self.grade_in_number).where("max_value >= ?", self.grade_in_number).last.grade
-        grade_letter_value = Grade.where("min_value <= ?", self.grade_in_number).where("max_value >= ?", self.grade_in_number).last.grade_value
+        grade_in_letter = Grade.where("min_value <= ?", self.grade_in_number.truncate).where("max_value >= ?", self.grade_in_number.truncate).last.grade
+        grade_letter_value = Grade.where("min_value <= ?", self.grade_in_number.truncate).where("max_value >= ?", self.grade_in_number.truncate).last.grade_value
       	self.update_columns(grade_in_letter: grade_in_letter)
         self.update_columns(grade_letter_value: grade_letter_value)
       elsif assessments.where(assessment: "Final (50%)").where(result: 0)
