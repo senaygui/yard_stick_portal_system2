@@ -1,9 +1,9 @@
 class SemesterRegistration < ApplicationRecord
-	after_save :generate_invoice
+	# after_save :generate_invoice
 	after_save :generate_grade_report
-	after_save :add_course_for_reg
+	# after_save :add_course_for_reg
 	# after_save :second_semester_course
-	after_create :first_semester_course
+	# after_create :first_semester_course
 	after_save :set_student_id_number
 	after_save :first_semester_course_for_import
 	##validations
