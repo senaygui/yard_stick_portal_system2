@@ -1,11 +1,11 @@
 class SemesterRegistration < ApplicationRecord
-	# after_save :generate_invoice
+	after_save :generate_invoice
 	after_save :generate_grade_report
-	# after_save :add_course_for_reg
+	after_save :add_course_for_reg
 	# after_save :second_semester_course
-	# after_create :first_semester_course
+	after_create :first_semester_course
 	after_save :set_student_id_number
-	after_save :first_semester_course_for_import
+	# after_save :first_semester_course_for_import
 	##validations
 	  validates :semester, :presence => true
 		validates :year, :presence => true
@@ -45,7 +45,7 @@ class SemesterRegistration < ApplicationRecord
 					if self.grade_reports.count > 1
 						grade_report.previous_credit_hr_total = self.student.grade_reports.order("created_at DESC").first.semester_credit_hr_total
 						grade_report.previous_grade_point_total = self.student.grade_reports.order("created_at DESC").first.semester_total_grade_point
-						grade_report.previous_ang_total = self.student.grade_reports.order("created_at DESC").first.sgpa
+						grade_report.previous_ang_total = self.student.grade_reports.order("created_at DESC").first.cgpa
 
 						grade_report.cgpa = (grade_report.sgpa + grade_report.previous_ang_total) / 2
 						grade_report.cumulative_total_credit_hour = (grade_report.semester_credit_hr_total + grade_report.previous_credit_hr_total)
@@ -123,7 +123,7 @@ class SemesterRegistration < ApplicationRecord
 
 	  	def first_semester_course_for_import
 	  		if (self.remaining_amount == 35) && (self.course_registrations.empty?) && (self.semester == 1) && (self.year == 1)
-			    self.student.program.curriculums.where(year: 1, semester: 1).each do |co|
+			    self.student.program.curriculums.where(year: self.student.year, semester: self.student.semester).each do |co|
 			      CourseRegistration.create do |course|
 			        course.semester_registration_id = self.id
 			        course.curriculum_id = co.id
