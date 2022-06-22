@@ -1,5 +1,5 @@
 class GradeReport < ApplicationRecord
-	after_save :add_semester_registration
+	# after_save :add_semester_registration
   belongs_to :semester_registration, optional: true
   belongs_to :student
   belongs_to :academic_calendar
