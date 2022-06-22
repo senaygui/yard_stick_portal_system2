@@ -1,6 +1,13 @@
 ActiveAdmin.register GradeReport do
 
 permit_params :semester_registration_id,:student_id,:academic_calendar_id,:cgpa,:sgpa,:semester,:year,:academic_status,:created_at,:updated_at,:previous_credit_hr_total,:semester_credit_hr_total,:previous_grade_point_total,:previous_ang_total,:previous_alg_total,:semester_total_grade_point,:cumulative_total_credit_hour,:cumulative_total_grade_point
+    scoped_collection_action :scoped_collection_update, form: -> do
+                                         { 
+                                          
+                                          previous_grade_point_total: 'text'
+                                          
+                                          }
+                                        end
     active_admin_import validate: true,
                       headers_rewrites: { 'ID': :student_id },
                       before_batch_import: ->(importer) {
