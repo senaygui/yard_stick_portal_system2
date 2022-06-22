@@ -42,9 +42,8 @@
 		                <b>Admission Type</b> <a class="text-muted float-right"><%= current_student.admission_type%></a>
 		              </li>
 		              <li class="list-group-item mx-3">
-		                <b>Academic Year</b> <a class="text-muted float-right"><%= AcademicCalendar.last.calender_year%></a>
+		                <b>Academic Year</b> <a class="text-muted float-right"><%= @grade_report.academic_calendar.calender_year%></a>
 		              </li>
-		              
 		              
 		            </ul>
 	          	</div>
@@ -54,10 +53,10 @@
 		                <b>Study Level</b> <a class="text-muted float-right"><%= current_student.study_level%></a>
 		              </li>
 		              <li class="list-group-item mx-3">
-		                <b>Year</b> <a class="text-muted float-right"><%= current_student.year%></a>
+		                <b>Year</b> <a class="text-muted float-right"><%= @grade_report.semester_registration.year%></a>
 		              </li>
 		              <li class="list-group-item mx-3">
-		                <b>Semester</b> <a class="text-muted float-right"><%= current_student.semester%></a>
+		                <b>Semester</b> <a class="text-muted float-right"><%= @grade_report.semester_registration.semester%></a>
 		              </li>
 		              <li class="list-group-item mx-3">
 		                <b>SGPA</b> <a class="text-muted float-right"><%= @grade_report.sgpa%></a>
@@ -88,17 +87,19 @@
 						      <th>Course Code</th>
 						      <th>Credit Hour</th>
 						      <th>Grade</th>
+						      <th>Grade Point</th>
 						    </tr>
 						  </thead>
 
 						  <tbody>
-						    <% @grade_report.semester_registration.course_registrations.each do |course| %>
+						    <% @grade_report.semester_registration.course_registrations.each do |grade_report_course| %>
 						      <tr>     
 						        <td><%= course.curriculum.course_title %></td>
 						        <td><%= course.curriculum.course.course_module.module_code %></td>
 						        <td><%= course.curriculum.course.course_code %></td>
 						        <td><%= course.curriculum.credit_hour %></td>
-						        <td><%= semester_registration.student.student_grades.where(course_id: course.course.id).last.grade_in_letter %></td>
+						        <td><%= course.student_grade.grade_in_letter %></td>
+						        <td><%= course.student_grade.grade_letter_value %></td>
 						      </tr>
 						    <% end %>
 						  </tbody>
