@@ -28,9 +28,6 @@ permit_params :semester_registration_id,:student_id,:academic_calendar_id,:cgpa,
     column :program, sortable: true do |pro|
       pro.student.program.program_name
     end
-    column :department, sortable: true do |pro|
-      pro.student.department_name
-    end
     # column :admission_type
     # column :study_level
     column :academic_status
