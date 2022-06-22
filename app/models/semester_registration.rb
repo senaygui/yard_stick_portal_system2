@@ -123,7 +123,7 @@ class SemesterRegistration < ApplicationRecord
 
 	  	def first_semester_course_for_import
 	  		if (self.remaining_amount == 35) && (self.course_registrations.empty?) && (self.semester == 1) && (self.year == 1)
-			    self.student.program.curriculums.where(year: self.student.year, semester: self.student.semester).each do |co|
+			    self.student.program.curriculums.where(year: 1, semester: 1).each do |co|
 			      CourseRegistration.create do |course|
 			        course.semester_registration_id = self.id
 			        course.curriculum_id = co.id
