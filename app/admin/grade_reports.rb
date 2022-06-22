@@ -107,19 +107,23 @@ permit_params :semester_registration_id,:student_id,:academic_calendar_id,:cgpa,
                 link_to pr.course_title, admin_course_path(pr.course)
               end
               column "Course code" do |pr|
-                pr.course.course_code
+                pr.curriculum.course.course_code
               end
               column "Course module" do |pr|
-                link_to pr.course.course_module.module_code, admin_course_module_path(pr.course.course_module.id) 
+                link_to pr.curriculum.course.course_module.module_code, admin_course_module_path(pr.course.course_module.id) 
               end
               column "Credit hour" do |pr|
-                pr.course.credit_hour
+                pr.curriculum.course.credit_hour
               end
               column "Letter Grade" do |pr|
-                pr.student_grade.grade_in_letter
+                if pr.student_grade.present?
+                  pr.student_grade.grade_in_letter
+                end
               end
               column "Grade Point" do |pr|
-                pr.student_grade.grade_letter_value
+                if pr.student_grade.present?
+                  pr.student_grade.grade_letter_value
+                end
               end
             end
           end
