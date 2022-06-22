@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_21_162451) do
+ActiveRecord::Schema.define(version: 2022_06_22_023456) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -298,6 +298,9 @@ ActiveRecord::Schema.define(version: 2022_06_21_162451) do
     t.decimal "previous_grade_point_total"
     t.decimal "previous_ang_total"
     t.decimal "previous_alg_total"
+    t.decimal "semester_total_grade_point"
+    t.decimal "cumulative_total_credit_hour"
+    t.decimal "cumulative_total_grade_point"
     t.index ["academic_calendar_id"], name: "index_grade_reports_on_academic_calendar_id"
     t.index ["semester_registration_id"], name: "index_grade_reports_on_semester_registration_id"
     t.index ["student_id"], name: "index_grade_reports_on_student_id"

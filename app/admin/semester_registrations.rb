@@ -125,9 +125,9 @@ ActiveAdmin.register SemesterRegistration do
     actions
   end
 
-  filter :student_id, as: :select, url: proc { admin_students_path },
-         fields: [:student_id, :id], display_name: 'student_id', minimum_input_length: 2,
-         order_by: 'id_asc'
+  # filter :student_id, as: :select, url: proc { admin_students_path },
+  #        fields: [:student_id, :id], display_name: 'student_id', minimum_input_length: 2,
+  #        order_by: 'id_asc'
   filter :student_id_number
   filter :academic_calendar_id, as: :search_select_filter, url: proc { admin_academic_calendars_path },
          fields: [:calender_year, :id], display_name: 'calender_year', minimum_input_length: 2,

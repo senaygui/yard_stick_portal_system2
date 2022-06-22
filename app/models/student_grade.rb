@@ -18,12 +18,12 @@ class StudentGrade < ApplicationRecord
         grade_letter_value = Grade.where("min_value <= ?", self.grade_in_number.truncate).where("max_value >= ?", self.grade_in_number.truncate).last.grade_value
       	self.update_columns(grade_in_letter: grade_in_letter)
         self.update_columns(grade_letter_value: grade_letter_value)
-      elsif assessments.where(assessment: "Final (50%)").where(result: 0).present?
+      elsif assessments.where(assessment: "Final (40%)").where(result: 0).present?
         grade_in_letter = "NG"
         grade_letter_value = 0
         self.update_columns(grade_in_letter: grade_in_letter)
         self.update_columns(grade_letter_value: grade_letter_value)
-      elsif assessments.where(assessment: "Assignment 02 (20%)",result: 0).or(assessments.where(assessment: "Assignment 01 (30%)",result: 0)).present?
+      elsif assessments.where(assessment: "Assignment 02 (30%)",result: 0).or(assessments.where(assessment: "Assignment 01 (30%)",result: 0)).present?
         grade_in_letter = "I"
         grade_letter_value = 0
         self.update_columns(grade_in_letter: grade_in_letter)
