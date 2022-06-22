@@ -48,6 +48,9 @@ ActiveAdmin.register StudentGrade do
   filter :student_id, as: :search_select_filter, url: proc { admin_students_path },
          fields: [:student_id, :id], display_name: 'student_id', minimum_input_length: 2,
          order_by: 'id_asc'
+  filter :course_id, as: :search_select_filter, url: proc { admin_courses_path },
+         fields: [:course_title, :id], display_name: 'course_title', minimum_input_length: 2,
+         order_by: 'id_asc'
   filter :grade_in_letter
   filter :grade_in_number, as: :numeric_range_filter
   filter :created_at
