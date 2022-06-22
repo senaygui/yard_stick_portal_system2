@@ -32,8 +32,8 @@ class SemesterRegistration < ApplicationRecord
 					grade_report.semester_registration_id = self.id
 					grade_report.student_id = self.student.id
 					grade_report.academic_calendar_id = 3
-					grade_report.semester = self.semester_registration.semester
-					grade_report.year = self.semester_registration.year
+					grade_report.semester = self.semester
+					grade_report.year = self.year
 
 					sgp = course_registrations.collect { |oi| oi.valid? ? (oi.curriculum.credit_hour * oi.semester_registration.student.student_grades.where(course_id: oi.curriculum.course_id).last.grade_letter_value) : 0 }.sum
 					total_credit_hour = course_registrations.collect { |oi| oi.valid? ? (oi.curriculum.credit_hour) : 0 }.sum
