@@ -104,16 +104,16 @@ permit_params :semester_registration_id,:student_id,:academic_calendar_id,:cgpa,
           panel "Course Registration" do
             table_for grade_report.semester_registration.course_registrations do
               column "Course title" do |pr|
-                link_to pr.course_title, admin_course_path(pr.course)
+                link_to pr.curriculum.course.course_title, admin_courses_path(pr.curriculum.course.id)
               end
               column "Course code" do |pr|
                 pr.curriculum.course.course_code
               end
               column "Course module" do |pr|
-                link_to pr.curriculum.course.course_module.module_code, admin_course_module_path(pr.course.course_module.id) 
+                link_to pr.curriculum.course.course_module.module_code, admin_course_module_path(pr.curriculum.course.course_module.id)  
               end
               column "Credit hour" do |pr|
-                pr.curriculum.course.credit_hour
+                 pr.curriculum.credit_hour
               end
               column "Letter Grade" do |pr|
                 if pr.student_grade.present?
