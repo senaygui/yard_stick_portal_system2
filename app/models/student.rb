@@ -96,6 +96,7 @@ class Student < ApplicationRecord
       registration.program_name = self.program.program_name
       registration.admission_type = self.admission_type
       registration.study_level = self.study_level
+      registration.student_id_number = self.student.student_id
       # registration.registrar_approval_status ="approved"
       # registration.finance_approval_status ="approved"
     end
@@ -114,6 +115,7 @@ class Student < ApplicationRecord
       registration.program_name = self.program.program_name
       registration.admission_type = self.admission_type
       registration.study_level = self.study_level
+      registration.student_id_number = self.student.student_id
       # registration.registrar_approval_status ="approved"
       # registration.finance_approval_status ="approved"
     end
