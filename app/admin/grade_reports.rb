@@ -82,9 +82,7 @@ permit_params :semester_registration_id,:student_id,:academic_calendar_id,:cgpa,
             row :program do |pro|
               pro.student.program.program_name
             end
-            row :department do |pro|
-              pro.student.department_name
-            end
+            row :semester_registration_id
             row "Academic Year" do |n|
               link_to n.academic_calendar.calender_year, admin_academic_calendar_path(n.academic_calendar)
             end
