@@ -233,7 +233,7 @@
   <%end%>
 <%end%>
 
-<%if current_student.semester_registrations.where(year: 2, semester: 1).order("created_at DESC").first %>
+<%if current_student.semester_registrations.where(year: 2, semester: 1,finance_approval_status: "approved").order("created_at DESC").first %>
 <div class="col-12">
       <div class="card card-success">
         <div class="card-header">
