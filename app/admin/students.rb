@@ -190,10 +190,11 @@ ActiveAdmin.register Student do
         f.input :first_name, label: "First Name"
         f.input :middle_name, label: "Father Name"
         f.input :last_name, label: "Grand Father Name"
-        f.input :year
-        f.input :semester        
+
         if !f.object.new_record?
           if current_admin_user.role == "admin"
+            f.input :year
+            f.input :semester
             f.input :student_id
           end
         end
@@ -259,12 +260,12 @@ ActiveAdmin.register Student do
                 if document.variable?
                     div class: "preview-card" do
                       span image_tag(document, size: '200x200')
-                      # span link_to 'delete', delete_document_admin_student_path(document.id), method: :delete, data: { confirm: 'Are you sure?' }
+                      span link_to 'delete', delete_document_admin_student_path(document.id), method: :delete, data: { confirm: 'Are you sure?' }
                     end
                 elsif document.previewable?
                     div class: "preview-card" do
                       span image_tag(document.preview(resize: '200x200'))
-                      # span link_to 'delete', delete_document_admin_student_path(document.id), method: :delete, data: { confirm: 'Are you sure?' }
+                      span link_to 'delete', delete_document_admin_student_path(document.id), method: :delete, data: { confirm: 'Are you sure?' }
                     end
                 end
               end
