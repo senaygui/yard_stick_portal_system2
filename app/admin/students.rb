@@ -260,12 +260,16 @@ ActiveAdmin.register Student do
                 if document.variable?
                     div class: "preview-card" do
                       span image_tag(document, size: '200x200')
-                      span link_to 'delete', delete_document_admin_student_path(document.id), method: :delete, data: { confirm: 'Are you sure?' }
+                      if (current_admin_user.role == "admin") || (current_admin_user.role == "head registrar")
+                        span link_to 'delete', delete_document_admin_student_path(document.id), method: :delete, data: { confirm: 'Are you sure?' }
+                      end
                     end
                 elsif document.previewable?
                     div class: "preview-card" do
                       span image_tag(document.preview(resize: '200x200'))
-                      span link_to 'delete', delete_document_admin_student_path(document.id), method: :delete, data: { confirm: 'Are you sure?' }
+                      if (current_admin_user.role == "admin") || (current_admin_user.role == "head registrar")
+                        span link_to 'delete', delete_document_admin_student_path(document.id), method: :delete, data: { confirm: 'Are you sure?' }
+                      end
                     end
                 end
               end

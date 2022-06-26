@@ -49,7 +49,7 @@ ActiveAdmin.register AdminUser do
       if !f.object.new_record?
         f.input :current_password
       end
-      f.input :role,  :as => :select, :collection => [["Admin","admin"],["Registrar","registrar"], ["Distance Registrar","distance_registrar"], ["Online Registrar","online_registrar"], ["Regular Registrar","regular_registrar"], ["Extention Registrar","extention_registrar"], ["Finance","finance"], ["Distance Finance","distance_finance"], ["Online Finance","online_finance"], ["Regular Finance","regular_finance"], ["Extention Finance","extention_finance"], ["Department head", "department head"],["Dean","dean"], ["teacher", "teacher"]], label: "Account Role", :include_blank => false
+      f.input :role,  :as => :select, :collection => [["Admin","admin"],["Head Registrar","head registrar"],["Registrar","registrar"], ["Distance Registrar","distance_registrar"], ["Online Registrar","online_registrar"], ["Regular Registrar","regular_registrar"], ["Extention Registrar","extention_registrar"], ["Finance","finance"], ["Distance Finance","distance_finance"], ["Online Finance","online_finance"], ["Regular Finance","regular_finance"], ["Extention Finance","extention_finance"], ["Department head", "department head"],["Dean","dean"], ["teacher", "teacher"]], label: "Account Role", :include_blank => false
     end
     f.actions
   end
