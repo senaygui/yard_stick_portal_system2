@@ -34,14 +34,15 @@ ActiveAdmin.register Invoice do
     selectable_column
     column "invoice no",:invoice_number
     column "student", sortable: true do |item|
-      "#{item.student.first_name.upcase} #{item.student.middle_name.upcase} #{item.student.last_name.upcase}"
-      
+      if item.student.present?
+        "#{item.student.first_name.upcase} #{item.student.middle_name.upcase} #{item.student.last_name.upcase}"
+      end
     end
     column "admission type", sortable: true do |n|
-      n.semester_registration.admission_type 
+      n.semester_registration.admission_type if n.semester_registration.present?
     end
     column "study level", sortable: true do |n|
-      n.semester_registration.study_level 
+      n.semester_registration.study_level if n.semester_registration.present?
     end
     column :invoice_status do |s|
       status_tag s.invoice_status
