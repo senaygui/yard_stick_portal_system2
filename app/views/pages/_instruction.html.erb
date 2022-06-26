@@ -234,7 +234,7 @@
 <%end%>
 
 
-<%if !current_student.invoices.last.present?  && current_student.semester_registrations.where(year: 2).present?%>
+<%if !current_student.invoices.order("created_at DESC").first.present?  && current_student.semester_registrations.where(year: 2).present?%>
   <% if current_student.document_verification_status == "pending"%>
     <div class="col-12">
       <div class="card card-primary">
