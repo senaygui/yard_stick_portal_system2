@@ -190,7 +190,8 @@ ActiveAdmin.register Student do
         f.input :first_name, label: "First Name"
         f.input :middle_name, label: "Father Name"
         f.input :last_name, label: "Grand Father Name"
-        
+        f.input :year
+        f.input :semester        
         if !f.object.new_record?
           if current_admin_user.role == "admin"
             f.input :student_id
