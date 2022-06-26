@@ -5,7 +5,7 @@ class Student < ApplicationRecord
   before_save :student_id_generator
   after_save :student_semester_registration
   before_create :set_pwd
-  after_save :student_semester_registration_for_second
+  # after_save :student_semester_registration_for_second
   
   # after_save :course_registration
   # Include default devise modules. Others available are:
