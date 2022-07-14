@@ -40,6 +40,22 @@ ActiveAdmin.register StudentGrade do
   action_item :update, only: :show do
     link_to 'generate grade', generate_grade_admin_student_grade_path(student_grade.id), method: :put, data: { confirm: 'Are you sure?' }        
   end
+
+  csv do
+    column "ID" do |si|
+      si.student.student_id
+    end
+    column "course_id" do |si|
+      si.course.course_title
+    end
+    column "course_registration_id" do |si|
+      si.course_registration_id
+    end
+    column :grade_in_letter
+    column :grade_letter_value
+    column :grade_in_number
+  end
+
   index do
     selectable_column
     column "full name", sortable: true do |n|

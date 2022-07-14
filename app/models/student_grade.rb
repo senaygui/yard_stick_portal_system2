@@ -2,9 +2,10 @@ class StudentGrade < ApplicationRecord
   require "uri"
   require "net/http"
   
-  after_save :generate_grade
+  # after_save :generate_grade
 
-  after_save :generate_grade_2013
+  # after_save :generate_grade_2013
+  # after_save :moodle_grade
   # after_save :update_grade_report
 
   belongs_to :course_registration, optional: true
@@ -85,11 +86,12 @@ class StudentGrade < ApplicationRecord
 
       end
     end
-  end
+  end 
 
 	# def grade_letter_value
  #    assessments.collect { |oi| oi.valid? ? (oi.result) : 0 }.sum
  #  end
+
   # def generate_grade
   #   if assessments.present?
   #     if assessments.where(result: nil).empty?
