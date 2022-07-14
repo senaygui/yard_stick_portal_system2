@@ -46,10 +46,10 @@ ActiveAdmin.register StudentGrade do
       si.student.student_id
     end
     column "course_id" do |si|
-      si.course.course_title
+      si.course.id
     end
     column "course_registration_id" do |si|
-      si.course_registration_id
+      si.course_registration.id
     end
     column :grade_in_letter
     column :grade_letter_value
