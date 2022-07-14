@@ -1,5 +1,7 @@
 class StudentGrade < ApplicationRecord
-
+  require "uri"
+  require "net/http"
+  
   after_save :generate_grade
 
   belongs_to :course_registration, optional: true
@@ -52,6 +54,28 @@ class StudentGrade < ApplicationRecord
   #   # self[:grade_in_letter] = grade_in_letter
   # end
 
+  def moodle_grade
+    url = URI("https://lms.leadstar.edu.et/webservice/rest/server.php")
+    moodle = MoodleRb.new('8244e4d1e580bbb0fb9bfe9a2352a119', 'https://lms.leadstar.edu.et/webservice/rest/server.php')
+    lms_student = moodle.users.search(email: "#{self.student.email}")
+    user = lms_student[0]["id"]
+    https = Net::HTTP.new(url.host, url.port)
+    https.use_ssl = true
+
+    request = Net::HTTP::Post.new(url)
+    form_data = [['wstoken', '8244e4d1e580bbb0fb9bfe9a2352a119'],['wsfunction', 'gradereport_overview_get_course_grades'],['moodlewsrestformat', 'json'],['userid', "#{user}"]]
+    request.set_form form_data, 'multipart/form-data'
+    response = https.request(request)
+    # puts response.read_body
+    results =  JSON.parse(response.read_body)
+    course_code = moodle.courses.search("#{self.course_registration.curriculum.course.course_code}")
+    course = course_code["courses"][0]["id"]
+    
+    total_grade = results["grades"].map {|h1| h1['rawgrade'] if h1['courseid']== course}.compact.first
+    grade_letter = results["grades"].map {|h1| h1['grade'] if h1['courseid']== course}.compact.first
+    self.update_columns(grade_in_letter: grade_letter)
+    self.update_columns(grade_letter_value: total_grade)
+  end
   before_save :update_subtotal
 	private
 

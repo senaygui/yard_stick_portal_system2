@@ -60,7 +60,7 @@ gem "active_admin_import"
 gem 'active_admin_scoped_collection_actions', '~> 0.4.0'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
-
+gem 'moodle_rb', '~> 2.1'
 group :development, :test do
   gem 'dotenv-rails', '~> 2.7', '>= 2.7.6'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
