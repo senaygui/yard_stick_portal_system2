@@ -55,15 +55,15 @@ class StudentGrade < ApplicationRecord
   # end
 
   def moodle_grade
-    url = URI("https://lms.leadstar.edu.et/webservice/rest/server.php")
-    moodle = MoodleRb.new('8244e4d1e580bbb0fb9bfe9a2352a119', 'https://lms.leadstar.edu.et/webservice/rest/server.php')
+    url = URI("https://lms.yic.edu.et/webservice/rest/server.php")
+    moodle = MoodleRb.new('9233bd19465dce9510838176b7b1aa76', 'https://lms.yic.edu.et/webservice/rest/server.php')
     lms_student = moodle.users.search(email: "#{self.student.email}")
     user = lms_student[0]["id"]
     https = Net::HTTP.new(url.host, url.port)
     https.use_ssl = true
 
     request = Net::HTTP::Post.new(url)
-    form_data = [['wstoken', '8244e4d1e580bbb0fb9bfe9a2352a119'],['wsfunction', 'gradereport_overview_get_course_grades'],['moodlewsrestformat', 'json'],['userid', "#{user}"]]
+    form_data = [['wstoken', '9233bd19465dce9510838176b7b1aa76'],['wsfunction', 'gradereport_overview_get_course_grades'],['moodlewsrestformat', 'json'],['userid', "#{user}"]]
     request.set_form form_data, 'multipart/form-data'
     response = https.request(request)
     # puts response.read_body

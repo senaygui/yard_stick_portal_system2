@@ -14,7 +14,7 @@ ActiveAdmin.register Invoice do
 
     def testmoodle
       if @invoice.payment_transaction.finance_approval_status == "approved"
-        @moodle = MoodleRb.new('8244e4d1e580bbb0fb9bfe9a2352a119', 'https://lms.leadstar.edu.et/webservice/rest/server.php')
+        @moodle = MoodleRb.new('9233bd19465dce9510838176b7b1aa76', 'https://lms.yic.edu.et/webservice/rest/server.php')
         if !(@moodle.users.search(email: "#{@invoice.student.email}").present?)
           student = @moodle.users.create(
               :username => "#{@invoice.student.student_id.downcase}",

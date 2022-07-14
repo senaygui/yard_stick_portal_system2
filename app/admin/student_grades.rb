@@ -16,6 +16,21 @@ ActiveAdmin.register StudentGrade do
                                           updated_by: 'text'
                                           }
                                         end
+
+  member_action :get_grade_from_lms, method: :put do
+    @student_grade= StudentGrade.find(params[:id])
+    @student_grade.moodle_grade
+    redirect_back(fallback_location: admin_student_grade_path)
+  end
+  batch_action "Generate Grade for", method: :put, confirm: "Are you sure?" do |ids|
+    StudentGrade.find(ids).each do |student_grade|
+      student_grade.moodle_grade
+    end
+    redirect_to collection_path, notice: "Grade Is Generated Successfully"
+  end
+  action_item :update, only: :show do
+    link_to 'get grade from lms', get_grade_from_lms_admin_student_grade_path(student_grade.id), method: :put, data: { confirm: 'Are you sure?' }        
+  end
                     
   member_action :generate_grade, method: :put do
     @student_grade= StudentGrade.find(params[:id])

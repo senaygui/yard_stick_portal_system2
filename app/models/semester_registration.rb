@@ -5,6 +5,7 @@ class SemesterRegistration < ApplicationRecord
 	# after_save :second_semester_course
 	after_create :first_semester_course
 	after_save :set_student_id_number
+	after_save :add_grade
 	# after_save :first_semester_course_for_import
 	##validations
 	  validates :semester, :presence => true
@@ -151,4 +152,17 @@ class SemesterRegistration < ApplicationRecord
 	  			self.update_columns(student_id_number: self.student.student_id)
 	  		end
 	  	end
+
+	  def add_grade
+			if (self.registrar_approval_status == "approved") && self.course_registrations.each do |reg|
+					if (!reg.student_grade.present?)
+						StudentGrade.create do |student_grade|
+								student_grade.course_registration_id = reg.id
+								student_grade.student_id = self.student.id 
+								student_grade.course_id = reg.curriculum.course.id
+						end
+					end
+				end
+			end
+		end
 end
