@@ -3,6 +3,8 @@ class StudentGrade < ApplicationRecord
   require "net/http"
   
   after_save :generate_grade
+
+  after_save :generate_grade_2013
   # after_save :update_grade_report
 
   belongs_to :course_registration, optional: true
@@ -88,44 +90,52 @@ class StudentGrade < ApplicationRecord
 	# def grade_letter_value
  #    assessments.collect { |oi| oi.valid? ? (oi.result) : 0 }.sum
  #  end
-  def generate_grade
-    if assessments.present?
-      if assessments.where(result: nil).empty?
-        if assessments.where("result > ?", 0).count == 3
-          grade_in_letter = Grade.where("min_value <= ?", self.grade_letter_value.truncate).where("max_value >= ?", self.grade_letter_value.truncate).last.grade
-          grade_in_number = Grade.where("min_value <= ?", self.grade_letter_value.truncate).where("max_value >= ?", self.grade_letter_value.truncate).last.grade_value * self.curriculum.credit_hour
-        	self.update_columns(grade_in_number: grade_in_number)
-          self.update_columns(grade_letter_value: grade_letter_value)
-        elsif assessments.where.(assessment: "Final (40%)").where(result: nil).present?
-          grade_in_letter = "NG"
-          grade_in_number = 0
-          self.update_columns(grade_in_letter: grade_in_letter)
-          self.update_columns(grade_in_number: grade_in_number)
-        elsif assessments.where(assessment: "Assignment 02 (30%)",result: nil).or(assessments.where(assessment: "Assignment 01 (30%)",result: 0)).present?
-          grade_in_letter = "I"
-          grade_in_number = 0
-          self.update_columns(grade_in_letter: grade_in_letter)
-          self.update_columns(grade_in_number: grade_in_number)
-        end
-      elsif assessments.where(result: nil)
-        self.update_columns(grade_in_letter: "I")
-        # needs to be empty and after a week changes to f
-        self.update_columns(grade_letter_value: 0)
-      end
-    elsif self.grade_letter_value.present?
-      s = self.grade_letter_value.to_f.truncate
+  # def generate_grade
+  #   if assessments.present?
+  #     if assessments.where(result: nil).empty?
+  #       if assessments.where("result > ?", 0).count == 3
+  #         grade_in_letter = Grade.where("min_value <= ?", self.grade_letter_value.truncate).where("max_value >= ?", self.grade_letter_value.truncate).last.grade
+  #         grade_in_number = Grade.where("min_value <= ?", self.grade_letter_value.truncate).where("max_value >= ?", self.grade_letter_value.truncate).last.grade_value * self.curriculum.credit_hour
+  #       	self.update_columns(grade_in_number: grade_in_number)
+  #         self.update_columns(grade_letter_value: grade_letter_value)
+  #       elsif assessments.where.(assessment: "Final (40%)").where(result: nil).present?
+  #         grade_in_letter = "NG"
+  #         grade_in_number = 0
+  #         self.update_columns(grade_in_letter: grade_in_letter)
+  #         self.update_columns(grade_in_number: grade_in_number)
+  #       elsif assessments.where(assessment: "Assignment 02 (30%)",result: nil).or(assessments.where(assessment: "Assignment 01 (30%)",result: 0)).present?
+  #         grade_in_letter = "I"
+  #         grade_in_number = 0
+  #         self.update_columns(grade_in_letter: grade_in_letter)
+  #         self.update_columns(grade_in_number: grade_in_number)
+  #       end
+  #     elsif assessments.where(result: nil)
+  #       self.update_columns(grade_in_letter: "I")
+  #       # needs to be empty and after a week changes to f
+  #       self.update_columns(grade_letter_value: 0)
+  #     end
+  #   elsif self.grade_letter_value.present?
+  #     s = self.grade_letter_value.to_f.truncate
+  #     grade_in_letter = Grade.where("min_value <= ?", s).where("max_value >= ?", s).last.grade
+  #     grade_in_number = Grade.where("min_value <= ?", s).where("max_value >= ?", s).last.grade_value * self.course_registration.curriculum.credit_hour
+  #     self.update_columns(grade_in_letter: grade_in_letter)
+  #     self.update_columns(grade_in_number: grade_in_number)
+  #   else
+  #     grade_in_letter = "I"
+  #     grade_in_number = 0
+  #     self.update_columns(grade_in_letter: grade_in_letter)
+  #     self.update_columns(grade_in_number: grade_in_number)
+  #   end
+    
+  # 	# self[:grade_in_letter] = grade_in_letter
+  # end
+
+  def generate_grade_2013
+    s = self.grade_letter_value.to_f.truncate
       grade_in_letter = Grade.where("min_value <= ?", s).where("max_value >= ?", s).last.grade
       grade_in_number = Grade.where("min_value <= ?", s).where("max_value >= ?", s).last.grade_value * self.course_registration.curriculum.credit_hour
       self.update_columns(grade_in_letter: grade_in_letter)
       self.update_columns(grade_in_number: grade_in_number)
-    else
-      grade_in_letter = "I"
-      grade_in_number = 0
-      self.update_columns(grade_in_letter: grade_in_letter)
-      self.update_columns(grade_in_number: grade_in_number)
-    end
-    
-  	# self[:grade_in_letter] = grade_in_letter
   end
 
   # def generate_grade
