@@ -27,38 +27,108 @@ class SemesterRegistration < ApplicationRecord
   	has_many :invoices, dependent: :destroy
   	has_one :grade_report, dependent: :destroy
 
+
   def generate_grade_report
-  	if (self.remaining_amount == 20) && (self.course_registrations.joins(:student_grade).present?)
-  		GradeReport.create do |grade_report|
-					grade_report.semester_registration_id = self.id
-					grade_report.student_id = self.student.id
-					grade_report.academic_calendar_id = 3
-					grade_report.semester = self.semester
-					grade_report.year = self.year
+  	
+  	if !self.grade_report.present?
+	  	GradeReport.create do |report|
+	  			report.semester_registration_id = self.id
+					report.student_id = self.student.id
+					report.academic_calendar_id = self.academic_calendar.id
+					report.semester = self.semester
+					report.year = self.year
+					
 
-					sgp = course_registrations.collect { |oi| oi.valid? ? (oi.curriculum.credit_hour * oi.student_grade.grade_letter_value) : 0 }.sum
-					total_credit_hour = course_registrations.collect { |oi| oi.valid? ? (oi.curriculum.credit_hour) : 0 }.sum
+					if !self.student.grade_reports.present?
+						# report.total_course = self.course_registrations.count
+						report.semester_credit_hr_total = self.course_registrations.collect { |oi| ((oi.student_grade.grade_in_letter != "I") && (oi.student_grade.grade_in_letter != "NG")) ? (oi.curriculum.credit_hour) : 0 }.sum 
+						report.semester_total_grade_point = self.course_registrations.collect { |oi| ((oi.student_grade.grade_in_letter != "I") && (oi.student_grade.grade_in_letter != "NG")) ? (oi.student_grade.grade_in_number.to_f) : 0 }.sum 
+						report.sgpa = report.semester_credit_hr_total == 0 ? 0 : (report.semester_total_grade_point / report.semester_credit_hr_total).round(1) 
 
-					grade_report.sgpa = sgp / total_credit_hour
-					grade_report.semester_credit_hr_total =  total_credit_hour
-					grade_report.semester_total_grade_point = course_registrations.collect { |oi| oi.valid? ? oi.semester_registration.student.student_grades.where(course_id: oi.curriculum.course_id).last.grade_letter_value : 0 }.sum
+						report.cumulative_total_credit_hour = report.semester_total_grade_point
+						report.cumulative_total_grade_point = report.semester_total_grade_point
+						report.cgpa = report.semester_credit_hr_total == 0 ? 0 : (report.semester_total_grade_point / report.semester_credit_hr_total).round(1)
+						report.academic_status = "Incomplete"
+						if ((self.course_registrations.joins(:student_grade).pluck(:grade_in_letter).include?("I")) || (self.course_registrations.joins(:student_grade).pluck(:grade_in_letter).include?("NG")))
+							report.academic_status = "Incomplete"
+						else
+							report.academic_status = AcademicStatus.where("min_value < ?", report.cgpa).where("max_value > ?", report.cgpa).last.status
+							# if (report.academic_status != "Dismissal") || (report.academic_status != "Incomplete")
+							# 	if self.program.program_semester > self.student.semester
+							# 		promoted_semester = self.student.semester + 1
+							# 		self.student.update_columns(semester: promoted_semester)
+							# 	elsif (self.program.program_semester == self.student.semester) && (self.program.program_duration > self.student.year)
+							# 		promoted_year = self.student.year + 1
+							# 		self.student.update_columns(semester: 1)
+							# 		self.student.update_columns(year: promoted_year)
+							# 	end
+							# end
+						end
+					elsif self.student.grade_reports.present?
+						report.semester_credit_hr_total = self.course_registrations.collect { |oi| ((oi.student_grade.grade_in_letter != "I") && (oi.student_grade.grade_in_letter != "NG")) ? (oi.curriculum.credit_hour) : 0 }.sum 
+						report.semester_total_grade_point = self.course_registrations.collect { |oi| ((oi.student_grade.grade_in_letter != "I") && (oi.student_grade.grade_in_letter != "NG")) ? (oi.student_grade.grade_in_number.to_f) : 0 }.sum 
+						report.sgpa = report.semester_credit_hr_total == 0 ? 0 : (report.semester_total_grade_point / report.semester_credit_hr_total).round(1) 
 
-					if self.grade_reports.count > 1
-						grade_report.previous_credit_hr_total = self.student.grade_reports.order("created_at DESC").first.semester_credit_hr_total
-						grade_report.previous_grade_point_total = self.student.grade_reports.order("created_at DESC").first.semester_total_grade_point
-						grade_report.previous_ang_total = self.student.grade_reports.order("created_at DESC").first.cgpa
+						report.cumulative_total_credit_hour = self.student.grade_reports.order("created_at DESC").first.cumulative_total_credit_hour + report.semester_credit_hr_total
+						report.cumulative_total_grade_point = self.student.grade_reports.order("created_at DESC").first.cumulative_total_grade_point + report.semester_total_grade_point
+						report.cgpa = report.cumulative_total_grade_point / report.cumulative_total_credit_hour
 
-						grade_report.cgpa = (grade_report.sgpa + grade_report.previous_ang_total) / 2
-						grade_report.cumulative_total_credit_hour = (grade_report.semester_credit_hr_total + grade_report.previous_credit_hr_total)
-						grade_report.cumulative_total_grade_point = (grade_report.semester_total_grade_point + grade_report.previous_grade_point_total)
-					else
-						grade_report.cgpa = grade_report.sgpa 
-						grade_report.cumulative_total_credit_hour = grade_report.semester_credit_hr_total
-						grade_report.cumulative_total_grade_point = grade_report.semester_total_grade_point
+						if ((self.course_registrations.joins(:student_grade).pluck(:grade_in_letter).include?("I")) || (self.course_registrations.joins(:student_grade).pluck(:grade_in_letter).include?("NG")))
+							report.academic_status = "Incomplete"
+						else
+							report.academic_status = AcademicStatus.where("min_value <= ?", report.cgpa).where("max_value >= ?", report.cgpa).last.status
+							# if (report.academic_status != "Dismissal") || (report.academic_status != "Incomplete")
+							# 	if self.program.program_semester > self.student.semester
+							# 		promoted_semester = self.student.semester + 1
+							# 		self.student.update_columns(semester: promoted_semester)
+							# 	elsif (self.program.program_semester == self.student.semester) && (self.program.program_duration > self.student.year)
+							# 		promoted_year = self.student.year + 1
+							# 		self.student.update_columns(semester: 1)
+							# 		self.student.update_columns(year: promoted_year)
+							# 	end
+							# end
+						end
 					end
-			end
+					
+					# report.created_by = self.created_by			
+			end	
 		end
   end
+
+  # def generate_grade_report
+  # 	if (self.course_registrations.joins(:student_grade).present?)
+  # 		GradeReport.create do |grade_report|
+		# 			grade_report.semester_registration_id = self.id
+		# 			grade_report.student_id = self.student.id
+		# 			grade_report.academic_calendar_id = 3
+		# 			grade_report.semester = self.semester
+		# 			grade_report.year = self.year
+
+		# 			sgp = course_registrations.collect { |oi| oi.valid? ? (oi.curriculum.credit_hour * oi.student_grade.grade_in_number.to_f) : 0 }.sum
+		# 			total_credit_hour = course_registrations.collect { |oi| oi.valid? ? (oi.curriculum.credit_hour) : 0 }.sum
+
+		# 			grade_report.sgpa = sgp / total_credit_hour
+		# 			grade_report.semester_credit_hr_total =  total_credit_hour
+		# 			grade_report.semester_total_grade_point = course_registrations.collect { |oi| oi.valid? ? oi.semester_registration.student.student_grades.where(course_id: oi.curriculum.course_id).last.grade_in_number.to_f : 0 }.sum
+
+		# 			if self.student.grade_reports.count > 1
+		# 				ss
+		# 				grade_report.previous_credit_hr_total = self.student.grade_reports.order("created_at DESC").first.semester_credit_hr_total
+		# 				grade_report.previous_grade_point_total = self.student.grade_reports.order("created_at DESC").first.semester_total_grade_point
+		# 				grade_report.previous_ang_total = self.student.grade_reports.order("created_at DESC").first.cgpa
+
+		# 				grade_report.cgpa = (grade_report.sgpa + grade_report.previous_ang_total) / 2
+		# 				grade_report.cumulative_total_credit_hour = (grade_report.semester_credit_hr_total + grade_report.previous_credit_hr_total)
+		# 				grade_report.cumulative_total_grade_point = (grade_report.semester_total_grade_point + grade_report.previous_grade_point_total)
+		# 			else
+		# 				grade_report.cgpa = grade_report.sgpa 
+		# 				grade_report.cumulative_total_credit_hour = grade_report.semester_credit_hr_total
+		# 				grade_report.cumulative_total_grade_point = grade_report.semester_total_grade_point
+		# 			end
+		# 	end
+		# end
+  # end
+
 
   def add_course_for_reg
   	if (self.remaining_amount == 45) && (!self.course_registrations.present?)

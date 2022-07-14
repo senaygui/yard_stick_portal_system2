@@ -1,0 +1,2 @@
+class AcademicStatus < ApplicationRecord
+end

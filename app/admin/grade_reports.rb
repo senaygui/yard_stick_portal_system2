@@ -122,7 +122,7 @@ permit_params :semester_registration_id,:student_id,:academic_calendar_id,:cgpa,
               end
               column "Grade Point" do |pr|
                 if pr.student_grade.present?
-                  pr.student_grade.grade_letter_value
+                  pr.student_grade.grade_in_number
                 end
               end
             end
