@@ -3,7 +3,7 @@ class StudentGrade < ApplicationRecord
   require "net/http"
   
   after_save :generate_grade
-  after_save :update_grade_report
+  # after_save :update_grade_report
 
   belongs_to :course_registration, optional: true
   belongs_to :student
