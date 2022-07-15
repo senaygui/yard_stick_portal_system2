@@ -21,7 +21,7 @@ ActiveAdmin.register Student do
                                         end
   controller do
     def scoped_collection
-      super.where.not("student_id like ?", "%14B%")
+      super.where.not("student_id like ?", "%14B%").where.not("student_id like ?", "%15A%")
     end
   end
 
