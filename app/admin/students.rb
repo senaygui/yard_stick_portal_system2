@@ -19,11 +19,11 @@ ActiveAdmin.register Student do
                                           semester: 'text'
                                           }
                                         end
-  # controller do
-  #   def scoped_collection
-  #     super.where.not("student_id like ?", "%14B%")
-  #   end
-  # end
+  controller do
+    def scoped_collection
+      super.where.not("student_id like ?", "%14B%")
+    end
+  end
 
   batch_action :flag, form: {
     semester: :text

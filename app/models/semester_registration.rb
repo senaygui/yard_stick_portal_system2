@@ -52,7 +52,7 @@ class SemesterRegistration < ApplicationRecord
 						if ((self.course_registrations.joins(:student_grade).pluck(:grade_in_letter).include?("I")) || (self.course_registrations.joins(:student_grade).pluck(:grade_in_letter).include?("NG")))
 							report.academic_status = "Incomplete"
 						else
-							report.academic_status = AcademicStatus.where("min_value < ?", report.cgpa).where("max_value > ?", report.cgpa).last.status
+							# report.academic_status = AcademicStatus.where("min_value < ?", report.cgpa).where("max_value > ?", report.cgpa).last.status
 							# if (report.academic_status != "Dismissal") || (report.academic_status != "Incomplete")
 							# 	if self.program.program_semester > self.student.semester
 							# 		promoted_semester = self.student.semester + 1
@@ -76,7 +76,7 @@ class SemesterRegistration < ApplicationRecord
 						if ((self.course_registrations.joins(:student_grade).pluck(:grade_in_letter).include?("I")) || (self.course_registrations.joins(:student_grade).pluck(:grade_in_letter).include?("NG")))
 							report.academic_status = "Incomplete"
 						else
-							report.academic_status = AcademicStatus.where("min_value <= ?", report.cgpa).where("max_value >= ?", report.cgpa).last.status
+							# report.academic_status = AcademicStatus.where("min_value <= ?", report.cgpa).where("max_value >= ?", report.cgpa).last.status
 							# if (report.academic_status != "Dismissal") || (report.academic_status != "Incomplete")
 							# 	if self.program.program_semester > self.student.semester
 							# 		promoted_semester = self.student.semester + 1
