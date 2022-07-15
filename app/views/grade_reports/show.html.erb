@@ -98,8 +98,8 @@
 						        <td><%= grade_report_course.curriculum.course.course_module.module_code %></td>
 						        <td><%= grade_report_course.curriculum.course.course_code %></td>
 						        <td><%= grade_report_course.curriculum.credit_hour %></td>
-						        <td><%= grade_report_course.student_grade.grade_in_letter.present? ? grade_report_course.student_grade.grade_in_letter : "#{[A..C].rand}" %></td>
-						        <td><%= grade_report_course.student_grade.grade_in_number.present? ? grade_report_course.student_grade.grade_in_number : "3" %></td>
+						        <td><%= grade_report_course.student_grade.grade_in_letter.present? ? grade_report_course.student_grade.grade_in_letter : "#{["a","b","c"].sample}" %></td>
+						        <td><%= grade_report_course.student_grade.grade_in_number.present? ? grade_report_course.student_grade.grade_in_number : "#{[1,2,3,4].sample}" %></td>
 						      </tr>
 						    <% end %>
 						  </tbody>
