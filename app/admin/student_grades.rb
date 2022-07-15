@@ -34,7 +34,7 @@ ActiveAdmin.register StudentGrade do
                     
   member_action :generate_grade, method: :put do
     @student_grade= StudentGrade.find(params[:id])
-    @student_grade.generate_grade
+    @student_grade.generate_grade_2013
     redirect_back(fallback_location: admin_student_grade_path)
   end
   action_item :update, only: :show do

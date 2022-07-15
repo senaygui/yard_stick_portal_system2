@@ -1,6 +1,6 @@
 class SemesterRegistration < ApplicationRecord
 	after_save :generate_invoice
-	after_save :generate_grade_report
+	# after_save :generate_grade_report
 	after_save :add_course_for_reg
 	# after_save :second_semester_course
 	after_create :first_semester_course
@@ -224,7 +224,8 @@ class SemesterRegistration < ApplicationRecord
 	  	end
 
 	  def add_grade
-			if (self.registrar_approval_status == "approved") && self.course_registrations.each do |reg|
+			if (self.registrar_approval_status == "approved")
+				self.course_registrations.each do |reg|
 					if (!reg.student_grade.present?)
 						StudentGrade.create do |student_grade|
 								student_grade.course_registration_id = reg.id

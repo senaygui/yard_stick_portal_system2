@@ -95,6 +95,12 @@ ActiveAdmin.register SemesterRegistration do
     @semester_registration.generate_grade_report
     redirect_back(fallback_location: admin_student_grade_path)
   end
+  batch_action "Generate grade report for", if: proc{ current_admin_user.role == "registrar head" }, method: :put, confirm: "Are you sure?" do |ids|
+    SemesterRegistration.find(ids).each do |sm|
+      sm.generate_grade_report
+    end
+    redirect_to collection_path, notice: "Grade Report Is Generated Successfully"
+  end
   action_item :update, only: :show do
     link_to 'generate grade report', generate_grade_report_admin_semester_registration_path(semester_registration.id), method: :put, data: { confirm: 'Are you sure?' }        
   end
