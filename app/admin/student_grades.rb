@@ -30,7 +30,7 @@ ActiveAdmin.register StudentGrade do
   end
   batch_action "Generated Grade For", method: :put, confirm: "Are you sure?" do |ids|
     StudentGrade.find(ids).each do |student_grade|
-      student_grade.moodle_grade
+      student_grade.generate_grade_2013
     end
     redirect_to collection_path, notice: "Grade Is Generated Successfully"
   end
