@@ -22,7 +22,13 @@ ActiveAdmin.register StudentGrade do
     @student_grade.moodle_grade
     redirect_back(fallback_location: admin_student_grade_path)
   end
-  batch_action "Generate Grade for", method: :put, confirm: "Are you sure?" do |ids|
+  batch_action "Get Grade for LMS", method: :put, confirm: "Are you sure?" do |ids|
+    StudentGrade.find(ids).each do |student_grade|
+      student_grade.moodle_grade
+    end
+    redirect_to collection_path, notice: "Grade Is Generated Successfully"
+  end
+  batch_action "Generated Grade For", method: :put, confirm: "Are you sure?" do |ids|
     StudentGrade.find(ids).each do |student_grade|
       student_grade.moodle_grade
     end
