@@ -76,20 +76,20 @@ ActiveAdmin.register SemesterRegistration do
       "student"
     end
   end
-  controller do
-    def create
-      super do |format|
-      if @CollegePayment.save
-        format.html { redirect_to edit_admin_semester_registration_path(@semester_registration), notice: 'student registration created successfully.' }
-        format.json { render :show, status: :created, location: @semester_registration }
-      else
-        format.html { render :new }
-        format.json { render json: @semester_registration.errors, status: :unprocessable_entity }
-      end
-    end
-      # super
-    end 
-  end 
+  # controller do
+  #   def create
+  #     super do |format|
+  #     if @CollegePayment.save
+  #       format.html { redirect_to edit_admin_semester_registration_path(@semester_registration), notice: 'student registration created successfully.' }
+  #       format.json { render :show, status: :created, location: @semester_registration }
+  #     else
+  #       format.html { render :new }
+  #       format.json { render json: @semester_registration.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  #     # super
+  #   end 
+  # end 
   member_action :generate_grade_report, method: :put do
     @semester_registration= SemesterRegistration.find(params[:id])
     @semester_registration.generate_grade_report
