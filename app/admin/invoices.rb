@@ -8,37 +8,37 @@ ActiveAdmin.register Invoice do
                                           }
                                         end
 
-  controller do
-    after_action :testmoodle, only: [:update]
+  # controller do
+  #   after_action :testmoodle, only: [:update]
 
 
-    def testmoodle
-      if @invoice.payment_transaction.finance_approval_status == "approved"
-        @moodle = MoodleRb.new('9233bd19465dce9510838176b7b1aa76', 'https://lms.yic.edu.et/webservice/rest/server.php')
-        if !(@moodle.users.search(email: "#{@invoice.student.email}").present?)
-          student = @moodle.users.create(
-              :username => "#{@invoice.student.student_id.downcase}",
-              :password => "#{@invoice.student.student_password}",
-              :firstname => "#{@invoice.student.first_name}",
-              :lastname => "#{@invoice.student.last_name}",
-              :email => "#{@invoice.student.email}"
-            )
-          lms_student = @moodle.users.search(email: "#{@invoice.student.email}")
-          @user = lms_student[0]["id"]
-          @invoice.semester_registration.course_registrations.each do |c|
-            s = @moodle.courses.search("#{c.curriculum.course.course_code}")
-            @course = s["courses"].to_a[0]["id"]
-            @moodle.enrolments.create(
-              :user_id => "#{@user}",
-              :course_id => "#{@course}",
-              # :time_start => 1646312400,
-              # :time_end => 1646398800
-            )
-          end
-        end
-      end
-    end
-  end 
+  #   def testmoodle
+  #     if @invoice.payment_transaction.finance_approval_status == "approved"
+  #       @moodle = MoodleRb.new('9233bd19465dce9510838176b7b1aa76', 'https://lms.yic.edu.et/webservice/rest/server.php')
+  #       if !(@moodle.users.search(email: "#{@invoice.student.email}").present?)
+  #         student = @moodle.users.create(
+  #             :username => "#{@invoice.student.student_id.downcase}",
+  #             :password => "#{@invoice.student.student_password}",
+  #             :firstname => "#{@invoice.student.first_name}",
+  #             :lastname => "#{@invoice.student.last_name}",
+  #             :email => "#{@invoice.student.email}"
+  #           )
+  #         lms_student = @moodle.users.search(email: "#{@invoice.student.email}")
+  #         @user = lms_student[0]["id"]
+  #         @invoice.semester_registration.course_registrations.each do |c|
+  #           s = @moodle.courses.search("#{c.curriculum.course.course_code}")
+  #           @course = s["courses"].to_a[0]["id"]
+  #           @moodle.enrolments.create(
+  #             :user_id => "#{@user}",
+  #             :course_id => "#{@course}",
+  #             # :time_start => 1646312400,
+  #             # :time_end => 1646398800
+  #           )
+  #         end
+  #       end
+  #     end
+  #   end
+  # end 
 
   csv do
     column "student id" do |item|
