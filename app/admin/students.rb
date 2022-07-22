@@ -389,19 +389,20 @@ ActiveAdmin.register Student do
         panel "Document" do
           attributes_table_for student do
             row "Documents" do |i|
-
               div class: "document-preview container" do
                 i.documents.each do |doc| 
-                  span link_to "view document", doc.service_url
-                  # if doc.variable?
-                  #   div class: "preview-card" do
-                  #     span link_to image_tag(doc, size: '200x200'), doc
-                  #   end
-                  # elsif doc.previewable?
-                  #   div class: "preview-card" do
-                  #     span link_to "view document", doc.service_url
-                  #   end
-                  # end
+                  
+                  if doc.variable?
+                    div class: "preview-card" do
+                      span link_to image_tag(doc, size: '200x200'), doc
+                    end
+                  elsif doc.previewable?
+                    div class: "preview-card" do
+                      span link_to "view document", doc.service_url
+                    end
+                  else
+                    span link_to "view document", doc.service_url
+                  end
                 end
               end
             end
