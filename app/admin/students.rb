@@ -397,7 +397,7 @@ ActiveAdmin.register Student do
                     end
                   elsif doc.previewable?
                     div class: "preview-card" do
-                      span link_to image_tag(doc.preview(resize: '200x200')), doc
+                      span link_to "view document", doc.service_url
                     end
                   end
                 end
