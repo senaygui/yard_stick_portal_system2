@@ -74,6 +74,8 @@ group :development do
   gem 'capistrano-passenger', '~> 0.2.0'
   gem 'capistrano-rbenv', '~> 2.1', '>= 2.1.4'
   gem 'capistrano-rails-db'
+  gem 'ed25519', '~> 1.2', '>= 1.2.4'
+  gem 'bcrypt_pbkdf', '~> 1.0.0.alpha1'
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
