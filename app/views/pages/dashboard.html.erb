@@ -130,8 +130,8 @@
         
       </div>
       <div class="col-12 col-md-4">
-        <% if current_student.semester_registrations.where(academic_calendar_id: 8) || current_student.semester_registrations.where(academic_calendar_id: 7)%>
-          <% !if current_student.semester_registrations.order("created_at DESC").first.invoices.order("created_at DESC").first.present? %>
+        <% if (current_student.semester_registrations.where(academic_calendar_id: 8)) || (current_student.semester_registrations.where(academic_calendar_id: 7))%>
+          <% if !current_student.semester_registrations.order("created_at DESC").first.invoices.order("created_at DESC").first.present? %>
             <div class="col-12">
               <div class="card card-success">
                 <div class="card-header">
