@@ -1,5 +1,6 @@
 class SemesterRegistration < ApplicationRecord
 	after_save :generate_invoice
+	after_save :generate_invoice_senier_students
 	# after_save :generate_grade_report
 	after_save :add_course_for_reg
 	# after_save :second_semester_course
@@ -131,8 +132,8 @@ class SemesterRegistration < ApplicationRecord
 
 
   def add_course_for_reg
-  	if (self.remaining_amount == 99) && (!self.course_registrations.present?)
-  		self.student.program.curriculums.where(year: 1, semester: 2).each do |co|
+  	if (self.remaining_amount == 200) && (!self.course_registrations.present?)
+  		self.student.program.curriculums.where(year: 2, semester: 2).each do |co|
   			CourseRegistration.create do |course|
   				course.semester_registration_id = self.id
   				course.curriculum_id = co.id
@@ -144,7 +145,7 @@ class SemesterRegistration < ApplicationRecord
   end
   private	
 	  	def generate_invoice
-	  		if self.mode_of_payment.present? && self.invoices.empty?
+	  		if self.mode_of_payment.present? && self.invoices.empty? && !(self.remaining_amount == 200)
 	  			Invoice.create do |invoice|
 	  				invoice.semester_registration_id = self.id
 	  				invoice.student_id = self.student.id
@@ -162,6 +163,37 @@ class SemesterRegistration < ApplicationRecord
 						invoice.invoice_number = SecureRandom.random_number(10000000)
 						if mode_of_payment == "Monthly Payment"
 							tution_price = self.student.program.monthly_price
+							invoice.total_price = tution_price + invoice.registration_fee
+						elsif mode_of_payment == "Full Semester Payment"
+							tution_price = self.student.program.full_semester_price
+							invoice.total_price = tution_price + invoice.registration_fee
+						elsif mode_of_payment == "Every Three Month Payment"
+							tution_price = self.student.program.three_monthly_price
+							invoice.total_price = tution_price + invoice.registration_fee
+						elsif mode_of_payment == "Every Two Month Payment"
+							tution_price = self.student.program.two_monthly_price
+							invoice.total_price = tution_price + invoice.registration_fee
+						end	
+						
+						# self.total_price = (self.course_registrations.collect { |oi| oi.valid? ? (CollegePayment.where(study_level: self.study_level,admission_type: self.admission_type).first.tution_per_credit_hr * oi.curriculum.credit_hour) : 0 }.sum) + CollegePayment.where(study_level: self.study_level,admission_type: self.admission_type).first.registration_fee
+	  			end
+	  		end
+	  	end
+	  	def generate_invoice_senier_students
+	  		if (self.mode_of_payment.present?) && (self.invoices.empty?) && (self.year == 2) && (self.semester == 2)
+	  			Invoice.create do |invoice|
+	  				invoice.semester_registration_id = self.id
+	  				invoice.student_id = self.student.id
+	  				invoice.created_by = self.created_by
+	  				invoice.due_date = self.created_at.day + 2.days 
+	  				invoice.student_name = "#{self.student.first_name} #{self.student.middle_name} #{self.student.last_name}"
+	  				invoice.department = self.student.department
+	  				invoice.program = self.student.program.program_name
+	  				invoice.invoice_status = "not submitted"
+					invoice.registration_fee = 250
+						invoice.invoice_number = SecureRandom.random_number(10000000)
+						if mode_of_payment == "Monthly Payment"
+							tution_price = 6500
 							invoice.total_price = tution_price + invoice.registration_fee
 						elsif mode_of_payment == "Full Semester Payment"
 							tution_price = self.student.program.full_semester_price
