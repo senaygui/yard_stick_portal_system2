@@ -1,4 +1,4 @@
-ActiveAdmin.register Student do
+  ActiveAdmin.register Student do
     config.sort_order = "created_at_desc"
     active_admin_import :validate => false,
                             :before_batch_import => proc { |import|
@@ -32,7 +32,7 @@ ActiveAdmin.register Student do
     redirect_to collection_path, notice: [ids, inputs].to_s
   end
   menu priority: 7
-  permit_params :current_location,:current_occupation,:tempo_status,:created_by,:last_updated_by,:photo,:email,:password,:first_name,:last_name,:middle_name,:gender,:student_id,:date_of_birth,:program_id,:department,:admission_type,:study_level,:marital_status,:year,:semester,:account_verification_status,:document_verification_status,:account_status,:graduation_status,student_address_attributes: [:id,:country,:city,:region,:zone,:sub_city,:house_number,:cell_phone,:house_phone,:pobox,:woreda,:created_by,:last_updated_by],emergency_contact_attributes: [:id,:full_name,:relationship,:cell_phone,:email,:current_occupation,:name_of_current_employer,:pobox,:email_of_employer,:office_phone_number,:created_by,:last_updated_by], documents: []
+  permit_params :current_location,:current_occupation,:tempo_status,:created_by,:last_updated_by,:photo,:email,:password,:first_name,:last_name,:middle_name,:gender,:student_id,:date_of_birth,:program_id,:department,:admission_type,:study_level,:marital_status,:year,:semester,:account_verification_status,:document_verification_status,:account_status,:graduation_status,student_address_attributes: [:id,:country,:city,:region,:zone,:sub_city,:house_number,:cell_phone,:house_phone,:pobox,:woreda,:created_by,:last_updated_by],emergency_contact_attributes: [:id,:full_name,:relationship,:cell_phone,:email,:current_occupation,:name_of_current_employer,:pobox,:email_of_employer,:office_phone_number,:created_by,:last_updated_by],:grade_8_ministry,:grade_10_matric,:grade_12_matric,:coc,:highschool_transcript,:diploma_certificate,:original_degree_certificate,:temporary_degree_certificate,:student_copy,:offical, documents: []
   controller do
     def update_resource(object, attributes)
       update_method = attributes.first[:password].present? ? :update_attributes : :update_without_password
@@ -251,6 +251,18 @@ ActiveAdmin.register Student do
         a.input :office_phone_number, hint: "current employer company phone number or person phone number of the student emergency contact person"
         a.input :pobox
       end
+      f.inputs 'Student Documents', multipart: true do
+        f.input :grade_8_ministry, as: :file, label: "Grade 8 ministry certificate"
+        f.input :highschool_transcript, as: :file, label: "Grade 9, 10, 11,and 12 transcripts"
+        f.input :grade_10_matric, as: :file, label: "Grade 10 matric certificate"
+        f.input :grade_12_matric, as: :file, label: "Grade 12 matric certificate"
+        f.input :coc, as: :file, label: "Certificate of competency (COC)"
+        f.input :diploma_certificate, as: :file, label: "TVET/Diploma certificate"
+        f.input :degree_certificate, as: :file, label: "Undergraduate degree certificate"
+        f.input :student_copy, as: :file
+        f.input :offical, as: :file
+        f.input :tempo_status
+      end
       f.inputs 'Dcouemnts', multipart: true do
         div class: "file-upload" do
           f.drag_and_drop_file_field :documents do
@@ -403,6 +415,187 @@ ActiveAdmin.register Student do
                   else
                     span link_to "view document", doc.service_url
                   end
+                end
+              end
+            end
+          end
+        end
+        columns do
+          column do
+            panel "Highschool Transcript" do 
+              if student.highschool_transcript.attached?
+                if student.highschool_transcript.variable?
+                  div class: "preview-card text-center" do
+                    span link_to image_tag(student.highschool_transcript, size: '200x270'), student.highschool_transcript
+                  end
+                elsif student.highschool_transcript.previewable?
+                  div class: "preview-card text-center" do
+                    span link_to "view document", rails_blob_path(student.highschool_transcript, disposition: 'preview')
+                    # span link_to image_tag(student.highschool_transcript.preview(resize: '200x200')), student.highschool_transcript
+                  end
+                else
+                  # span link_to "view document", student.highschool_transcript.service_url
+                  span link_to "view document", rails_blob_path(student.highschool_transcript, disposition: 'preview')
+                end
+              else
+                h3 class: "text-center no-recent-data" do
+                  "Document Not Uploaded Yet"
+                end
+              end
+            end
+            panel "Grade 8 Ministry Certificate" do 
+              if student.grade_8_ministry.attached?
+                if student.grade_8_ministry.variable?
+                  div class: "preview-card text-center" do
+                    span link_to image_tag(student.grade_8_ministry, size: '200x270'), student.grade_8_ministry
+                  end
+                elsif student.grade_8_ministry.previewable?
+                  div class: "preview-card text-center" do
+                    span link_to "view document", rails_blob_path(student.grade_8_ministry, disposition: 'preview')
+                    # span link_to image_tag(student.diploma_certificate.preview(resize: '200x200')), student.diploma_certificate
+                  end
+                else
+                  span link_to "view document", rails_blob_path(student.grade_8_ministry, disposition: 'preview')
+                end
+              else
+                h3 class: "text-center no-recent-data" do
+                  "Document Not Uploaded Yet"
+                end
+              end
+            end
+          end
+          column do
+            panel "Grade 10 Matric Certificate" do 
+              if student.grade_10_matric.attached?
+                if student.grade_10_matric.variable?
+                  div class: "preview-card text-center" do
+                    span link_to image_tag(student.grade_10_matric, size: '200x270'), student.grade_10_matric
+                  end
+                elsif student.grade_10_matric.previewable?
+                  div class: "preview-card text-center" do
+                    span link_to "view document", rails_blob_path(student.grade_10_matric, disposition: 'preview')
+                    # span link_to image_tag(student.grade_10_matric.preview(resize: '200x200')), student.grade_10_matric
+                  end
+                else
+                  span link_to "view document", rails_blob_path(student.grade_10_matric, disposition: 'preview')
+                end
+              else
+                h3 class: "text-center no-recent-data" do
+                  "Document Not Uploaded Yet"
+                end
+              end
+            end
+            panel "Certificate Of Competency(COC)" do
+              if student.coc.attached?
+                if student.coc.variable?
+                  div class: "preview-card text-center" do
+                    span link_to image_tag(student.coc, size: '200x270'), student.coc
+                  end
+                elsif student.coc.previewable?
+                  div class: "preview-card text-center" do
+                    span link_to "view document", rails_blob_path(student.coc, disposition: 'preview')
+                    # span link_to image_tag(student.coc.preview(resize: '200x200')), student.coc
+                  end
+                else
+                  span link_to "view document", rails_blob_path(student.coc, disposition: 'preview')
+                end
+              else
+                h3 class: "text-center no-recent-data" do
+                  "Document Not Uploaded Yet"
+                end
+              end 
+            end
+          end
+          column do
+            panel "Grade 12 Matric Certificate" do 
+              if student.grade_12_matric.attached?
+                if student.grade_12_matric.variable?
+                  div class: "preview-card text-center" do
+                    span link_to image_tag(student.grade_12_matric, size: '200x270'), student.grade_12_matric
+                  end
+                elsif student.grade_12_matric.previewable?
+                  div class: "preview-card text-center" do
+                    span link_to "view document", rails_blob_path(student.grade_12_matric, disposition: 'preview')
+                    # span link_to image_tag(student.grade_12_matric.preview(resize: '200x200')), student.grade_12_matric
+                  end
+                else
+                 span link_to "view document", rails_blob_path(student.grade_12_matric, disposition: 'preview')
+               end
+             else
+              h3 class: "text-center no-recent-data" do
+                "Document Not Uploaded Yet"
+              end
+            end
+            panel "TVET/Diploma Certificate" do 
+              if student.diploma_certificate.attached?
+                if student.diploma_certificate.variable?
+                  div class: "preview-card text-center" do
+                    span link_to image_tag(student.diploma_certificate, size: '200x270'), student.diploma_certificate
+                  end
+                elsif student.diploma_certificate.previewable?
+                  div class: "preview-card text-center" do
+                    span link_to "view document", rails_blob_path(student.diploma_certificate, disposition: 'preview')
+                    # span link_to image_tag(student.diploma_certificate.preview(resize: '200x200')), student.diploma_certificate
+                  end
+                else
+                  span link_to "view document", rails_blob_path(student.diploma_certificate, disposition: 'preview')
+                end
+              else
+                h3 class: "text-center no-recent-data" do
+                  "Document Not Uploaded Yet"
+                end
+              end
+            end
+          end
+
+          column do
+            panel "Undergraduate Degree Certificate" do 
+              if student.degree_certificate.attached?
+                if student.degree_certificate.variable?
+                  div class: "preview-card text-center" do
+                    span link_to image_tag(student.degree_certificate, size: '200x270'), student.degree_certificate
+                  end
+                elsif student.degree_certificate.previewable?
+                  div class: "preview-card text-center" do
+                    span link_to "view document", rails_blob_path(student.degree_certificate, disposition: 'preview')
+                    # span link_to image_tag(student.degree_certificate.preview(resize: '200x200')), student.degree_certificate
+                  end
+                else
+                  span link_to "view document", rails_blob_path(student.degree_certificate, disposition: 'preview')
+                end
+
+                div class: "text-center" do 
+                  span "Temporary Degree Status"
+                  status_tag student.tempo_status
+                end
+              else
+                h3 class: "text-center no-recent-data" do
+                  "Not Uploaded Yet"
+                end
+              end
+            end 
+            panel "Undergraduate Degree Student Copy" do 
+              if student.student_copy.attached?
+                if student.student_copy.variable?
+                  div class: "preview-card text-center" do
+                    span link_to image_tag(student.student_copy, size: '200x270'), student.student_copy
+                  end
+                elsif student.student_copy.previewable?
+                  div class: "preview-card text-center" do
+                    span link_to "view document", rails_blob_path(student.student_copy, disposition: 'preview')
+                    # span link_to image_tag(student.student_copy.preview(resize: '200x200')), student.student_copy
+                  end
+                else
+                  span link_to "view document", rails_blob_path(student.student_copy, disposition: 'preview')
+                end
+
+                div class: "text-center" do 
+                  span "Temporary Degree Status"
+                  status_tag student.tempo_status
+                end
+              else
+                h3 class: "text-center no-recent-data" do
+                  "Not Uploaded Yet"
                 end
               end
             end

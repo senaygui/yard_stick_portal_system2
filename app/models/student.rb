@@ -23,6 +23,16 @@ class Student < ApplicationRecord
     has_many :invoices, dependent: :destroy
     has_many_attached :documents, dependent: :destroy
     has_one_attached :photo, dependent: :destroy
+    has_one_attached :grade_8_ministry, dependent: :destroy
+    has_one_attached :grade_10_matric, dependent: :destroy
+    has_one_attached :grade_12_matric, dependent: :destroy
+    has_one_attached :coc, dependent: :destroy
+    has_one_attached :highschool_transcript, dependent: :destroy
+    has_one_attached :diploma_certificate, dependent: :destroy 
+    has_one_attached :original_degree_certificate, dependent: :destroy 
+    has_one_attached :temporary_degree_certificate, dependent: :destroy 
+    has_one_attached :student_copy, dependent: :destroy 
+    has_one_attached :offical, dependent: :destroy  
     has_many :student_grades, dependent: :destroy
     has_many :grade_reports
     has_many :assessments
