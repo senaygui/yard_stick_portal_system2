@@ -3,7 +3,7 @@ class Student < ApplicationRecord
   ##callbacks
   before_create :department_assignment
   after_create :first_notification
-  before_save :create_notification
+  before_save :create_notification_for_student
   before_save :student_id_generator
   after_save :student_semester_registration
   before_create :set_pwd
@@ -111,8 +111,8 @@ class Student < ApplicationRecord
       notification.notification_message = 'pending'
     end
   end
-  def create_notification
-    if self.document_verification_status == "approved"
+  def create_notification_for_student
+    if self.document_verification_status == "approved" && !(self.student_id.present?)
       Notification.create do |notification|
         notification.notifiable_type = 'student'
         notification.notification_status = 'approved'
