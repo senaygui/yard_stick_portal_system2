@@ -6,6 +6,9 @@ class PagesController < ApplicationController
   def documents
     authenticate_student!
   end
+  def update_document
+    authenticate_student!
+  end
   def digital_iteracy_quiz
   end
   def requirement

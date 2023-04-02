@@ -11,17 +11,35 @@
  * It is generally better to create a new file per style scope.
  *
  *= require flatpickr
- *= require active_storage_drag_and_drop
  *= require_self
  */
 // @import "bootstrap";
-@import "datatables";
 @import "font-awesome";
 @import "adminlte";
 @import "OverlayScrollbars.min";
 @import "icheck-bootstrap.min";
 @import "bs-stepper.min";
 
+/* transform input text in to captial letter */
+
+.cap{
+    text-transform:uppercase;
+}
+
+
+/* addmission radio button form */
+
+.student_program_id legend{
+  font-weight: 700;
+}
+
+.student_program_id .custom-control{
+  margin-bottom: 5px;
+  font-weight: 400 !important;
+}
+.student_program_id .custom-control-label{
+  font-weight: 400 !important;
+}
 .profile-user-img {
   width: 150px;
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);

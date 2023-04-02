@@ -1,46 +1,54 @@
+<style type="text/css">
+  input[type=file]{
+  padding-bottom: 45px;
+  /*margin-left: 10px;*/
+  }
+  input::file-selector-button {
+      align-items: center;
+      background-clip: padding-box;
+      background-color: #036696;
+      border: 1px solid transparent;
+      border-radius: .25rem;
+      box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+      box-sizing: border-box;
+      color: #fff;
+      cursor: pointer;
+      display: inline-flex;
+      font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      justify-content: center;
+      line-height: 1.25;
+      margin: 0;
+      min-height: 2.5rem;
+      padding: 0px calc(1.3rem - 1px);
+      position: relative;
+      text-decoration: none;
+      transition: all 250ms;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+      vertical-align: baseline;
+      width: auto;
+    }
+</style>
 <div class="row">
-  <div class="col-12">
-    <!-- Profile Image -->
-    <div class="box box-primary">
-      <div class="box-body box-profile">
-        <div>
-          <div class="avatar-upload">
-            <div class="avatar-edit">
-              <!-- <form action="" method="post" id="form-image"> -->
-                <%= f.file_field :photo%>
-                
-                <label for="student_photo"></label>
-                <!-- </form> -->
-              </div>
-              <div class="avatar-preview">
-                <% if f.object.photo.attached? %>
-                  <%= image_tag("blank-profile-picture-973460_640.png",resize: '100x100',class: "profile-user-img img-responsive img-circle", id: "imagePreview", alt: "User profile picture")%>
-                <% else %>
-                  <%= image_tag("blank-profile-picture-973460_640.png",class: "profile-user-img img-responsive img-circle", id: "imagePreview") %>
-                <%end%>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      
+    <div class="col-12 col-md-6 form-group">
+      <%= f.input :first_name, input_html: { class: 'cap form-control', autofocus: true, autocomplete: "first_name" },placeholder: "First Name", required: true, error: 'First name is mandatory, please specify one' %>
     </div>
     <div class="col-12 col-md-6 form-group">
-      <%= f.input :first_name, input_html: { class: 'form-control', autofocus: true, autocomplete: "first_name" },placeholder: "First Name", required: true, error: 'Username is mandatory, please specify one' %>
+      <%= f.input :middle_name, input_html: { class: 'cap form-control', autocomplete: "middle_name" },placeholder: "Middle Name", label: "Middle Name (Father name)", required: true, error: 'Middle name is mandatory, please specify one' %>
     </div>
     <div class="col-12 col-md-6 form-group">
-      <%= f.input :last_name, input_html: { class: 'form-control', autocomplete: "Last Name" },placeholder: "Last Name", label: "Last name (Grandfather name)", required: true %>
+      <%= f.input :last_name, input_html: { class: 'cap form-control', autocomplete: "Last Name" },placeholder: "Last Name", label: "Last name (Grandfather name)", required: true, error: 'Grandfather name is mandatory, please specify one' %>
     </div>
-    <div class="col-12 col-md-6 form-group">
-      <%= f.input :middle_name, input_html: { class: 'form-control', autocomplete: "middle_name" },placeholder: "Middle Name", label: "Middle Name (Father name)", required: true %>
-    </div>
+    
     <div class="col-12 col-md-6 form-group">
       <%= f.input :gender,:as => :select, :collection => ["Male", "Female"], input_html: {class: "form-control custom-select rounded-0"}, :include_blank => false %>
     </div>
     <div class="col-12 col-md-6 form-group">
       <%= f.label :date_of_birth%>
-      <%= f.date_field :date_of_birth,class: 'form-control datepicker'%>
+      <%= f.date_field :date_of_birth,class: 'form-control birthdate'%>
       <%= f.hint "when you pick your birth date select GC"%>
     </div>
     <div class="col-12 col-md-6 form-group">
@@ -54,10 +62,14 @@
     </div>
     <div class="col-12 col-md-6 form-group">
       <%= f.input :password, input_html: { class: 'form-control', autocomplete: "password" },placeholder: "Password", required: true %>
-      <%= f.hint "must be between 5 to 20 characters which contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character"%>
+      <%= f.hint "must be between 8 to 20 characters which contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character"%>
     </div>
     <div class="col-12 col-md-6 form-group">
       <%= f.input :password_confirmation, input_html: { class: 'form-control', autocomplete: "password_confirmation" },placeholder: "Password confirmation", required: true %>
+    </div>
+    <div class="col-12 col-md-6 form-group">
+      <%= f.label :photo , "Upload Photo *" %>
+      <%= f.file_field :photo,class: 'form-control', accept: "image/*"%>
     </div>
   </div>
 

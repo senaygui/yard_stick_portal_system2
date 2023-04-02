@@ -1,4 +1,5 @@
 class SemesterRegistration < ApplicationRecord
+	after_save :create_notification
 	after_save :generate_invoice
 	after_save :generate_invoice_senier_students
 	# after_save :generate_grade_report
@@ -7,6 +8,7 @@ class SemesterRegistration < ApplicationRecord
 	after_create :first_semester_course
 	after_save :set_student_id_number
 	after_save :add_grade
+	
 	# after_save :first_semester_course_for_import
 	##validations
 	  validates :semester, :presence => true
@@ -28,6 +30,18 @@ class SemesterRegistration < ApplicationRecord
   	has_many :invoices, dependent: :destroy
   	has_one :grade_report, dependent: :destroy
 
+
+
+  def create_notification
+    if self.mode_of_payment.present? && self.invoices.empty?
+      Notification.create do |notification|
+        notification.notifiable_type = 'student'
+        notification.notification_status = 'payment_submit'
+        notification.notifiable = self.student
+        notification.notification_message = 'In this step transfer to the college account and submit transfer information.'
+      end
+    end
+  end
 
   def generate_grade_report
   	

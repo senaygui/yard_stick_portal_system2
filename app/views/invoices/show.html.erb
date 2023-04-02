@@ -170,7 +170,7 @@
 								
 							</button> -->
 							<% if !@invoice.payment_transaction.present?%>
-								<%= link_to '<i class="far fa-credit-card"></i> Submit Payment'.html_safe, {controller: "payment_methods", action: "index", invoice_id: @invoice.id}, class: "btn btn-success float-right"%>
+								<%= link_to '<i class="far fa-credit-card"></i> Submit Payment'.html_safe, {controller: "payment_methods", action: "index", invoice_id: @invoice.id}, data: { turbolinks: false }, class: "btn btn-success float-right"%>
 										
 								<!-- <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
 									<i class="fas fa-download"></i> Generate PDF

@@ -23,7 +23,7 @@ default: &default
 
 development:
   <<: *default
-  database: yic_portal_system_development
+  database: yic
   username: <%= ENV['DB_USERNAME'] %>
   password: <%= ENV['DB_PASSWORD'] %>
   host: <%= ENV['DB_HOST'] %>

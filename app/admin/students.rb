@@ -1,24 +1,24 @@
   ActiveAdmin.register Student do
     config.sort_order = "created_at_desc"
     active_admin_import :validate => false,
-                            :before_batch_import => proc { |import|
-                              import.csv_lines.length.times do |i|
-                                import.csv_lines[i][3] = Student.new(:password => import.csv_lines[i][3]).encrypted_password
-                              end
-                            },
+    :before_batch_import => proc { |import|
+      import.csv_lines.length.times do |i|
+        import.csv_lines[i][3] = Student.new(:password => import.csv_lines[i][3]).encrypted_password
+      end
+    },
                             # :template_object => ActiveAdminImport::Model.new(
                             #     :hint => "file will be imported with such header format: 'email', 'first_name','last_name','encrypted_password','middle_name','gender','student_id','date_of_birth','program_id','department','admission_type','study_level','marital_status','year','semester','account_verification_status','document_verification_status','account_status','graduation_status','student_password'"
                             # ),
                             :timestamps=> true,
                             :batch_size => 1000
-  scoped_collection_action :scoped_collection_update, form: -> do
-                                         {
-                                          program_id: Program.all.map { |program| [program.program_name, program.id] },
+                            scoped_collection_action :scoped_collection_update, form: -> do
+                             {
+                              program_id: Program.all.map { |program| [program.program_name, program.id] },
 
-                                          account_status: 'text',
-                                          semester: 'text'
-                                          }
-                                        end
+                              account_status: 'text',
+                              semester: 'text'
+                            }
+                          end
   # controller do
   #   def scoped_collection
   #     super.where.not("student_id like ?", "%14B%")
@@ -32,7 +32,7 @@
     redirect_to collection_path, notice: [ids, inputs].to_s
   end
   menu priority: 7
-  permit_params :current_location,:current_occupation,:tempo_status,:created_by,:last_updated_by,:photo,:email,:password,:first_name,:last_name,:middle_name,:gender,:student_id,:date_of_birth,:program_id,:department,:admission_type,:study_level,:marital_status,:year,:semester,:account_verification_status,:document_verification_status,:account_status,:graduation_status,student_address_attributes: [:id,:country,:city,:region,:zone,:sub_city,:house_number,:cell_phone,:house_phone,:pobox,:woreda,:created_by,:last_updated_by],emergency_contact_attributes: [:id,:full_name,:relationship,:cell_phone,:email,:current_occupation,:name_of_current_employer,:pobox,:email_of_employer,:office_phone_number,:created_by,:last_updated_by],:grade_8_ministry,:grade_10_matric,:grade_12_matric,:coc,:highschool_transcript,:diploma_certificate,:original_degree_certificate,:temporary_degree_certificate,:student_copy,:offical, documents: []
+  permit_params :grade_8_ministry,:grade_10_matric,:grade_12_matric,:coc,:highschool_transcript,:diploma_certificate,:degree_certificate,:temporary_degree_certificate,:student_copy,:offical,:current_location,:current_occupation,:tempo_status,:created_by,:last_updated_by,:photo,:email,:password,:first_name,:last_name,:middle_name,:gender,:student_id,:date_of_birth,:program_id,:department,:admission_type,:study_level,:marital_status,:year,:semester,:account_verification_status,:document_verification_status,:account_status,:graduation_status,student_address_attributes: [:id,:country,:city,:region,:zone,:sub_city,:house_number,:cell_phone,:house_phone,:pobox,:woreda,:created_by,:last_updated_by],emergency_contact_attributes: [:id,:full_name,:relationship,:cell_phone,:email,:current_occupation,:name_of_current_employer,:pobox,:email_of_employer,:office_phone_number,:created_by,:last_updated_by], documents: []
   controller do
     def update_resource(object, attributes)
       update_method = attributes.first[:password].present? ? :update_attributes : :update_without_password
@@ -140,8 +140,8 @@
   filter :last_name
   filter :middle_name
   filter :program_id, as: :search_select_filter, url: proc { admin_programs_path },
-         fields: [:program_name, :id], display_name: 'program_name', minimum_input_length: 2,
-         order_by: 'id_asc'
+  fields: [:program_name, :id], display_name: 'program_name', minimum_input_length: 2,
+  order_by: 'id_asc'
   filter :study_level, as: :select, :collection => ["undergraduate", "graduate"]
   filter :admission_type, as: :select, :collection => ["online", "regular", "extention", "distance"]
   filter :department   
@@ -179,56 +179,56 @@
     f.semantic_errors
     f.semantic_errors *f.object.errors.keys
     # if f.object.new_record?
-      f.inputs "Student basic information" do
-        div class: "avatar-upload" do
-          div class: "avatar-edit" do
-            f.input :photo, as: :file, label: "Upload Photo"
-          end
-          div class: "avatar-preview" do
-            if f.object.photo.attached? 
-              image_tag(f.object.photo,resize: '100x100',class: "profile-user-img img-responsive img-circle", id: "imagePreview")
-            else
-              image_tag("blank-profile-picture-973460_640.png",class: "profile-user-img img-responsive img-circle", id: "imagePreview")
-            end
+    f.inputs "Student basic information" do
+      div class: "avatar-upload" do
+        div class: "avatar-edit" do
+          f.input :photo, as: :file, label: "Upload Photo"
+        end
+        div class: "avatar-preview" do
+          if f.object.photo.attached? 
+            image_tag(f.object.photo,resize: '100x100',class: "profile-user-img img-responsive img-circle", id: "imagePreview")
+          else
+            image_tag("blank-profile-picture-973460_640.png",class: "profile-user-img img-responsive img-circle", id: "imagePreview")
           end
         end
-        f.input :first_name, label: "First Name"
-        f.input :middle_name, label: "Father Name"
-        f.input :last_name, label: "Grand Father Name"
+      end
+      f.input :first_name, label: "First Name"
+      f.input :middle_name, label: "Father Name"
+      f.input :last_name, label: "Grand Father Name"
 
-        if !f.object.new_record?
-          if current_admin_user.role == "admin"
-            f.input :year
-            f.input :semester
-            f.input :student_id
-          end
+      if !f.object.new_record?
+        if current_admin_user.role == "admin"
+          f.input :year
+          f.input :semester
+          f.input :student_id
         end
-        f.input :gender, as: :select, :collection => ["Male", "Female"], :include_blank => false
-        f.input :date_of_birth, as: :date_time_picker
-        f.input :marital_status, as: :select, :collection => ["Single", "Married", "Widowed","Separated","Divorced"], :include_blank => false
-        f.input :email
-        f.input :password
-        f.input :password_confirmation
-        if f.object.new_record?
-          f.input :created_by, as: :hidden, :input_html => { :value => current_admin_user.name.full}
-          f.input :year, as: :hidden, :input_html => { :value => 1}
-          f.input :semester, as: :hidden, :input_html => { :value => 1}
-        else
-          f.input :current_password
-          f.input :last_updated_by, as: :hidden, :input_html => { :value => current_admin_user.name.full} 
-        end   
-        f.input :current_occupation 
-        f.input :current_location   
       end
-      f.inputs "Student admission information" do
-        f.input :study_level, as: :select, :collection => ["graduate"], :include_blank => false
-        f.input :admission_type, as: :select, :collection => ["online"], :include_blank => false
-        f.input :program_id, as: :search_select, url: admin_programs_path,
-            fields: [:program_name, :id], display_name: 'program_name', minimum_input_length: 2,
-            order_by: 'id_asc'
-      end
-      f.inputs "Student address information", :for => [:student_address, f.object.student_address || StudentAddress.new ] do |a|
-        a.input :country, as: :country, selected: 'ET', priority_countries: ["ET", "US"], include_blank: "select country"
+      f.input :gender, as: :select, :collection => ["Male", "Female"], :include_blank => false
+      f.input :date_of_birth, as: :date_time_picker
+      f.input :marital_status, as: :select, :collection => ["Single", "Married", "Widowed","Separated","Divorced"], :include_blank => false
+      f.input :email
+      f.input :password
+      f.input :password_confirmation
+      if f.object.new_record?
+        f.input :created_by, as: :hidden, :input_html => { :value => current_admin_user.name.full}
+        f.input :year, as: :hidden, :input_html => { :value => 1}
+        f.input :semester, as: :hidden, :input_html => { :value => 1}
+      else
+        f.input :current_password
+        f.input :last_updated_by, as: :hidden, :input_html => { :value => current_admin_user.name.full} 
+      end   
+      f.input :current_occupation 
+      f.input :current_location   
+    end
+    f.inputs "Student admission information" do
+      f.input :study_level, as: :select, :collection => ["graduate"], :include_blank => false
+      f.input :admission_type, as: :select, :collection => ["online"], :include_blank => false
+      f.input :program_id, as: :search_select, url: admin_programs_path,
+      fields: [:program_name, :id], display_name: 'program_name', minimum_input_length: 2,
+      order_by: 'id_asc'
+    end
+    f.inputs "Student address information", :for => [:student_address, f.object.student_address || StudentAddress.new ] do |a|
+      a.input :country, as: :country, selected: 'ET', priority_countries: ["ET", "US"], include_blank: "select country"
         #TODO: add select list to city,sub_city,state,region,zone
         a.input :city
         a.input :sub_city
@@ -275,19 +275,19 @@
             div class: "document-preview container" do
               f.object.documents.each do |document|
                 if document.variable?
-                    div class: "preview-card" do
-                      span image_tag(document, size: '200x200')
-                      if (current_admin_user.role == "admin") || (current_admin_user.role == "head registrar")
-                        span link_to 'delete', delete_document_admin_student_path(document.id), method: :delete, data: { confirm: 'Are you sure?' }
-                      end
+                  div class: "preview-card" do
+                    span image_tag(document, size: '200x200')
+                    if (current_admin_user.role == "admin") || (current_admin_user.role == "head registrar")
+                      span link_to 'delete', delete_document_admin_student_path(document.id), method: :delete, data: { confirm: 'Are you sure?' }
                     end
+                  end
                 elsif document.previewable?
-                    div class: "preview-card" do
-                      span image_tag(document.preview(resize: '200x200'))
-                      if (current_admin_user.role == "admin") || (current_admin_user.role == "head registrar")
-                        span link_to 'delete', delete_document_admin_student_path(document.id), method: :delete, data: { confirm: 'Are you sure?' }
-                      end
+                  div class: "preview-card" do
+                    span image_tag(document.preview(resize: '200x200'))
+                    if (current_admin_user.role == "admin") || (current_admin_user.role == "head registrar")
+                      span link_to 'delete', delete_document_admin_student_path(document.id), method: :delete, data: { confirm: 'Are you sure?' }
                     end
+                  end
                 end
               end
             end
@@ -398,22 +398,26 @@
         end
       end
       tab "Student Document" do
-        panel "Document" do
-          attributes_table_for student do
-            row "Documents" do |i|
-              div class: "document-preview container" do
-                i.documents.each do |doc| 
-                  
-                  if doc.variable?
-                    div class: "preview-card" do
-                      span link_to image_tag(doc, size: '200x200'), doc
+        columns do
+          column do
+            panel "Old Document" do
+              attributes_table_for student do
+                row "Documents" do |i|
+                  div class: "document-preview container" do
+                    i.documents.each do |doc| 
+                      
+                      if doc.variable?
+                        div class: "preview-card" do
+                          span link_to image_tag(doc, size: '200x200'), doc
+                        end
+                      elsif doc.previewable?
+                        div class: "preview-card" do
+                          span link_to "view document", doc.service_url
+                        end
+                      else
+                        span link_to "view document", doc.service_url
+                      end
                     end
-                  elsif doc.previewable?
-                    div class: "preview-card" do
-                      span link_to "view document", doc.service_url
-                    end
-                  else
-                    span link_to "view document", doc.service_url
                   end
                 end
               end
@@ -422,6 +426,29 @@
         end
         columns do
           column do
+            panel "Grade 8 ministry certificate" do 
+              if student.grade_8_ministry.attached?
+                if student.grade_8_ministry.variable?
+                  div class: "preview-card text-center" do
+                    span link_to image_tag(student.grade_8_ministry, size: '200x270'), student.grade_8_ministry
+                  end
+                elsif student.grade_8_ministry.previewable?
+                  div class: "preview-card text-center" do
+                    span link_to "view document", rails_blob_path(student.grade_8_ministry, disposition: 'preview')
+                    # span link_to image_tag(student.highschool_transcript.preview(resize: '200x200')), student.highschool_transcript
+                  end
+                else
+                  # span link_to "view document", student.highschool_transcript.service_url
+                  span image_tag("pdf_image.png", size: '200x270')
+                  br
+                  span link_to "view document", rails_blob_path(student.grade_8_ministry, disposition: 'preview')
+                end
+              else
+                h3 class: "text-center no-recent-data" do
+                  "Document Not Uploaded Yet"
+                end
+              end
+            end
             panel "Highschool Transcript" do 
               if student.highschool_transcript.attached?
                 if student.highschool_transcript.variable?
@@ -435,6 +462,8 @@
                   end
                 else
                   # span link_to "view document", student.highschool_transcript.service_url
+                  span image_tag("pdf_image.png", size: '200x270')
+                  br
                   span link_to "view document", rails_blob_path(student.highschool_transcript, disposition: 'preview')
                 end
               else
@@ -443,19 +472,21 @@
                 end
               end
             end
-            panel "Grade 8 Ministry Certificate" do 
-              if student.grade_8_ministry.attached?
-                if student.grade_8_ministry.variable?
+            panel "TVET/Diploma Certificate" do 
+              if student.diploma_certificate.attached?
+                if student.diploma_certificate.variable?
                   div class: "preview-card text-center" do
-                    span link_to image_tag(student.grade_8_ministry, size: '200x270'), student.grade_8_ministry
+                    span link_to image_tag(student.diploma_certificate, size: '200x270'), student.diploma_certificate
                   end
-                elsif student.grade_8_ministry.previewable?
+                elsif student.diploma_certificate.previewable?
                   div class: "preview-card text-center" do
-                    span link_to "view document", rails_blob_path(student.grade_8_ministry, disposition: 'preview')
+                    span link_to "view document", rails_blob_path(student.diploma_certificate, disposition: 'preview')
                     # span link_to image_tag(student.diploma_certificate.preview(resize: '200x200')), student.diploma_certificate
                   end
                 else
-                  span link_to "view document", rails_blob_path(student.grade_8_ministry, disposition: 'preview')
+                    span image_tag("pdf_image.png", size: '200x270')
+                    br
+                    span link_to "view document", rails_blob_path(student.diploma_certificate, disposition: 'preview')
                 end
               else
                 h3 class: "text-center no-recent-data" do
@@ -477,7 +508,9 @@
                     # span link_to image_tag(student.grade_10_matric.preview(resize: '200x200')), student.grade_10_matric
                   end
                 else
-                  span link_to "view document", rails_blob_path(student.grade_10_matric, disposition: 'preview')
+                  span image_tag("pdf_image.png", size: '200x270')
+                  br
+                    span link_to "view document", rails_blob_path(student.grade_10_matric, disposition: 'preview')
                 end
               else
                 h3 class: "text-center no-recent-data" do
@@ -497,6 +530,8 @@
                     # span link_to image_tag(student.coc.preview(resize: '200x200')), student.coc
                   end
                 else
+                  span image_tag("pdf_image.png", size: '200x270')
+                  br
                   span link_to "view document", rails_blob_path(student.coc, disposition: 'preview')
                 end
               else
@@ -519,26 +554,31 @@
                     # span link_to image_tag(student.grade_12_matric.preview(resize: '200x200')), student.grade_12_matric
                   end
                 else
-                 span link_to "view document", rails_blob_path(student.grade_12_matric, disposition: 'preview')
-               end
-             else
-              h3 class: "text-center no-recent-data" do
-                "Document Not Uploaded Yet"
+                  span image_tag("pdf_image.png", size: '200x270')
+                  br
+                  span link_to "view document", rails_blob_path(student.grade_12_matric, disposition: 'preview')
+                end
+              else
+                h3 class: "text-center no-recent-data" do
+                  "Document Not Uploaded Yet"
+                end
               end
             end
-            panel "TVET/Diploma Certificate" do 
-              if student.diploma_certificate.attached?
-                if student.diploma_certificate.variable?
+            panel "Undergraduate Student Copy" do 
+              if student.student_copy.attached?
+                if student.student_copy.variable?
                   div class: "preview-card text-center" do
-                    span link_to image_tag(student.diploma_certificate, size: '200x270'), student.diploma_certificate
+                    span link_to image_tag(student.student_copy, size: '200x270'), student.student
                   end
-                elsif student.diploma_certificate.previewable?
+                elsif student.student_copy.previewable?
                   div class: "preview-card text-center" do
-                    span link_to "view document", rails_blob_path(student.diploma_certificate, disposition: 'preview')
-                    # span link_to image_tag(student.diploma_certificate.preview(resize: '200x200')), student.diploma_certificate
+                    span link_to "view document", rails_blob_path(student.student_copy, disposition: 'preview')
+                    # span link_to image_tag(student.undergraduate_transcript.preview(resize: '200x200')), student.undergraduate_transcript
                   end
                 else
-                  span link_to "view document", rails_blob_path(student.diploma_certificate, disposition: 'preview')
+                  span image_tag("pdf_image.png", size: '200x270')
+                  br
+                  span link_to "view document", rails_blob_path(student.student_copy, disposition: 'preview')
                 end
               else
                 h3 class: "text-center no-recent-data" do
@@ -547,7 +587,6 @@
               end
             end
           end
-
           column do
             panel "Undergraduate Degree Certificate" do 
               if student.degree_certificate.attached?
@@ -561,7 +600,7 @@
                     # span link_to image_tag(student.degree_certificate.preview(resize: '200x200')), student.degree_certificate
                   end
                 else
-                  span link_to "view document", rails_blob_path(student.degree_certificate, disposition: 'preview')
+                    span link_to "view document", rails_blob_path(student.degree_certificate, disposition: 'preview')
                 end
 
                 div class: "text-center" do 
@@ -574,33 +613,32 @@
                 end
               end
             end 
-            panel "Undergraduate Degree Student Copy" do 
-              if student.student_copy.attached?
-                if student.student_copy.variable?
+            panel "Undergraduate offical" do 
+              if student.offical.attached?
+                if student.offical.variable?
                   div class: "preview-card text-center" do
-                    span link_to image_tag(student.student_copy, size: '200x270'), student.student_copy
+                    span link_to image_tag(student.offical, size: '200x270'), student.offical
                   end
-                elsif student.student_copy.previewable?
+                elsif student.offical.previewable?
                   div class: "preview-card text-center" do
-                    span link_to "view document", rails_blob_path(student.student_copy, disposition: 'preview')
-                    # span link_to image_tag(student.student_copy.preview(resize: '200x200')), student.student_copy
+                    span link_to "view document", rails_blob_path(student.offical, disposition: 'preview')
+                    # span link_to image_tag(student.degree_certificate.preview(resize: '200x200')), student.degree_certificate
                   end
                 else
-                  span link_to "view document", rails_blob_path(student.student_copy, disposition: 'preview')
-                end
-
-                div class: "text-center" do 
-                  span "Temporary Degree Status"
-                  status_tag student.tempo_status
+                    span image_tag("pdf_image.png", size: '200x270')
+                    br
+                    span link_to "view document", rails_blob_path(student.offical, disposition: 'preview')
                 end
               else
                 h3 class: "text-center no-recent-data" do
                   "Not Uploaded Yet"
                 end
               end
-            end
+            end 
+
           end
         end
+
       end
       tab "Student Address" do
         panel "Student Address" do

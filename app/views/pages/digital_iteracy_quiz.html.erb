@@ -1,159 +1,172 @@
 <%provide(:title, "Digital Literacy Assesement")%>
 <style type="text/css">
-	.title-header{
-		font-size: 3em;
-		font-weight: bold;
-		/*text-transform: uppercase;*/
-		margin-bottom: 20px;
-		padding-bottom: 20px;
-		position: relative;
-		text-align: center;
-	}
-	.header-text{
-		font-size: 20px;
-		font-weight: 400;
-		/*font-size: 1rem!important;*/
-		letter-spacing: .03125em!important;
-		line-height: 1.5rem;
-	}
+  .title-header{
+    font-size: 3em;
+    font-weight: bold;
+    /*text-transform: uppercase;*/
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    position: relative;
+    text-align: center;
+  }
+  .header-text{
+    font-size: 20px;
+    font-weight: 400;
+    /*font-size: 1rem!important;*/
+    letter-spacing: .03125em!important;
+    line-height: 1.5rem;
+  }
 
-	/*@import url(https://fonts.googleapis.com/css?family=Work+Sans:300,600);*/
+  /*@import url(https://fonts.googleapis.com/css?family=Work+Sans:300,600);*/
 
-	body{
-		/*font-size: 20px;*/
-		/*font-family: 'Work Sans', sans-serif;*/
-		/*color: #333;
-		font-weight: 300;
-		text-align: center;*/
-		background-color: #f8f6f0;
-	}
-	h1{
-		font-weight: 300;
-		margin: 0px;
-		padding: 10px;
-		font-size: 20px;
-		/*background-color: #444;*/
-		/*color: #fff;*/
-	}
-	.question{
-		/*font-weight: bold;*/
-		font-size: 25px;
-		margin-bottom: 20px;
-	}
-	.answers {
-		font-size: 20px;
-		margin-bottom: 20px;
-		text-align: left;
-		display: inline-block;
-	}
-	.answers label{
-		display: block;
-		margin-bottom: 10px;
-	}
-	/*button{
-		font-family: 'Work Sans', sans-serif;
-		font-size: 22px;
-		background-color: #279;
-		color: #fff;
-		border: 0px;
-		border-radius: 3px;
-		padding: 20px;
-		cursor: pointer;
-		margin-bottom: 20px;
-	}
-	button:hover{
-		background-color: #38a;
-	}*/
+  body{
+    /*font-size: 20px;*/
+    /*font-family: 'Work Sans', sans-serif;*/
+    /*color: #333;
+    font-weight: 300;
+    text-align: center;*/
+    background-color: #f8f6f0;
+  }
+  h1{
+    font-weight: 300;
+    margin: 0px;
+    padding: 10px;
+    font-size: 20px;
+    /*background-color: #444;*/
+    /*color: #fff;*/
+  }
+  .question{
+    /*font-weight: bold;*/
+    font-size: 25px;
+    margin-bottom: 20px;
+  }
+  .answers {
+    font-size: 20px;
+    margin-bottom: 20px;
+    text-align: left;
+    display: inline-block;
+  }
+  .answers label{
+    display: block;
+    margin-bottom: 10px;
+  }
+  /*button{
+    font-family: 'Work Sans', sans-serif;
+    font-size: 22px;
+    background-color: #279;
+    color: #fff;
+    border: 0px;
+    border-radius: 3px;
+    padding: 20px;
+    cursor: pointer;
+    margin-bottom: 20px;
+  }
+  button:hover{
+    background-color: #38a;
+  }*/
 
-	.slide{
-		/*position: absolute;
-		left: 0px;
-		top: 0px;*/
-		width: 100%;
-		/*z-index: 1;*/
+  .slide{
+    /*position: absolute;
+    left: 0px;
+    top: 0px;*/
+    width: 100%;
+    /*z-index: 1;*/
     display: none;
-		opacity: 0;
-		transition: opacity 0.5s;
-	}
-	.active-slide{
-		opacity: 1;
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+  .active-slide{
+    opacity: 1;
     display: block;
     overflow: hidden;
-		/*z-index: 2;*/
-	}
-	.quiz-container{
-		/*position: relative;*/
-		/*height: 300px;*/
-		margin-top: 10px;
-	}
+    /*z-index: 2;*/
+  }
+  .quiz-container{
+    /*position: relative;*/
+    /*height: 300px;*/
+    margin-top: 10px;
+  }
 
 </style>
 <div class="container">
-	
-	
-	<div class="row">
-		<div class="col-12">
-			<h1 class="title-header mt-5 mb-2">Digital Literacy Assesement</h1>
-			<p class="text-center header-text mb-5 text-muted">
-				There are certain requirements you have to fulfill in order to be addmitted to YIC-Online and start Learning. Make sure that you meet the minimum requirements before starting your application process.
-			</p>
-		</div>
-		<div class="col-12 col-md-4">
-			<div class="card card-primary">
-				<div class="card-header">
-					<h3 class="card-title">
-						<i class="fas fa-info-circle mr-2"></i>
-						<strong>Instruction</strong>
+  
+  
+  <div class="row">
+    <div class="col-12">
+      <h1 class="title-header mt-5 mb-2">Digital Literacy Assesement</h1>
+      <p class="text-center header-text mb-5 text-muted">
+        There are certain requirements you have to fulfill in order to be addmitted to YIC-Online and start Learning. Make sure that you meet the minimum requirements before starting your application process.
+        <!-- <h3>Public IP Address of user is:</h3>
+        <p id="gfg"></p> -->
+      </p>
+    </div>
+    <div class="col-12 col-md-4">
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">
+            <i class="fas fa-info-circle mr-2"></i>
+            <strong>Instruction</strong>
 
-					</h3>
-				</div>
-				<!-- /.card-header -->
-				<div class="card-body">
-					<p  class="text-center" style="font-size: 20px;"><strong>Select the appropriate answer for multiple choose questions</strong></p>  
-					<p class="text-muted text-center">
-						There are certain requirements you have to fulfill in order to be addmitted to YIC-Online and start Learning. Make sure that you meet the minimum requirements before starting your application process.
-					</p>
-					<hr>
-				</div>
-				<!-- /.card-body -->
-			</div>
-		</div>
-		<div class="col-12 col-md-8">
-			<div class="card card-outline card-primary">
-				<div class="card-header">
-					<h3 class="card-title">
-						<i class="fas fa-info-circle mr-2"></i>
-						<strong>Digital Literacy Assesement</strong>
-					</h3>
-				</div>
-				<div class="card-body mt-2">
-					<div class="quiz-container">
-						<div id="quiz"></div>
-					</div>
-					
-					<div id="results" class="mt-4"></div>
-				</div>
-				<div class="card-footer float-right mt-3">
-					<div class="float-right">
-						<button id="previous"class="btn btn-secondary">Previous Question</button>
-						<button id="next" class="btn btn-primary">Next Question</button>
-						<button id="submit" class="btn btn-primary">Submit Quiz</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+          </h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+          <p  class="text-center" style="font-size: 20px;"><strong>Select the appropriate answer for multiple choose questions</strong></p>  
+          <p class="text-muted text-center">
+            There are certain requirements you have to fulfill in order to be addmitted to YIC-Online and start Learning. Make sure that you meet the minimum requirements before starting your application process.
+          </p>
+          <p class="text-muted text-center">
+            the minimum requirement to pass is 5 and above
+          </p>
+          <hr>
+        </div>
+        <!-- /.card-body -->
+      </div>
+    </div>
+    <div class="col-12 col-md-8">
+      <div class="card card-outline card-primary">
+        <div class="card-header">
+          <h3 class="card-title">
+            <i class="fas fa-info-circle mr-2"></i>
+            <strong>Digital Literacy Assesement</strong>
+          </h3>
+        </div>
+        <div class="card-body mt-2">
+          <div class="quiz-container">
+            <div id="quiz"></div>
+          </div>
+          
+          <div id="results" class="mt-4"></div>
+        </div>
+        <div class="card-footer float-right mt-3">
+          <div class="float-right">
+            <button id="previous"class="btn btn-secondary">Previous Question</button>
+            <button id="next" class="btn btn-primary">Next Question</button>
+            <button id="submit" class="btn btn-primary">Submit Quiz</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
+<!-- <script type="text/javascript">
+  $.getJSON("https://api.ipify.org?format=json", function(data) {
+         
+        // Setting text of element P with id gfg
+        $("#gfg").html(data.ip);
+    })
+</script> -->
 <script type="text/javascript">
-	(function(){
+  
+  (function(){
   // Functions
   function buildQuiz(){
     // variable to store the HTML output
     const output = [];
 
     // for each question...
-    myQuestions.forEach(
+    myQuestionShuffled.forEach(
       (currentQuestion, questionNumber) => {
 
         // variable to store the list of possible answers
@@ -195,7 +208,7 @@
     let numCorrect = 0;
 
     // for each question...
-    myQuestions.forEach( (currentQuestion, questionNumber) => {
+    myQuestionShuffled.forEach( (currentQuestion, questionNumber) => {
 
       // find selected answer
       const answerContainer = answerContainers[questionNumber];
@@ -220,14 +233,14 @@
     // show number of correct answers out of total
     resultsContainer.innerHTML = ``;
 
-    if(numCorrect >= 6){
-    	resultsContainer.innerHTML = `<p class="mb-2" style="color:green;">${numCorrect} out of ${myQuestions.length}</p>
-    	<p style="color:green;">Congratulations you have passed the technical knowledge requirement to enroll to YIC online. Please continue to the registration process.</p>
-    	<%= link_to "Apply Now", new_student_registration_path, class: "btn btn-primary btn-lg"%>`;
+    if(numCorrect >= 5){
+      resultsContainer.innerHTML = `<p class="mb-2" style="color:green;">${numCorrect} out of ${myQuestionShuffled.length}</p>
+      <p style="color:green;">Congratulations you have passed the technical knowledge requirement to enroll to premier online. Please continue to the registration process.</p>
+      <%= link_to "Apply Now", new_student_registration_path, class: "btn btn-primary btn-lg", data: { turbolinks: false }%>`;
     }
     else{
-    	resultsContainer.innerHTML = `${numCorrect} out of ${myQuestions.length} <br>
-    	<p style="color:red;">Sorry you don't fulfill our minimum requirement for enrolling in YIC online program. Please upgrade your technical abilities and try again later.</p>`;
+      resultsContainer.innerHTML = `${numCorrect} out of ${myQuestionShuffled.length} or ${numCorrect}0% <br>
+      <p style="color:red;">Sorry you don't fulfill our minimum requirement for enrolling in premier online program. Please upgrade your technical abilities and try again later.</p>`;
     }
     
 
@@ -268,7 +281,7 @@
   const submitButton = document.getElementById('submit');
   const myQuestions = [
     {
-      question: "1. What is a commonly known tool used as a video conferencing tool?",
+      question: "What is a commonly known tool used as a video conferencing tool?",
       answers: {
         A: "zoom",
         B: "Resolve",
@@ -278,15 +291,7 @@
       correctAnswer: "A"
     },
     {
-      question: "2. Do you have a stable internet connection at your place of residence or a travel friendly solution?",
-      answers: {
-        A: "Yes",
-        B: "No"
-      },
-      correctAnswer: "B"
-    },
-    {
-      question: "3. Are you ok with spending a considerable amount of time infront of a digital device either reading or watching videos?",
+      question: "Do you have a stable internet connection at your place of residence or a travel friendly solution?",
       answers: {
         A: "Yes",
         B: "No"
@@ -294,7 +299,15 @@
       correctAnswer: "A"
     },
     {
-      question: "4. Do you have a tendency to be disciplined enough to manage your time and resources for consuming digital contents online?",
+      question: "Are you ok with spending a considerable amount of time infront of a digital device either reading or watching videos?",
+      answers: {
+        A: "Yes",
+        B: "No"
+      },
+      correctAnswer: "A"
+    },
+    {
+      question: "Do you have a tendency to be disciplined enough to manage your time and resources for consuming digital contents online?",
       answers: {
         A: "Yes",
         B: "No"
@@ -302,7 +315,7 @@
       correctAnswer: "A"
     },
      {
-      question: "5. Your sister travels to another country for an on-site business project. You want to tell her about your new job by sending her an e-mail message from your computer. Which of the following devices will you use to connect your computer to the Internet?",
+      question: "Your sister travels to another country for an on-site business project. You want to tell her about your new job by sending her an e-mail message from your computer. Which of the following devices will you use to connect your computer to the Internet?",
       answers: {
         A: "Sound Card",
         B: "Modem",
@@ -312,7 +325,7 @@
       correctAnswer: "B"
     },
     {
-      question: "6. Nina uses Office Excel 2010 to create a work plan for her team. She wants to print the plan and discuss it with the team members in a meeting. Which of the following menus will Nina use to print the plan?",
+      question: "Nina uses Office Excel 2010 to create a work plan for her team. She wants to print the plan and discuss it with the team members in a meeting. Which of the following menus will Nina use to print the plan?",
       answers: {
         A: "Format",
         B: "File",
@@ -322,7 +335,7 @@
       correctAnswer: "B"
     },
     {
-      question: "7. 'Desktop' is a computer term that refers to?",
+      question: "'Desktop' is a computer term that refers to?",
       answers: {
         A: "The list of all of the contents on a particular computer",
         B: "The initial screen showing icons for folders, files, and applications",
@@ -332,7 +345,7 @@
       correctAnswer: "B"
     },
     {
-      question: "8. When you're connected to the Internet, you are?",
+      question: "When you're connected to the Internet, you are?",
       answers: {
         A: "Out of line",
         B: "Offline",
@@ -342,7 +355,7 @@
       correctAnswer: "D"
     },
     {
-      question: "9. The _____________ shows what files and applications are open?",
+      question: "The _____________ shows what files and applications are open?",
       answers: {
         A: "Start button",
         B: "Document library",
@@ -352,7 +365,7 @@
       correctAnswer: "D"
     },
     {
-      question: "10. You create a presentation by using PowerPoint. Which of the following toolbars will you use to add geometric shapes to the presentation?",
+      question: "You create a presentation by using PowerPoint. Which of the following toolbars will you use to add geometric shapes to the presentation?",
       answers: {
         A: "Reviewing",
         B: "Illustration",
@@ -362,6 +375,7 @@
       correctAnswer: "B"
     }
   ];
+  const myQuestionShuffled = myQuestions.sort(function() { return 0.5 - Math.random() });
 
   // Kick things off
   buildQuiz();

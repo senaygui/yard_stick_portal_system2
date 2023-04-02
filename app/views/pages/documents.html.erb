@@ -1,3 +1,9 @@
+<%provide(:title, "Documents")%>
+<% flash.each do |type, msg| %>
+  <div class="alert alert-info">
+    <%= msg %>
+  </div>
+<% end %>
 <section class="content-header">
   <div class="container-fluid">
     <div class="row mb-2">
@@ -14,35 +20,559 @@
   </div><!-- /.container-fluid -->
 </section>
 
-<section class="content">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-12 col-md-12">
 
-        <!-- Profile Image -->
-        <div class="card card-primary">
-          <div class="card-header">
-            <h3 class="card-title">My Documents</h3>
-          </div>
-          <div class="card-body box-profile">
-            <% current_student.documents.each do |doc| %>
-              <% if doc.variable? %>
-                <div class="preview-card" >
-                  <%= link_to image_tag(doc, size: '200x200'), doc%>
+
+<%if !current_student.documents.present? %>
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12 col-md-12">
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">My Documents</h3>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-12 col-md-3">
+                  <div class="card card-primary">
+                    <div class="card-header">
+                      <h3 class="card-title">Grade 8 ministry certificate</h3>
+                      <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                          <i class="fas fa-minus"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <% if current_student.grade_8_ministry.attached? %>
+                        <%if current_student.grade_8_ministry.variable?%>
+                          <div class= "preview-card text-center" >
+                            <span> <%=link_to image_tag(current_student.grade_8_ministry, size: '200x270'), current_student.grade_8_ministry%></span>
+                          </div>
+                        <%else%>
+                          <div class= "preview-card text-center " >
+                            <span> <%=link_to image_tag("pdf_image.png", size: '200x270'), rails_blob_path(current_student.grade_8_ministry, disposition: 'preview')%></span>
+                            <span> <%=link_to "view document", rails_blob_path(current_student.grade_8_ministry, disposition: 'preview')%></span>
+                          </div>
+                        <%end%>
+                      <%else%>
+                        <div class= "text-center no-recent-data" >
+                          Document Not Uploaded Yet
+                        </div>
+                      <%end%>
+                    </div>
+                  </div>
                 </div>
-                <% elsif doc.previewable? %>
-                <div class= "preview-card">
-                  <%= link_to image_tag(doc.preview(resize: '200x200')), doc%>
+                <div class="col-12 col-md-3">
+                  <div class="card card-primary">
+                    <div class="card-header">
+                      <h3 class="card-title">Highschool Transcript</h3>
+                      <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                          <i class="fas fa-minus"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <% if current_student.highschool_transcript.attached? %>
+                        <%if current_student.highschool_transcript.variable?%>
+                          <div class= "preview-card text-center" >
+                            <span> <%=link_to image_tag(current_student.highschool_transcript, size: '200x270'), current_student.highschool_transcript%></span>
+                          </div>
+                        <%else%>
+                          <div class= "preview-card text-center" >
+                            <span> <%=link_to image_tag("pdf_image.png", size: '200x270'), rails_blob_path(current_student.highschool_transcript, disposition: 'preview')%></span>
+                            <span> <%=link_to "view document", rails_blob_path(current_student.highschool_transcript, disposition: 'preview')%></span>
+                          </div>
+                        <%end%>
+                      <%else%>
+                        <div class= "text-center no-recent-data" >
+                          Document Not Uploaded Yet
+                        </div>
+                      <%end%>
+                    </div>
+                  </div>
                 </div>
-              <%end%>
-            <%end%>
+                
+                <div class="col-12 col-md-3">
+                  <div class="card card-primary">
+                    <div class="card-header">
+                      <h3 class="card-title">Grade 10 Matric Certificate</h3>
+                      <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                          <i class="fas fa-minus"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <% if current_student.grade_10_matric.attached? %>
+                        <%if current_student.grade_10_matric.variable?%>
+                          <div class= "preview-card text-center no-recent-data" >
+                            <span> <%=link_to image_tag(current_student.grade_10_matric, size: '200x270'), current_student.grade_10_matric%></span>
+                          </div>
+                        <%else%>
+                          <div class= "preview-card text-center" >
+                            <span> <%=link_to image_tag("pdf_image.png", size: '200x270'), rails_blob_path(current_student.grade_10_matric, disposition: 'preview')%></span>
+                            <span> <%=link_to "view document", rails_blob_path(current_student.grade_10_matric, disposition: 'preview')%></span>
+                          </div>
+                        <%end%>
+                      <%else%>
+                        <div class= "text-center no-recent-data" >
+                          Document Not Uploaded Yet
+                        </div>
+                      <%end%>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-3">
+                  <div class="card card-primary">
+                    <div class="card-header">
+                      <h3 class="card-title">Grade 12 Matric Certificate</h3>
+                      <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                          <i class="fas fa-minus"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <% if current_student.grade_12_matric.attached? %>
+                        <%if current_student.grade_12_matric.variable?%>
+                          <div class= "preview-card text-center no-recent-data" >
+                            <span> <%=link_to image_tag(current_student.grade_12_matric, size: '200x270'), current_student.grade_12_matric%></span>
+                          </div>
+                        <%else%>
+                          <div class= "preview-card text-center" >
+                            <span> <%=link_to image_tag("pdf_image.png", size: '200x270'), rails_blob_path(current_student.grade_12_matric, disposition: 'preview')%></span>
+                            <span> <%=link_to "view document", rails_blob_path(current_student.grade_12_matric, disposition: 'preview')%></span>
+                          </div>
+                        <%end%>
+                      <%else%>
+                        <div class= "text-center no-recent-data" >
+                          Document Not Uploaded Yet
+                        </div>
+                      <%end%>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-3">
+                  <div class="card card-primary">
+                    <div class="card-header">
+                      <h3 class="card-title">Degree Certificate</h3>
+                      <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                          <i class="fas fa-minus"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <% if current_student.degree_certificate.attached? %>
+                        <%if current_student.degree_certificate.variable?%>
+                          <div class= "preview-card text-center" >
+                            <span> <%=link_to image_tag(current_student.degree_certificate, size: '200x270'), current_student.degree_certificate%></span>
+                          </div>
+                        <%else%>
+                          <div class= "preview-card text-center" >
+                            <span> <%=link_to image_tag("pdf_image.png", size: '200x270'), rails_blob_path(current_student.degree_certificate, disposition: 'preview')%></span>
+                            <span> <%=link_to "view document", rails_blob_path(current_student.degree_certificate, disposition: 'preview')%></span>
+                          </div>
+                        <%end%>
+                      <%else%>
+                        <div class= "text-center no-recent-data" >
+                          Document Not Uploaded Yet
+                        </div>
+                      <%end%>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-3">
+                  <div class="card card-primary">
+                    <div class="card-header">
+                      <h3 class="card-title">TVET/Diploma Certificate</h3>
+                      <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                          <i class="fas fa-minus"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <% if current_student.diploma_certificate.attached? %>
+                        <%if current_student.diploma_certificate.variable?%>
+                          <div class= "preview-card text-center no-recent-data" >
+                            <span> <%=link_to image_tag(current_student.diploma_certificate, size: '200x270'), current_student.diploma_certificate%></span>
+                          </div>
+                        <%else%>
+                          <div class= "preview-card text-center" >
+                            <span> <%=link_to image_tag("pdf_image.png", size: '200x270'), rails_blob_path(current_student.diploma_certificate, disposition: 'preview')%></span>
+                            <span> <%=link_to "view document", rails_blob_path(current_student.diploma_certificate, disposition: 'preview')%></span>
+                          </div>
+                        <%end%>
+                      <%else%>
+                        <div class= "text-center no-recent-data" >
+                          Document Not Uploaded Yet
+                        </div>
+                      <%end%>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-3">
+                  <div class="card card-primary">
+                    <div class="card-header">
+                      <h3 class="card-title">Certificate Of Competency</h3>
+                      <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                          <i class="fas fa-minus"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <% if current_student.coc.attached? %>
+                        <%if current_student.coc.variable?%>
+                          <div class= "preview-card text-center no-recent-data" >
+                            <span> <%=link_to image_tag(current_student.coc, size: '200x270'), current_student.coc%></span>
+                          </div>
+                        <%else%>
+                          <div class= "preview-card text-center" >
+                            <span> <%=link_to image_tag("pdf_image.png", size: '200x270'), rails_blob_path(current_student.coc, disposition: 'preview')%></span>
+                            <span> <%=link_to "view document", rails_blob_path(current_student.coc, disposition: 'preview'), class: "btn btn-light"%></span>
+                          </div>
+                        <%end%>
+                      <%else%>
+                        <div class= "text-center no-recent-data" >
+                          Document Not Uploaded Yet
+                        </div>
+                      <%end%>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <!-- /.card-body -->
           </div>
-          <!-- /.card-body -->
+          
         </div>
         
       </div>
-      
+      <!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </section>
+
+  <style type="text/css">
+    .card-title{
+      font-size: 1rem;
+    }
+    .no-recent-data {
+      height: 300px;
+      width: 100%;
+      text-align: center;
+      color: #999;
+      line-height: 300px;
+      font-size: 14px;
+      word-wrap: break-word;
+      font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, Arial, Helvetica, sans-serif;
+  }
+  </style>
+<%else%>
+  <div class="col-12 col-md-8 offset-md-2">
+    <div class="card card-danger">
+      <div class="card-header">
+        <h3 class="card-title">
+          <i class="fas fa-info-circle mr-2"></i>
+          <strong>Urgent Request</strong>
+        </h3>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body">
+        <!-- <p  class="text-center"><strong>Fill in the space(s) or Select the appropriate box(es) or selctions. * fields are required.</strong></p>   -->
+        <p class="text-muted text-center">
+          Upload a scanned copy of all your academic documents. You must include your <strong>grade 8,10,and 12 certifaces</strong>;your <strong>grade 9,10,11,and 12 transcripts</strong>,COC, TVET/Diploma certificate(if any) and <strong>Degree</strong> certificate.
+        </p>
+        <div class="mx-auto text-center">
+          <%= link_to "Upload Documents", edit_document_path(current_student), class: "btn btn-danger btn-lg my-3"%>
+        </div>
+      </div>
+      <!-- /.card-body -->
     </div>
-    <!-- /.row -->
-  </div><!-- /.container-fluid -->
-</section>
+  </div>
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12 col-md-12">
+
+          <!-- Profile Image -->
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">Old Documents</h3>
+            </div>
+            <div class="card-body box-profile">
+              <% current_student.documents.each do |doc| %>
+                <% if doc.variable? %>
+                  <div class="preview-card" >
+                    <%= link_to image_tag(doc, size: '200x200'), doc%>
+                  </div>
+                  <% elsif doc.previewable? %>
+                  <div class= "preview-card">
+                    <%= link_to image_tag(doc.preview(resize: '200x200')), doc%>
+                  </div>
+                <%end%>
+              <%end%>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          
+        </div>
+        
+      </div>
+      <!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </section>
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12 col-md-12">
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">My Documents</h3>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-12 col-md-3">
+                  <div class="card card-primary">
+                    <div class="card-header">
+                      <h3 class="card-title">Grade 8 ministry certificate</h3>
+                      <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                          <i class="fas fa-minus"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <% if current_student.grade_8_ministry.attached? %>
+                        <%if current_student.grade_8_ministry.variable?%>
+                          <div class= "preview-card text-center" >
+                            <span> <%=link_to image_tag(current_student.grade_8_ministry, size: '200x270'), current_student.grade_8_ministry%></span>
+                          </div>
+                        <%else%>
+                          <div class= "preview-card text-center " >
+                            <span> <%=link_to image_tag("pdf_image.png", size: '200x270'), rails_blob_path(current_student.grade_8_ministry, disposition: 'preview')%></span>
+                            <span> <%=link_to "view document", rails_blob_path(current_student.grade_8_ministry, disposition: 'preview')%></span>
+                          </div>
+                        <%end%>
+                      <%else%>
+                        <div class= "text-center no-recent-data" >
+                          Document Not Uploaded Yet
+                        </div>
+                      <%end%>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-3">
+                  <div class="card card-primary">
+                    <div class="card-header">
+                      <h3 class="card-title">Highschool Transcript</h3>
+                      <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                          <i class="fas fa-minus"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <% if current_student.highschool_transcript.attached? %>
+                        <%if current_student.highschool_transcript.variable?%>
+                          <div class= "preview-card text-center" >
+                            <span> <%=link_to image_tag(current_student.highschool_transcript, size: '200x270'), current_student.highschool_transcript%></span>
+                          </div>
+                        <%else%>
+                          <div class= "preview-card text-center" >
+                            <span> <%=link_to image_tag("pdf_image.png", size: '200x270'), rails_blob_path(current_student.highschool_transcript, disposition: 'preview')%></span>
+                            <span> <%=link_to "view document", rails_blob_path(current_student.highschool_transcript, disposition: 'preview')%></span>
+                          </div>
+                        <%end%>
+                      <%else%>
+                        <div class= "text-center no-recent-data" >
+                          Document Not Uploaded Yet
+                        </div>
+                      <%end%>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="col-12 col-md-3">
+                  <div class="card card-primary">
+                    <div class="card-header">
+                      <h3 class="card-title">Grade 10 Matric Certificate</h3>
+                      <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                          <i class="fas fa-minus"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <% if current_student.grade_10_matric.attached? %>
+                        <%if current_student.grade_10_matric.variable?%>
+                          <div class= "preview-card text-center no-recent-data" >
+                            <span> <%=link_to image_tag(current_student.grade_10_matric, size: '200x270'), current_student.grade_10_matric%></span>
+                          </div>
+                        <%else%>
+                          <div class= "preview-card text-center" >
+                            <span> <%=link_to image_tag("pdf_image.png", size: '200x270'), rails_blob_path(current_student.grade_10_matric, disposition: 'preview')%></span>
+                            <span> <%=link_to "view document", rails_blob_path(current_student.grade_10_matric, disposition: 'preview')%></span>
+                          </div>
+                        <%end%>
+                      <%else%>
+                        <div class= "text-center no-recent-data" >
+                          Document Not Uploaded Yet
+                        </div>
+                      <%end%>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-3">
+                  <div class="card card-primary">
+                    <div class="card-header">
+                      <h3 class="card-title">Grade 12 Matric Certificate</h3>
+                      <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                          <i class="fas fa-minus"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <% if current_student.grade_12_matric.attached? %>
+                        <%if current_student.grade_12_matric.variable?%>
+                          <div class= "preview-card text-center no-recent-data" >
+                            <span> <%=link_to image_tag(current_student.grade_12_matric, size: '200x270'), current_student.grade_12_matric%></span>
+                          </div>
+                        <%else%>
+                          <div class= "preview-card text-center" >
+                            <span> <%=link_to image_tag("pdf_image.png", size: '200x270'), rails_blob_path(current_student.grade_12_matric, disposition: 'preview')%></span>
+                            <span> <%=link_to "view document", rails_blob_path(current_student.grade_12_matric, disposition: 'preview')%></span>
+                          </div>
+                        <%end%>
+                      <%else%>
+                        <div class= "text-center no-recent-data" >
+                          Document Not Uploaded Yet
+                        </div>
+                      <%end%>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-3">
+                  <div class="card card-primary">
+                    <div class="card-header">
+                      <h3 class="card-title">Degree Certificate</h3>
+                      <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                          <i class="fas fa-minus"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <% if current_student.degree_certificate.attached? %>
+                        <%if current_student.degree_certificate.variable?%>
+                          <div class= "preview-card text-center" >
+                            <span> <%=link_to image_tag(current_student.degree_certificate, size: '200x270'), current_student.degree_certificate%></span>
+                          </div>
+                        <%else%>
+                          <div class= "preview-card text-center" >
+                            <span> <%=link_to image_tag("pdf_image.png", size: '200x270'), rails_blob_path(current_student.degree_certificate, disposition: 'preview')%></span>
+                            <span> <%=link_to "view document", rails_blob_path(current_student.degree_certificate, disposition: 'preview')%></span>
+                          </div>
+                        <%end%>
+                      <%else%>
+                        <div class= "text-center no-recent-data" >
+                          Document Not Uploaded Yet
+                        </div>
+                      <%end%>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-3">
+                  <div class="card card-primary">
+                    <div class="card-header">
+                      <h3 class="card-title">TVET/Diploma Certificate</h3>
+                      <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                          <i class="fas fa-minus"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <% if current_student.diploma_certificate.attached? %>
+                        <%if current_student.diploma_certificate.variable?%>
+                          <div class= "preview-card text-center no-recent-data" >
+                            <span> <%=link_to image_tag(current_student.diploma_certificate, size: '200x270'), current_student.diploma_certificate%></span>
+                          </div>
+                        <%else%>
+                          <div class= "preview-card text-center" >
+                            <span> <%=link_to image_tag("pdf_image.png", size: '200x270'), rails_blob_path(current_student.diploma_certificate, disposition: 'preview')%></span>
+                            <span> <%=link_to "view document", rails_blob_path(current_student.diploma_certificate, disposition: 'preview')%></span>
+                          </div>
+                        <%end%>
+                      <%else%>
+                        <div class= "text-center no-recent-data" >
+                          Document Not Uploaded Yet
+                        </div>
+                      <%end%>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-3">
+                  <div class="card card-primary">
+                    <div class="card-header">
+                      <h3 class="card-title">Certificate Of Competency</h3>
+                      <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                          <i class="fas fa-minus"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <% if current_student.coc.attached? %>
+                        <%if current_student.coc.variable?%>
+                          <div class= "preview-card text-center no-recent-data" >
+                            <span> <%=link_to image_tag(current_student.coc, size: '200x270'), current_student.coc%></span>
+                          </div>
+                        <%else%>
+                          <div class= "preview-card text-center" >
+                            <span> <%=link_to image_tag("pdf_image.png", size: '200x270'), rails_blob_path(current_student.coc, disposition: 'preview')%></span>
+                            <span> <%=link_to "view document", rails_blob_path(current_student.coc, disposition: 'preview'), class: "btn btn-light"%></span>
+                          </div>
+                        <%end%>
+                      <%else%>
+                        <div class= "text-center no-recent-data" >
+                          Document Not Uploaded Yet
+                        </div>
+                      <%end%>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          
+        </div>
+        
+      </div>
+      <!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </section>
+
+  <style type="text/css">
+    .card-title{
+      font-size: 1rem;
+    }
+    .no-recent-data {
+      height: 300px;
+      width: 100%;
+      text-align: center;
+      color: #999;
+      line-height: 300px;
+      font-size: 14px;
+      word-wrap: break-word;
+      font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, Arial, Helvetica, sans-serif;
+  }
+  </style>
+<%end%>

@@ -27,14 +27,10 @@
           </div>
           <div class="card-body box-profile">
             <div class="text-center">
-
               <%= image_tag(current_student.photo, size: '150x150', class: "profile-user-img img-fluid") if current_student.photo.attached?%>
               <%= image_tag("blank-profile-picture-973460_640.png", size: '150x150', class: "profile-user-img img-fluid") if !current_student.photo.attached?%>
             </div>
-
             <h1 class="profile-username text-center"><b><%= current_student.name.full.upcase%></b></h1>
-
-
             <div class= "text-center my-3">
               <% if current_student.document_verification_status == "pending"%>
                 <%= link_to "Edit Profile", edit_student_registration_path, class: "btn btn-outline-primary btn-flat"%>
@@ -130,128 +126,27 @@
         
       </div>
       <div class="col-12 col-md-4">
-        <% if (current_student.semester_registrations.where(academic_calendar_id: 8)) || (current_student.semester_registrations.where(academic_calendar_id: 7))%>
-          <% if !current_student.semester_registrations.order("created_at DESC").first.invoices.order("created_at DESC").first.present? %>
-            <div class="col-12">
-              <div class="card card-success">
-                <div class="card-header">
-                  <h3 class="card-title">
-                    <i class="fas fa-info-circle mr-2"></i>
-                    <strong>Instruction</strong>
-
-                  </h3>
-                  <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                      <i class="fas fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-tool" data-card-widget="remove">
-                      <i class="fas fa-times"></i>
-                    </button>
-                  </div>
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body">  
-                  <div class="card-body">  
-                    <strong class="text-success">Click the enroll button to enroll courses.</strong>
-                  </div>
-
-                </div>
-                <div class="card-footer">
-                  <%= link_to "Enroll Courses", edit_semester_registration_path(current_student.semester_registrations.order("created_at DESC").first.id), class: "btn btn-success"%>
-                </div>
+        <%= render 'instruction'%>
+        <%if !current_student.grade_8_ministry.attached?%>
+          <div class="card card-danger">
+            <div class="card-header">
+              <h3 class="card-title">
+                <i class="fas fa-info-circle mr-2"></i>
+                <strong>Urgent Request</strong>
+              </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <!-- <p  class="text-center"><strong>Fill in the space(s) or Select the appropriate box(es) or selctions. * fields are required.</strong></p>   -->
+              <p class="text-muted text-center">
+                Upload a scanned copy of all your academic documents. You must include your <strong>grade 8,10,and 12 certifaces</strong>;your <strong>grade 9,10,11,and 12 transcripts</strong>,COC, TVET/Diploma certificate(if any) and <strong>Degree</strong> certificate.
+              </p>
+              <div class="mx-auto text-center">
+                <%= link_to "Upload Documents", edit_document_path(current_student), class: "btn btn-danger btn-lg my-3"%>
               </div>
             </div>
-          <%elsif current_student.semester_registrations.order("created_at DESC").first.invoices.order("created_at DESC").first.present? && !current_student.invoices.order("created_at DESC").first.payment_transaction.present?%>
-            <div class="col-12">
-              <div class="card card-primary">
-                <div class="card-header">
-                  <h3 class="card-title">
-                    <i class="fas fa-info-circle mr-2"></i>
-                    <strong>Instruction</strong>
-
-                  </h3>
-                  <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                      <i class="fas fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-tool" data-card-widget="remove">
-                      <i class="fas fa-times"></i>
-                    </button>
-                  </div>
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body">  
-                  <p class="text-center">
-                    <strong class="text-blue">There is Unpaid invoice please finish submiting payment transaction form so you can be enroll class.</strong>
-                  </p>
-                </div>
-                <div class="card-footer">
-                  <%= link_to "Pay now", invoice_path(current_student.invoices.order("created_at DESC").first.id), class: "btn btn-primary"%>
-                </div>
-                <!-- /.card-body -->
-              </div>
-            </div>
-          <%elsif current_student.semester_registrations.order("created_at DESC").first.invoices.order("created_at DESC").first.present? && current_student.invoices.order("created_at DESC").first.payment_transaction.present? && current_student.invoices.order("created_at DESC").first.payment_transaction.finance_approval_status == "pending"%>
-            <div class="col-12">
-              <div class="card card-primary">
-                <div class="card-header">
-                  <h3 class="card-title">
-                    <i class="fas fa-info-circle mr-2"></i>
-                    <strong>Instruction</strong>
-
-                  </h3>
-                  <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                      <i class="fas fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-tool" data-card-widget="remove">
-                      <i class="fas fa-times"></i>
-                    </button>
-                  </div>
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body">  
-                  <p class="text-center">
-                    <strong class="text-blue">Your payment has not been approved yet. Wait until finance approves your payment. </strong>
-                  </p>
-                </div>
-                <!-- /.card-body -->
-              </div>
-            </div>
-          <%elsif current_student.semester_registrations.order("created_at DESC").first.invoices.order("created_at DESC").first.present? && current_student.invoices.order("created_at DESC").first.payment_transaction.present? && current_student.invoices.order("created_at DESC").first.payment_transaction.finance_approval_status == "approved"%>
-            <div class="col-12">
-              <div class="card card-success">
-                <div class="card-header">
-                  <h3 class="card-title">
-                    <i class="fas fa-info-circle mr-2"></i>
-                    <strong>Instruction</strong>
-
-                  </h3>
-                  <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                      <i class="fas fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-tool" data-card-widget="remove">
-                      <i class="fas fa-times"></i>
-                    </button>
-                  </div>
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body">  
-                  <div class="card-body">  
-                    <strong class="text-success">Your payment transfer has been Approved. Click the button to go to learning platfrom.</strong>
-                  </div>
-
-                </div>
-                <div class="card-footer">
-                  <%= link_to "Go to Learning Platfrom", "https://lms.yic.edu.et", class: "btn btn-success"%>
-                </div>
-              </div>
-            </div>
-            <%= render 'student_id'%>
-          <%end%>
-        <% else%>
-          <%= render 'instruction'%>
+            <!-- /.card-body -->
+          </div>
         <%end%>
         <div class="card card-primary">
           <div class="card-header">

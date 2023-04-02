@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_14_124346) do
+ActiveRecord::Schema.define(version: 2023_04_02_111720) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 2022_07_14_124346) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "academic_statuses", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "academic_statuses", id: :uuid, default: -> { "public.gen_random_uuid()" }, force: :cascade do |t|
     t.string "status"
     t.decimal "min_value"
     t.decimal "max_value"
@@ -55,7 +55,7 @@ ActiveRecord::Schema.define(version: 2022_07_14_124346) do
     t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id"
   end
 
-  create_table "active_storage_attachments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "active_storage_attachments", id: :uuid, default: -> { "public.gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
     t.uuid "record_id", null: false
@@ -65,7 +65,7 @@ ActiveRecord::Schema.define(version: 2022_07_14_124346) do
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
-  create_table "active_storage_blobs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "active_storage_blobs", id: :uuid, default: -> { "public.gen_random_uuid()" }, force: :cascade do |t|
     t.string "key", null: false
     t.string "filename", null: false
     t.string "content_type"
@@ -114,7 +114,7 @@ ActiveRecord::Schema.define(version: 2022_07_14_124346) do
     t.index ["role"], name: "index_admin_users_on_role"
   end
 
-  create_table "assessments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "assessments", id: :uuid, default: -> { "public.gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "student_grade_id"
     t.string "assessment"
     t.decimal "result"
@@ -292,7 +292,7 @@ ActiveRecord::Schema.define(version: 2022_07_14_124346) do
     t.index ["student_id"], name: "index_emergency_contacts_on_student_id"
   end
 
-  create_table "grade_reports", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "grade_reports", id: :uuid, default: -> { "public.gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "semester_registration_id"
     t.uuid "student_id"
     t.bigint "academic_calendar_id"
@@ -347,7 +347,7 @@ ActiveRecord::Schema.define(version: 2022_07_14_124346) do
     t.index ["invoice_id"], name: "index_invoice_items_on_invoice_id"
   end
 
-  create_table "invoices", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "invoices", id: :uuid, default: -> { "public.gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "semester_registration_id"
     t.uuid "student_id"
     t.string "invoice_number", null: false
@@ -369,7 +369,17 @@ ActiveRecord::Schema.define(version: 2022_07_14_124346) do
     t.index ["student_id"], name: "index_invoices_on_student_id"
   end
 
-  create_table "payment_methods", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "notifications", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "notifiable_type"
+    t.bigint "notifiable_id"
+    t.string "notification_status", null: false
+    t.string "notification_message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable_type_and_notifiable_id"
+  end
+
+  create_table "payment_methods", id: :uuid, default: -> { "public.gen_random_uuid()" }, force: :cascade do |t|
     t.string "bank_name", null: false
     t.string "account_full_name", null: false
     t.string "account_number"
@@ -382,7 +392,7 @@ ActiveRecord::Schema.define(version: 2022_07_14_124346) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "payment_transactions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "payment_transactions", id: :uuid, default: -> { "public.gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "invoice_id"
     t.uuid "payment_method_id"
     t.string "account_holder_fullname", null: false
@@ -421,7 +431,7 @@ ActiveRecord::Schema.define(version: 2022_07_14_124346) do
     t.index ["department_id"], name: "index_programs_on_department_id"
   end
 
-  create_table "semester_registrations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "semester_registrations", id: :uuid, default: -> { "public.gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "student_id"
     t.string "program_name"
     t.string "admission_type"
@@ -465,7 +475,7 @@ ActiveRecord::Schema.define(version: 2022_07_14_124346) do
     t.index ["student_id"], name: "index_student_addresses_on_student_id"
   end
 
-  create_table "student_grades", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "student_grades", id: :uuid, default: -> { "public.gen_random_uuid()" }, force: :cascade do |t|
     t.bigint "course_registration_id"
     t.uuid "student_id"
     t.string "grade_in_letter"
@@ -480,7 +490,7 @@ ActiveRecord::Schema.define(version: 2022_07_14_124346) do
     t.index ["student_id"], name: "index_student_grades_on_student_id"
   end
 
-  create_table "students", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "students", id: :uuid, default: -> { "public.gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"

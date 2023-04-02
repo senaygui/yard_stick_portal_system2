@@ -1,15 +1,35 @@
-<div class= "form-group">
-	<%= f.input :documents, as: :file, :input_html => {multiple: true} ,label: "upload all your documents",class: 'form-control datepicker'%>
-</div>
 <div class="row">
-	<div class="col-12 col-md-12 form-group">
-	  <strong> <%= f.input :tempo_status, as: :boolean, label: "Please check this box if you are applying with a temporary degree certificate. Its my responsiblity to bring my original degree within four months since the day of my registration. I accept the terms and condition of YIC and understand that i will not recive any grade report or offical documentation from YIC." %></strong>
+	<div class="col-12 col-md-6 form-group">
+   	 	<%= f.input :grade_8_ministry, as: :file, required: true, label: "Grade 8 ministry certificate",class: 'form-control'%>
+  	</div>
+	<div class="col-12 col-md-6 form-group">
+    <%= f.input :highschool_transcript, as: :file, required: true, label: "Grade 9, 10, 11,and 12 transcripts",class: 'form-control'%>
+  </div>
+  <div class="col-12 col-md-6 form-group">
+    <%= f.input :grade_10_matric, as: :file, label: "Grade 10 matric certificate",class: 'form-control'%>
+  </div>
+  <div class="col-12 col-md-6 form-group">
+    <%= f.input :grade_12_matric, as: :file, required: true, label: "Grade 12 matric certificate",class: 'form-control'%>
+  </div>
+  <div class="col-12 col-md-6 form-group">
+    <%= f.input :coc, as: :file, label: "Certificate of competency (COC)",class: 'form-control'%>
+  </div>
+  <div class="col-12 col-md-6 form-group">
+    <%= f.input :diploma_certificate, as: :file, label: "TVET/Diploma certificate",class: 'form-control'%>
+  </div>
+  <div class="col-12 col-md-6 form-group">
+    <%= f.input :degree_certificate, as: :file, required: true, label: "Undergraduate degree certificate",class: 'form-control'%>
+  </div>
+  <div class="col-12 col-md-12 form-group">
+	  <strong> <%= f.input :tempo_status, as: :boolean, label: "Please check this box if you are applying with a temporary degree certificate. Its my responsiblity to bring my original degree within four months since the day of my registration. I accept the terms and condition of Yardstick International College and understand that i will not recive any grade report or offical documentation from Yardstick International College.", required: true %></strong>
 	</div>
 	<!-- <div class="col-12 col-md-12 form-group">
 	  <input id="checkbox1" type="checkbox" class="form-check-input" id="exampleCheck1">
 		<label class="form-check-label text-muted" for="exampleCheck1">By proceeding, I agree that all the attached documents are mine and authentic.</label>
 	</div> -->
 </div>
+
+
 
 <style>
 	.custom-file-label::after {
@@ -34,8 +54,50 @@
 	}
 </style>
 <script type="text/javascript">
+	$('#student_grade_8_ministry').change(function (e) {
+        var files = [];
+        for (var i = 0; i < $(this)[0].files.length; i++) {
+            files.push($(this)[0].files[i].name);
+        }
+        $(this).next('.custom-file-label').html(files.join(', '));
+    });
 
-    $('#student_documents').change(function (e) {
+    $('#student_highschool_transcript').change(function (e) {
+        var files = [];
+        for (var i = 0; i < $(this)[0].files.length; i++) {
+            files.push($(this)[0].files[i].name);
+        }
+        $(this).next('.custom-file-label').html(files.join(', '));
+    });
+    $('#student_grade_10_matric').change(function (e) {
+        var files = [];
+        for (var i = 0; i < $(this)[0].files.length; i++) {
+            files.push($(this)[0].files[i].name);
+        }
+        $(this).next('.custom-file-label').html(files.join(', '));
+    });
+    $('#student_grade_12_matric').change(function (e) {
+        var files = [];
+        for (var i = 0; i < $(this)[0].files.length; i++) {
+            files.push($(this)[0].files[i].name);
+        }
+        $(this).next('.custom-file-label').html(files.join(', '));
+    });
+    $('#student_coc').change(function (e) {
+        var files = [];
+        for (var i = 0; i < $(this)[0].files.length; i++) {
+            files.push($(this)[0].files[i].name);
+        }
+        $(this).next('.custom-file-label').html(files.join(', '));
+    });
+    $('#student_diploma_certificate').change(function (e) {
+        var files = [];
+        for (var i = 0; i < $(this)[0].files.length; i++) {
+            files.push($(this)[0].files[i].name);
+        }
+        $(this).next('.custom-file-label').html(files.join(', '));
+    });
+    $('#student_degree_certificate').change(function (e) {
         var files = [];
         for (var i = 0; i < $(this)[0].files.length; i++) {
             files.push($(this)[0].files[i].name);

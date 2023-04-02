@@ -2,9 +2,12 @@ class Student < ApplicationRecord
   # default_scope { order(:created_at) }
   ##callbacks
   before_create :department_assignment
+  after_create :first_notification
+  before_save :create_notification
   before_save :student_id_generator
   after_save :student_semester_registration
   before_create :set_pwd
+
   # after_save :student_semester_registration_for_second
   
   # after_save :course_registration
@@ -14,6 +17,7 @@ class Student < ApplicationRecord
          :recoverable, :rememberable, :validatable, :trackable
   has_person_name    
   ##associations
+    has_many :notifications, as: :notifiable
     belongs_to :program
     has_one :student_address, dependent: :destroy
     accepts_nested_attributes_for :student_address
@@ -29,8 +33,8 @@ class Student < ApplicationRecord
     has_one_attached :coc, dependent: :destroy
     has_one_attached :highschool_transcript, dependent: :destroy
     has_one_attached :diploma_certificate, dependent: :destroy 
-    has_one_attached :original_degree_certificate, dependent: :destroy 
-    has_one_attached :temporary_degree_certificate, dependent: :destroy 
+    has_one_attached :degree_certificate, dependent: :destroy 
+    # has_one_attached :temporary_degree_certificate, dependent: :destroy 
     has_one_attached :student_copy, dependent: :destroy 
     has_one_attached :offical, dependent: :destroy  
     has_many :student_grades, dependent: :destroy
@@ -48,7 +52,11 @@ class Student < ApplicationRecord
   	validates	:study_level, :presence => true
     validates :admission_type, :presence => true,:length => { :within => 2..10 }
     validates :photo, attached: true, content_type: ['image/gif', 'image/png', 'image/jpg', 'image/jpeg']
-    validates :documents, attached: true
+    # validates :documents, attached: true
+    validates :grade_8_ministry, attached: true
+    validates :grade_12_matric, attached: true
+    validates :highschool_transcript, attached: true
+    validates :degree_certificate, attached: true
   
   validate :password_complexity
   def password_complexity
@@ -85,12 +93,46 @@ class Student < ApplicationRecord
   end
   def department_assignment
     self[:department] = program.department.department_name
+    
   end
   def student_id_generator
     if self.document_verification_status == "approved" && !(self.student_id.present?)
       begin
         self.student_id = "#{self.program.program_code}/#{SecureRandom.random_number(1000..10000)}/15B"
       end while Student.where(student_id: self.student_id).exists?
+    end
+  end
+
+  def first_notification
+    Notification.create do |notification|
+      notification.notifiable_type = 'student'
+      notification.notification_status = 'pending'
+      notification.notifiable = self
+      notification.notification_message = 'pending'
+    end
+  end
+  def create_notification
+    if self.document_verification_status == "approved"
+      Notification.create do |notification|
+        notification.notifiable_type = 'student'
+        notification.notification_status = 'approved'
+        notification.notifiable = self
+        notification.notification_message = 'Your account has been Approved. Click the enroll button to enroll courses.'
+      end
+    elsif self.document_verification_status == "denied"
+      Notification.create do |notification|
+        notification.notifiable_type = 'student'
+        notification.notification_status = 'denied'
+        notification.notifiable = self
+        notification.notification_message = 'Your account approval is denied.beacuse you did not meet the minimum requirement by the collage.'
+      end
+    elsif self.document_verification_status == "incomplete"
+      Notification.create do |notification|
+        notification.notifiable_type = 'student'
+        notification.notification_status = 'incomplete'
+        notification.notifiable = self
+        notification.notification_message = 'Your Account is Not Complete. Please edit all your relevant information.'
+      end
     end
   end
 

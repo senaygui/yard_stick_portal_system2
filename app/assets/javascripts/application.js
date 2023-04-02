@@ -19,10 +19,10 @@
 //= require activestorage
 //= require turbolinks
 //= require datatables
-//= require bs-stepper.min.js
 //= require flatpickr
 //= require jquery.inputmask.min.js
 //= require active_storage_drag_and_drop
+//= require bs-stepper.min.js
 
 $(document).on('turbolinks:load', function(){
   $("#student_photo").change(function(data){
