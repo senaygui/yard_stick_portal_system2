@@ -13,7 +13,7 @@
         <div class="card-body">
           <p  class="text-center"><strong>Fill in the space(s) or Select the appropriate box(es) or selctions. * fields are required.</strong></p>  
           <p class="text-muted text-center">
-            Upload a scanned copy of all your academic documents. You must include your <strong>grade 8,10,and 12 certifaces</strong>;your <strong>grade 9,10,11,and 12 transcripts</strong>,COC, TVET/Diploma certificate(if any) and <strong>Degree</strong> certificate.
+            Upload a scanned copy of all your academic documents. You must include your <strong>grade 8,10,and 12 certifaces</strong>;your <strong>grade 9,10,11,and 12 transcripts</strong>,COC, TVET/Diploma certificate(if any) and <strong>Orginal Degree</strong> certificate.
           </p>
           <p class="text-muted text-center">file type allowed are pdf and image files</p>
           <hr>
@@ -53,7 +53,10 @@
                 <%= f.input :diploma_certificate, as: :file, label: "TVET/Diploma certificate",class: 'form-control'%>
               </div>
               <div class="col-12 col-md-6 form-group">
-                <%= f.input :degree_certificate, as: :file, required: true, label: "Undergraduate degree certificate",class: 'form-control'%>
+                <%= f.input :degree_certificate, as: :file, required: true, label: "Orginal Undergraduate degree certificate",class: 'form-control'%>
+              </div>
+              <div class="col-12 col-md-6 form-group">
+                <%= f.input :student_copy, as: :file, required: true, label: "Student Copy",class: 'form-control'%>
               </div>
               
             </div>

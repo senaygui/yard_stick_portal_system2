@@ -187,6 +187,36 @@
                 <div class="col-12 col-md-3">
                   <div class="card card-primary">
                     <div class="card-header">
+                      <h3 class="card-title">Student Copy</h3>
+                      <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                          <i class="fas fa-minus"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <% if current_student.student_copy.attached? %>
+                        <%if current_student.student_copy.variable?%>
+                          <div class= "preview-card text-center" >
+                            <span> <%=link_to image_tag(current_student.student_copy, size: '200x270'), current_student.student_copy%></span>
+                          </div>
+                        <%else%>
+                          <div class= "preview-card text-center " >
+                            <span> <%=link_to image_tag("pdf_image.png", size: '200x270'), rails_blob_path(current_student.student_copy, disposition: 'preview')%></span>
+                            <span> <%=link_to "view document", rails_blob_path(current_student.student_copy, disposition: 'preview')%></span>
+                          </div>
+                        <%end%>
+                      <%else%>
+                        <div class= "text-center no-recent-data" >
+                          Document Not Uploaded Yet
+                        </div>
+                      <%end%>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-3">
+                  <div class="card card-primary">
+                    <div class="card-header">
                       <h3 class="card-title">TVET/Diploma Certificate</h3>
                       <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
