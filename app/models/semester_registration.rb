@@ -43,11 +43,11 @@ class SemesterRegistration < ApplicationRecord
   #   end
   # end
   def create_notification_two
-  	if (self.remaining_amount == 6678)
+  	if (self.remaining_amount == 6679)
       Notification.create do |notification|
         notification.notifiable_type = 'student'
         notification.notification_status = 'approved'
-        notification.notifiable = self
+        notification.notifiable = self.student
         notification.notification_message = 'Your account has been Approved. Click the enroll button to enroll courses.'
       end
     end
