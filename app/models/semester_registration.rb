@@ -1,5 +1,5 @@
 class SemesterRegistration < ApplicationRecord
-	after_save :create_notification
+	after_save :create_notification_two
 	after_save :generate_invoice
 	after_save :generate_invoice_senier_students
 	# after_save :generate_grade_report
@@ -32,13 +32,23 @@ class SemesterRegistration < ApplicationRecord
 
 
 
-  def create_notification 
-    if self.mode_of_payment.present? && self.invoices.empty? && (self.remaining_amount == 6678)
+  # def create_notification 
+  #   if self.mode_of_payment.present? && self.invoices.empty? 
+  #     Notification.create do |notification|
+  #       notification.notifiable_type = 'student'
+  #       notification.notification_status = 'payment_submit'
+  #       notification.notifiable = self.student
+  #       notification.notification_message = 'In this step transfer to the college account and submit transfer information.'
+  #     end
+  #   end
+  # end
+  def create_notification_two
+  	if self.document_verification_status == "approved" && (self.remaining_amount == 6678)
       Notification.create do |notification|
         notification.notifiable_type = 'student'
-        notification.notification_status = 'payment_submit'
-        notification.notifiable = self.student
-        notification.notification_message = 'In this step transfer to the college account and submit transfer information.'
+        notification.notification_status = 'approved'
+        notification.notifiable = self
+        notification.notification_message = 'Your account has been Approved. Click the enroll button to enroll courses.'
       end
     end
   end
