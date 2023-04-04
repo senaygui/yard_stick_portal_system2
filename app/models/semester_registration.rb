@@ -32,8 +32,8 @@ class SemesterRegistration < ApplicationRecord
 
 
 
-  def create_notification
-    if self.mode_of_payment.present? && self.invoices.empty?
+  def create_notification 
+    if self.mode_of_payment.present? && self.invoices.empty? && (self.remaining_amount == 6678)
       Notification.create do |notification|
         notification.notifiable_type = 'student'
         notification.notification_status = 'payment_submit'
@@ -146,7 +146,7 @@ class SemesterRegistration < ApplicationRecord
 
 
   def add_course_for_reg
-  	if (self.remaining_amount == 667) && (!self.course_registrations.present?)
+  	if (self.remaining_amount == 6677) && (!self.course_registrations.present?)
   		self.student.program.curriculums.where(year: self.year, semester: self.semester).each do |co|
   			CourseRegistration.create do |course|
   				course.semester_registration_id = self.id
