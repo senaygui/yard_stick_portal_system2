@@ -146,8 +146,8 @@ class SemesterRegistration < ApplicationRecord
 
 
   def add_course_for_reg
-  	if (self.remaining_amount == 200) && (!self.course_registrations.present?)
-  		self.student.program.curriculums.where(year: 2, semester: 2).each do |co|
+  	if (self.remaining_amount == 667) && (!self.course_registrations.present?)
+  		self.student.program.curriculums.where(year: self.year, semester: self.semester).each do |co|
   			CourseRegistration.create do |course|
   				course.semester_registration_id = self.id
   				course.curriculum_id = co.id
@@ -159,7 +159,7 @@ class SemesterRegistration < ApplicationRecord
   end
   private	
 	  	def generate_invoice
-	  		if self.mode_of_payment.present? && self.invoices.empty? && !(self.remaining_amount == 200)
+	  		if self.mode_of_payment.present? && self.invoices.empty?
 	  			Invoice.create do |invoice|
 	  				invoice.semester_registration_id = self.id
 	  				invoice.student_id = self.student.id
