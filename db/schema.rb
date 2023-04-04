@@ -371,7 +371,7 @@ ActiveRecord::Schema.define(version: 2023_04_02_111720) do
 
   create_table "notifications", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "notifiable_type"
-    t.bigint "notifiable_id"
+    t.uuid "notifiable_id"
     t.string "notification_status", null: false
     t.string "notification_message"
     t.datetime "created_at", null: false
