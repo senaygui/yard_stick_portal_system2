@@ -43,7 +43,7 @@ class SemesterRegistration < ApplicationRecord
   #   end
   # end
   def create_notification_two
-  	if self.document_verification_status == "approved" && (self.remaining_amount == 6678)
+  	if (self.remaining_amount == 6678)
       Notification.create do |notification|
         notification.notifiable_type = 'student'
         notification.notification_status = 'approved'
