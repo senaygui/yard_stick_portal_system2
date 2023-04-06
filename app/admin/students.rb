@@ -568,7 +568,7 @@
               if student.student_copy.attached?
                 if student.student_copy.variable?
                   div class: "preview-card text-center" do
-                    span link_to image_tag(student.student_copy, size: '200x270'), student.student
+                    span link_to image_tag(student.student_copy, size: '200x270'), student.student_copy
                   end
                 elsif student.student_copy.previewable?
                   div class: "preview-card text-center" do
