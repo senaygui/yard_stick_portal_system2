@@ -412,10 +412,10 @@
                         end
                       elsif doc.previewable?
                         div class: "preview-card" do
-                          span link_to "view document", doc.service_url
+                          span link_to "view document", rails_blob_path(doc, disposition: 'preview')
                         end
                       else
-                        span link_to "view document", doc.service_url
+                        span link_to "view document", rails_blob_path(doc, disposition: 'preview')
                       end
                     end
                   end
