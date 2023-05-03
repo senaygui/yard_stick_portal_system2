@@ -112,7 +112,7 @@ class Student < ApplicationRecord
     end
   end
   def create_notification_for_student
-    if self.document_verification_status == "approved"
+    if self.document_verification_status == "approved" && !(self.student_id.present?)
       Notification.create do |notification|
         notification.notifiable_type = 'student'
         notification.notification_status = 'approved'
