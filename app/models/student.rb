@@ -2,7 +2,7 @@ class Student < ApplicationRecord
   # default_scope { order(:created_at) }
   ##callbacks
   before_create :department_assignment
-  after_save :first_notification
+  after_create :first_notification
   before_save :create_notification_for_student
   before_save :student_id_generator
   after_save :student_semester_registration
@@ -112,7 +112,7 @@ class Student < ApplicationRecord
     end
   end
   def create_notification_for_student
-    if self.document_verification_status == "approved" && !(self.student_id.present?)
+    if self.document_verification_status == "approved"
       Notification.create do |notification|
         notification.notifiable_type = 'student'
         notification.notification_status = 'approved'
