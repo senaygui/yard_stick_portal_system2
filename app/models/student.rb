@@ -2,7 +2,7 @@ class Student < ApplicationRecord
   # default_scope { order(:created_at) }
   ##callbacks
   before_create :department_assignment
-  after_create :first_notification
+  after_save :first_notification
   before_save :create_notification_for_student
   before_save :student_id_generator
   after_save :student_semester_registration
